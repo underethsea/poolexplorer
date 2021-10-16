@@ -78,6 +78,7 @@ useEffect(() => {
     });
 
 }, []);
+let depositors = transactions.length;
 
 let total = 0;
     let balance = 0;
@@ -86,13 +87,15 @@ let total = 0;
         total = total + balance;
     })
 
+    let average = total / depositors;
+    
   
 return (
     <div className = "transactions section">
         <div className = "card has-table has-mobile-sort-spaced">
             <header className = "card-header">
                 <p className = "card-header-title">
-                {total} USDC Pool Deposits V4 Polygon 
+                Pool Together <span className="numb-purp">{total}</span><img src='./images/usdc.png' className='token'/> deposits V4 Polygon <span className="numb-purp"> {depositors}</span> Depositors  <span className="numb-purp">{average.toFixed(0)}</span><img src='./images/usdc.png' className='token'/> average 
                 </p>
             </header>
             <div className="card-content">

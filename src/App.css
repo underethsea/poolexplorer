@@ -4,6 +4,17 @@
   width: 100vw;
   overflow: hidden;
 }
+.token {
+  height:25px;
+}
+a {
+  color: #7939ae;
+}
+.numb-purp {
+	color: #7333db;
+  padding-left: 1em;
+  padding-right: .2em;
+}
 
 .buy {
   color: green;
