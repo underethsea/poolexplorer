@@ -1,0 +1,89 @@
+.App {
+  height: auto;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.buy {
+  color: green;
+}
+
+.sell {
+  color: red;
+}
+.transactions .card-content {
+  padding: 0;
+}
+
+.transactions table {
+  width: 100%;
+}
+
+.transactions .table-wrapper {
+  overflow: auto;
+  max-height: 90vh;
+}
+
+.transactions .card .card-header {
+  border-bottom: 1px solid rgba(24,28,33,.06);
+}
+
+.transactions .card {
+  border-radius: 6px;
+}
+
+.emoji
+{height: 25px;
+}
+
+th, td {
+  font-family: 'verdana'!important;
+  font-weight: 800!important;
+}
+
+body {
+  
+  background: linear-gradient(334deg,#4c249f 28%,rgba(255,119,225,.9) 164%),#290b5a;
+  color:white!important;
+}
+.column
+{
+  /* background-color:#2e0a59!important;
+  color:white; */
+  background: linear-gradient(334deg,#4c249f 28%,rgba(255,119,225,.9) 164%),#290b5a!important;
+  color:rgb(131, 115, 115)!important;
+  background-color:#341662!important;
+
+}
+.coinicon {
+  width:16px!important;
+  height:16px;
+}
+.navbar-brand {
+  padding-left: 50px;
+  color: white!important;
+  font-size: 30px;
+
+}
+.dropdown-toggle {
+  color:white!important;
+  font-size:20px;
+  font-weight:600;
+  
+}
+.dropdown{
+  padding-left:400px;
+
+}
+.dropdown-menu{
+  left:400px;
+}
+.navbar {
+  background-color: #2d0b5a!important;
+}
+
+.card-header {
+  padding:0px!important;
+  font-size:18px;
+}
