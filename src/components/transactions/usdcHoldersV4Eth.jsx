@@ -1,7 +1,7 @@
 
 
 import React, {useState, useEffect} from 'react'
-// import axios from 'axios'
+import axios from 'axios'
 import { ethers } from "ethers"
 // import { TimeConvert } from './timeConvert.js'
 
@@ -10,7 +10,6 @@ function separator(numb) {
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return str.join(".");
 }
-
 
 function amount(weiAmount) {
     weiAmount = ethers.utils.formatUnits(weiAmount,6);
@@ -22,21 +21,16 @@ function amount(weiAmount) {
         let weiAmount = ethers.utils.formatUnits(amount,6);
         amount = parseFloat(weiAmount);
         console.log("amount ",amount)
-        if(amount > 50000) 
+        if(amount > 500000) 
             {emojiIcon = "whale"} else
-        if(amount > 20000)
-            {emojiIcon = "dolphin"} else
-            if(amount > 10000)
-            {emojiIcon = "octopus"} else
-        if(amount > 5000)
-            {emojiIcon = "fish"} else
-        if(amount > 1000)
-            {emojiIcon = "lobster"} else
-            if(amount > 500)
-            {emojiIcon = "fis"} else
-            if(amount > 100)
-            {emojiIcon = "shrimp"} else
-            {emojiIcon = "shell"}
+        if(amount < 100)
+            {emojiIcon = "crying"} else
+        if(amount < 500)
+            {emojiIcon = "eek"} else
+        if(amount < 5000)
+            {emojiIcon = "hmm"} else
+            {emojiIcon = "bank"}
+
 
 
         return emojiIcon;
@@ -48,11 +42,11 @@ function transactionString(transString) {
 function addressString(addString) {
     return addString.substring(0,10);
 }
-function UsdcHoldersV4Poly() {
+function UsdcHoldersV4Eth() {
     const [transactions, setTransactions] = useState([]);
     ;
 useEffect(() => {
-  fetch("https://api.covalenthq.com/v1/137/tokens/0x6a304dfdb9f808741244b6bfee65ca7b3b3a6076/token_holders/?page-size=5000&key=ckey_d8ea1001bff74ecb8cc3afd51ec")
+  fetch("https://api.covalenthq.com/v1/1/tokens/0xdd4d117723c257cee402285d3acf218e9a8236e1/token_holders/?page-size=5000&key=ckey_d8ea1001bff74ecb8cc3afd51ec")
     .then(api => api.json())
     .then(result => { console.log(result);
 
@@ -86,8 +80,7 @@ return (
         <div className = "card has-table has-mobile-sort-spaced">
             <header className = "card-header">
                 <p className = "card-header-title">
-                <span className="numb-purp"> {separator(depositors)}</span> PLAYERS <span className="numb-purp">{separator(total)}</span><img src='./images/usdc.png' className='token'/> 
-                <span className="numb-purp">{separator(average.toFixed(0))}</span><img src='./images/usdc.png' className='token'/>&nbsp;AVG 
+                MAINNET PLAYERS <span className="numb-purp">{separator(total)}</span><img src='./images/usdc.png' className='token'/> <span className="numb-purp"> {separator(depositors)}</span> Depositors  <span className="numb-purp">{separator(average.toFixed(0))}</span><img src='./images/usdc.png' className='token'/> average 
                 </p>
             </header>
             <div className="card-content">
@@ -106,7 +99,7 @@ return (
                             <tr key={item.id}>
                                 {/* <td></td>  <td></td> */}
                                 <td>
-                                    <a href={'https://polygonscan.com/address/' + item.address} target='_blank' rel="noopener noreferrer">
+                                    <a href={'https://etherscan.io/address/' + item.address} target='_blank' rel="noopener noreferrer">
                                         {item.address}
                                     </a>
                                     {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
@@ -126,4 +119,4 @@ return (
 
 )
 }
-export default UsdcHoldersV4Poly;    
+export default UsdcHoldersV4Eth;    

@@ -43,7 +43,19 @@ a {
 .transactions .card {
   border-radius: 6px;
 }
-
+.switch-btn {
+  background-color:#63c1da;
+  padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+    border-radius: 9999px;
+    cursor: pointer;
+ 
+}
+.navcolor {
+  color: red;
+}
 .emoji
 {height: 25px;
 }

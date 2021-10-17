@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { ethers } from "ethers"
 import { TimeConvert } from './timeConvert.js'
 
@@ -95,6 +95,8 @@ useEffect(() => {
       events.reverse();
 
       setTransactions(events);
+
+
 
 });
 }, []);
