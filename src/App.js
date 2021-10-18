@@ -4,6 +4,8 @@
 // import PoolSwapsUniswap from './components/transactions/poolSwapsUniswap.jsx'
 import UsdcHoldersV4Poly from './components/transactions/usdcHoldersV4Poly.jsx'
 import UsdcHoldersV4Eth from './components/transactions/usdcHoldersV4Eth.jsx'
+import UsdcClaimsV4Poly from './components/transactions/usdcClaimsV4Poly.jsx'
+
 
 
 
@@ -40,14 +42,23 @@ function App() {
     <Navbar.Collapse id="basic-navbar-nav"> 
       <Nav className="me-auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         {/* <Nav.Link href="#home">Home</Nav.Link> */}
-        {window.location.href.includes('eth') ?  
-        <Nav.Link style={linkStyle} href="/usdcholdersv4poly"><div className='switch-btn'>Switch to Polygon</div></Nav.Link> : <Nav.Link style={linkStyle} href="/usdcholdersv4eth"><div className='switch-btn'>Switch To Mainnet</div></Nav.Link> }
-       
+        {/* {window.location.href.includes('eth') ?  
+        <div><Nav.Link style={linkStyle} href="/usdcholdersv4poly"><div className='switch-btn'>Polygon Players</div></Nav.Link>
+        <Nav.Link style={linkStyle} href="/usdcclaimsv4poly"><div className='switch-btn'>Polygon Claims</div></Nav.Link></div> : 
+        window.location.href.includes('claim') ?
+        <div><Nav.Link style={linkStyle} href="/usdcholdersv4poly"><div className='switch-btn'>Polygon Players</div></Nav.Link> 
+        <Nav.Link style={linkStyle} href="/usdcholdersv4eth"><div className='switch-btn'>Mainnet Players</div></Nav.Link> </div>:
+        <span><Nav.Link style={linkStyle} href="/usdcclaimsv4poly"><div className='switch-btn'>Polygon Claims</div></Nav.Link> 
+        <div className='switch-btn'>Extra Button</div>
+        <Nav.Link style={linkStyle} href="/usdcholdersv4eth"><div className='switch-btn'>Mainnet Players</div></Nav.Link></span>}
+        */}
 
-        {/* <NavDropdown title="EXPLORE" id="basic-nav-dropdown"> */}
-        {/* <NavDropdown.Item href="/usdcdeposits">USDC Deposits</NavDropdown.Item>
-        <NavDropdown.Item href="/usdcdepositsv4poly">USDC Deposits V4 Poly</NavDropdown.Item> */}
-        {/* <NavDropdown.Item href="/usdcholdersv4poly">USDC Holders V4 Poly</NavDropdown.Item> */}
+        <NavDropdown title="EXPLORE" id="basic-nav-dropdown">
+        {/* {/* <NavDropdown.Item href="/usdcdeposits">USDC Deposits</NavDropdown.Item> */}
+        <NavDropdown.Item href="/usdcholdersv4poly">Players Polygon</NavDropdown.Item>
+        <NavDropdown.Item href="/usdcholdersv4eth">Players Mainnet</NavDropdown.Item>
+        <NavDropdown.Item href="/usdcclaimsv4poly">Claims Polygon</NavDropdown.Item>
+
 {/* 
         <NavDropdown.Item href="/usdcclaims">USDC Claims</NavDropdown.Item>
     <NavDropdown.Item href="/poolswapsquickswap">POOL Swaps Quickswap</NavDropdown.Item>
@@ -55,7 +66,7 @@ function App() {
 
           {/* <NavDropdown.Divider />
           <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
-        {/* </NavDropdown> */}
+        </NavDropdown>
       </Nav>
     </Navbar.Collapse>
   {/* </Container> */}
@@ -71,6 +82,10 @@ function App() {
     <Route exact path="/usdcholdersV4poly">
     <UsdcHoldersV4Poly />
     </Route> 
+    <Route exact path="/usdcclaimsV4poly">
+    <UsdcClaimsV4Poly />
+    </Route> 
+
     {/* <Route exact path="/usdcholdersV4poly">
     <UsdcHoldersV4Poly />
     </Route> */}
