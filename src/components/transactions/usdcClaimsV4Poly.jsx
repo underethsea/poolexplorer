@@ -8,10 +8,11 @@ const emoji = (amount) => {
     console.log("amount ",amount)
     if(amount > 2499) 
         {emojiIcon = "trophy"} else
-    if(amount > 19)
+    if(amount > 99)
         {emojiIcon = "moneybag"} else
-        if(amount > 9)
-        {emojiIcon = "moneywings"} 
+        if(amount > 19)
+        {emojiIcon = "moneywings"} else
+        {emojiIcon = "thumbsup"}
 
         return emojiIcon;
   }
