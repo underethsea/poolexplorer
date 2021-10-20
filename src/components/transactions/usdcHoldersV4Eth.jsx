@@ -44,6 +44,8 @@ function addressString(addString) {
 }
 function UsdcHoldersV4Eth() {
     const [transactions, setTransactions] = useState([]);
+    const [median, setMedian] = useState([]);
+
     ;
 useEffect(() => {
   fetch("https://api.covalenthq.com/v1/1/tokens/0xdd4d117723c257cee402285d3acf218e9a8236e1/token_holders/?page-size=5000&key=ckey_d8ea1001bff74ecb8cc3afd51ec")
@@ -57,7 +59,13 @@ useEffect(() => {
 
       });
       events.reverse();
-
+      // shit median code
+    let length = events.length - 1
+    length = length / 2
+    length = parseInt(length)      
+      let medianTemp = events[parseInt(((events.length / 2 )- 1))].balance
+      medianTemp = medianTemp / 1000000;
+      setMedian(medianTemp);
       setTransactions(events);
 
     });
@@ -74,13 +82,22 @@ let total = 0;
 
     let average = total / depositors;
     
-  
 return (
     <div className = "transactions section">
         <div className = "card has-table has-mobile-sort-spaced">
             <header className = "card-header">
                 <p className = "card-header-title">
-                MAINNET PLAYERS <span className="numb-purp">{separator(total)}</span><img src='./images/usdc.png' className='token'/> <span className="numb-purp"> {separator(depositors)}</span> Depositors  <span className="numb-purp">{separator(average.toFixed(0))}</span><img src='./images/usdc.png' className='token'/> average 
+                MAINNET &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span className="numb-purp"> {separator(depositors)}</span> PLAYERS 
+                <img src='./images/usdc.png' className='token'/> 
+                <span className="numb-purp">{separator(total)}</span> TOTAL
+
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(average.toFixed(0))}</span>
+                &nbsp;AVG 
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(median)}</span>
+                &nbsp;MEDIAN
                 </p>
             </header>
             <div className="card-content">

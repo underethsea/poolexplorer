@@ -50,6 +50,8 @@ function addressString(addString) {
 }
 function UsdcHoldersV4Poly() {
     const [transactions, setTransactions] = useState([]);
+    const [median, setMedian] = useState([]);
+
     ;
 useEffect(() => {
   fetch("https://api.covalenthq.com/v1/137/tokens/0x6a304dfdb9f808741244b6bfee65ca7b3b3a6076/token_holders/?page-size=5000&key=ckey_d8ea1001bff74ecb8cc3afd51ec")
@@ -64,12 +66,22 @@ useEffect(() => {
       });
       events.reverse();
 
+         // shit median code
+    let length = events.length - 1
+    length = length / 2
+    length = parseInt(length)      
+      let medianTemp = events[parseInt(((events.length / 2 )- 1))].balance
+      medianTemp = parseInt(medianTemp / 1000000);
+      
+      setMedian(medianTemp);
+
       setTransactions(events);
 
     });
 
 }, []);
 let depositors = transactions.length;
+
 
 let total = 0;
     let balance = 0;
@@ -86,8 +98,18 @@ return (
         <div className = "card has-table has-mobile-sort-spaced">
             <header className = "card-header">
                 <p className = "card-header-title">
-                <span className="numb-purp"> {separator(depositors)}</span> PLAYERS <span className="numb-purp">{separator(total)}</span><img src='./images/usdc.png' className='token'/> 
-                <span className="numb-purp">{separator(average.toFixed(0))}</span><img src='./images/usdc.png' className='token'/>&nbsp;AVG 
+                POLYGON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span className="numb-purp"> {separator(depositors)}</span> PLAYERS 
+                <img src='./images/usdc.png' className='token'/> 
+                <span className="numb-purp">{separator(total)}</span> TOTAL
+
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(average.toFixed(0))}</span>
+                &nbsp;AVG 
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(median)}</span>
+                &nbsp;MEDIAN
+                
                 </p>
             </header>
             <div className="card-content">

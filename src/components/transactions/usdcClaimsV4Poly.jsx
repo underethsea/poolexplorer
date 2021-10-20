@@ -42,7 +42,7 @@ function UsdcClaimsV4Poly(){
         const distributionContract = new ethers.Contract(prizeDistributorAddress, prizeDistributorAbi, customHttpProvider);
         
         const currentBlock = await customHttpProvider.getBlockNumber();
-        const fromBlock = currentBlock - 35000;
+        const fromBlock = currentBlock - 30000;
         let eventFilter = distributionContract.filters.ClaimedDraw();
         let distributionClaim = await distributionContract.queryFilter(eventFilter,fromBlock)
         
