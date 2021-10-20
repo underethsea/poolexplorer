@@ -1,19 +1,14 @@
+
+
 import React, {useState, useEffect} from 'react'
-// import axios from 'axios'
+import axios from 'axios'
 import { ethers } from "ethers"
-import { TimeConvert } from './timeConvert.js'
+// import { TimeConvert } from './timeConvert.js'
 
-
-
-const checkIfYearnOrPod = (address) => {
-    let pod = "0x386eb78f2ee79adde8bdb0a0e27292755ebfea58";
-    let yearn = "0x387fca8d7e2e09655b4f49548607b55c0580fc63";
-    if(address === yearn) {
-        return(<img src='./images/yearn.png' className='emoji' alt='yearn'></img>)
-    }
-    else if(address === pod)
-        { return(<img src='./images/pods.png' className='emoji' alt='pods'></img>)
-    }
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
 }
 
 function amount(weiAmount) {
@@ -26,15 +21,17 @@ function amount(weiAmount) {
         let weiAmount = ethers.utils.formatUnits(amount,6);
         amount = parseFloat(weiAmount);
         console.log("amount ",amount)
-        if(amount > 50000) 
+        if(amount > 500000) 
             {emojiIcon = "whale"} else
-        if(amount > 20000)
-            {emojiIcon = "dolphin"} else
-        if(amount > 5000)
-            {emojiIcon = "fish"} else
-        if(amount > 1000)
-            {emojiIcon = "fish"} else
-            {emojiIcon = "shell"}
+        if(amount < 100)
+            {emojiIcon = "crying"} else
+        if(amount < 500)
+            {emojiIcon = "eek"} else
+        if(amount < 5000)
+            {emojiIcon = "hmm"} else
+            {emojiIcon = "bank"}
+
+
 
         return emojiIcon;
     }
@@ -45,69 +42,62 @@ function transactionString(transString) {
 function addressString(addString) {
     return addString.substring(0,10);
 }
-function UsdcDepositsV4Poly() {
+function UsdcHoldersV4Eth() {
     const [transactions, setTransactions] = useState([]);
+    const [median, setMedian] = useState([]);
+
     ;
 useEffect(() => {
-  const query = `query MyQuery {
-    ethereum(network:matic) {
-      smartContractEvents(
-        options: {desc: "block.height", limit: 800}
-        smartContractAddress: {is: "0x19DE635fb3678D8B8154E37d8C9Cdf182Fe84E60"}
-        smartContractEvent: {is: "Deposited"}
-      ) {
-        transaction {
-          hash
-        }
-        block {
-          height
-          timestamp {
-            iso8601
-            unixtime
-          }
-        }
-        arguments {
-          value
-          argument
-          index
-        }
-        smartContractEvent {
-          name
-        }
-        eventIndex
-      }
-    }
-  }`;
-    
-    axios({
-        url: 'https://graphql.bitquery.io/',
-        method: 'post',
-        data: {query
-        }
-    }).then((result) => {
-        console.log(result);
-    let events = result.data.data.ethereum.smartContractEvents;
+  fetch("https://api.covalenthq.com/v1/1/tokens/0xdd4d117723c257cee402285d3acf218e9a8236e1/token_holders/?page-size=5000&key=ckey_d8ea1001bff74ecb8cc3afd51ec")
+    .then(api => api.json())
+    .then(result => { console.log(result);
+
+    let events = result.data.items;
    
     events.sort(function (a, b) {
-        return a.arguments[3].value - b.arguments[3].value;
+        return a.balance - b.balance;
 
       });
       events.reverse();
-
+      // shit median code
+    let length = events.length - 1
+    length = length / 2
+    length = parseInt(length)      
+      let medianTemp = events[parseInt(((events.length / 2 )- 1))].balance
+      medianTemp = medianTemp / 1000000;
+      setMedian(medianTemp);
       setTransactions(events);
 
+    });
 
-
-});
 }, []);
+let depositors = transactions.length;
 
-  
+let total = 0;
+    let balance = 0;
+    transactions.forEach((item) => {
+        balance = parseFloat(amount(item.balance));
+        total = total + balance;
+    })
+
+    let average = total / depositors;
+    
 return (
     <div className = "transactions section">
         <div className = "card has-table has-mobile-sort-spaced">
             <header className = "card-header">
                 <p className = "card-header-title">
-                    USDC Pool Deposits V4 Polygon
+                MAINNET &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span className="numb-purp"> {separator(depositors)}</span> PLAYERS 
+                <img src='./images/usdc.png' className='token'/> 
+                <span className="numb-purp">{separator(total)}</span> TOTAL
+
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(average.toFixed(0))}</span>
+                &nbsp;AVG 
+                <img src='./images/usdc.png' className='token'/>
+                <span className="numb-purp">{separator(median)}</span>
+                &nbsp;MEDIAN
                 </p>
             </header>
             <div className="card-content">
@@ -115,8 +105,8 @@ return (
                     <table className="is-stripped table is-hoverable">
                         <thead>
                             <tr>
-                                <th>Transaction Hash</th>
-                                <th>Time</th>
+                                {/* <th>Transaction Hash</th>
+                                <th>Time</th> */}
                                 <th>Address</th>
                                 <th>Amount</th>
                             </tr>
@@ -124,18 +114,17 @@ return (
                         <tbody>
                         {transactions.map((item) => (
                             <tr key={item.id}>
-                                <td><a href={'https://polygonscan.com/tx/' + item.transaction.hash} target='_blank' rel="noopener noreferrer">{transactionString(item.transaction.hash)}</a></td>
-                                <td>{TimeConvert(item.block.timestamp.unixtime)}</td>
+                                {/* <td></td>  <td></td> */}
                                 <td>
-                                    <a href={'https://polygonscan.com/address/' + item.arguments[1].value} target='_blank' rel="noopener noreferrer">
-                                        {addressString(item.arguments[1].value)}
+                                    <a href={'https://etherscan.io/address/' + item.address} target='_blank' rel="noopener noreferrer">
+                                        {item.address}
                                     </a>
-                                    &nbsp;{checkIfYearnOrPod(item.arguments[1].value)}
+                                    {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
                                 <td>
-                                <img src={'./images/' + emoji(item.arguments[3].value) + '.png'} className='emoji' alt='emoji'></img>
+                                <img src={'./images/' + emoji(item.balance) + '.png'} className='emoji' alt='emoji'></img>
                                 &nbsp;
-                                    {amount(item.arguments[3].value)}
+                                    {separator(amount(item.balance))}
                                     </td>
                             </tr>
                         ))}
@@ -147,4 +136,4 @@ return (
 
 )
 }
-export default UsdcDepositsV4Poly;    
+export default UsdcHoldersV4Eth;    
