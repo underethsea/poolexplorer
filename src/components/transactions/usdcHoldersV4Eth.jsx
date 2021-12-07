@@ -71,13 +71,15 @@ useEffect(() => {
     });
 
 }, []);
-let depositors = transactions.length;
+let depositors = transactions.length - 1;
 
 let total = 0;
     let balance = 0;
     transactions.forEach((item) => {
+        if(item.address != "0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe") {
         balance = parseFloat(amount(item.balance));
         total = total + balance;
+        }
     })
 
     let average = total / depositors;
@@ -117,7 +119,9 @@ return (
                                 {/* <td></td>  <td></td> */}
                                 <td>
                                     <a href={'https://etherscan.io/address/' + item.address} target='_blank' rel="noopener noreferrer">
-                                        {item.address}
+                                        {item.address}&nbsp;&nbsp;
+                                        {item.address == "0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe" ? <img src='./images/pool.png' className='emoji' alt='emoji'></img> : null }
+
                                     </a>
                                     {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
