@@ -87,7 +87,7 @@ let depositors = transactions.length - 1;
 let total = 0;
     let balance = 0;
     transactions.forEach((item) => {
-        if(item.address != "0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe"){
+        if(item.address != "0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056"){
         balance = parseFloat(amount(item.balance));
         total = total + balance;
         }
@@ -133,6 +133,7 @@ return (
                                 <td>
                                     <a href={'https://polygonscan.com/address/' + item.address} target='_blank' rel="noopener noreferrer">
                                         {item.address} 
+{if(item.address == "0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056") {return <img src='./images/pool.png' className='emoji' alt='emoji'></img>}
                                     </a>
                                     {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
