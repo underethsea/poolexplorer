@@ -21,7 +21,7 @@ function amount(weiAmount) {
         let emojiIcon = "";
         let weiAmount = ethers.utils.formatUnits(amount,6);
         amount = parseFloat(weiAmount);
-        console.log("amount ",amount)
+//         console.log("amount ",amount)
         if(amount > 50000) 
             {emojiIcon = "whale"} else
         if(amount > 20000)
