@@ -132,8 +132,8 @@ return (
                                 {/* <td></td>  <td></td> */}
                                 <td>
                                     <a href={'https://polygonscan.com/address/' + item.address} target='_blank' rel="noopener noreferrer">
-                                        {item.address} 
-{if(item.address == "0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056") {return <img src='./images/pool.png' className='emoji' alt='emoji'></img>}
+                                        {item.address} &nbsp;&nbsp;
+                                        {item.address == "0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056" ? <img src='./images/pool.png' className='emoji' alt='emoji'></img> : null }
                                     </a>
                                     {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
