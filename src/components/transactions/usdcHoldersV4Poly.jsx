@@ -80,7 +80,8 @@ useEffect(() => {
     });
 
 }, []);
-let depositors = transactions.length;
+let depositors = transactions.length - 1;
+// minus the prize tickets
 
 
 let total = 0;
@@ -132,7 +133,6 @@ return (
                                 <td>
                                     <a href={'https://polygonscan.com/address/' + item.address} target='_blank' rel="noopener noreferrer">
                                         {item.address} 
-                                        {if(item.address != "0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe"){<img src={'./images/pool.png'} className='emoji' alt='emoji'></img>}}
                                     </a>
                                     {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
