@@ -70,13 +70,21 @@ useEffect(() => {
         // let [polyApi,apiMainnet] = Promise.all(x)
         let polyApi = "/api/137/0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056/draw/" + draw.value + "/prizes.json"
   console.log(polyApi)
-        let api = await fetch(polyApi)
+        let api = await fetch(polyApi, {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       })
         console.log(api)
 api = await api.json();
 api.forEach((v) => {
   v.chain = "Polygon";
 });
-    let apiMainnet = await fetch("/api/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" + draw.value + "/prizes.json")
+    let apiMainnet = await fetch("/api/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" + draw.value + "/prizes.json", {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       })
       let apiMain = await apiMainnet.json()
       apiMain.forEach((v) => {
         v.chain = "Ethereum";
