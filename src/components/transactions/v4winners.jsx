@@ -74,7 +74,7 @@ api = await api.json();
 api.forEach((v) => {
   v.chain = "Polygon";
 });
-    let apiMainnet = await fetch(https://api.pooltogether.com/prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" + draw.value + "/prizes.json")
+    let apiMainnet = await fetch("https://api.pooltogether.com/prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" + draw.value + "/prizes.json")
       let apiMain = await apiMainnet.json()
       apiMain.forEach((v) => {
         v.chain = "Ethereum";
