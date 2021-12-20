@@ -55,7 +55,7 @@ let options = []
         options.push({label: i,value: i})
       }
   options.reverse();
-    const startDraw = {label: 60,value: 60};
+    const startDraw = {label: drawings,value: drawings};
     const [transactions, setTransactions] = useState([]);
     const [median, setMedian] = useState([]);
     const [draw, setDraw] = useState(startDraw);
