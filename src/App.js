@@ -5,6 +5,8 @@
 import UsdcHoldersV4Poly from './components/transactions/usdcHoldersV4Poly.jsx'
 import UsdcHoldersV4Eth from './components/transactions/usdcHoldersV4Eth.jsx'
 import UsdcClaimsV4Poly from './components/transactions/usdcClaimsV4Poly.jsx'
+import UsdcWinners from './components/transactions/v4winners'
+
 
 
 
@@ -54,6 +56,8 @@ function App() {
         */}
 
         <NavDropdown title="EXPLORE" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/usdcwinners">Winners</NavDropdown.Item>
+
         {/* {/* <NavDropdown.Item href="/usdcdeposits">USDC Deposits</NavDropdown.Item> */}
         <NavDropdown.Item href="/usdcholdersv4poly">Players Polygon</NavDropdown.Item>
         <NavDropdown.Item href="/usdcholdersv4eth">Players Mainnet</NavDropdown.Item>
@@ -74,7 +78,7 @@ function App() {
 
     <Switch>
     <Route exact path="/">
-    <UsdcHoldersV4Poly />
+    <UsdcWinners />
     </Route>
     <Route exact path="/usdcholdersv4eth">
     <UsdcHoldersV4Eth />
@@ -84,6 +88,9 @@ function App() {
     </Route> 
     <Route exact path="/usdcclaimsV4poly">
     <UsdcClaimsV4Poly />
+    </Route> 
+    <Route exact path="/usdcwinners">
+    <UsdcWinners />
     </Route> 
 
     {/* <Route exact path="/usdcholdersV4poly">
