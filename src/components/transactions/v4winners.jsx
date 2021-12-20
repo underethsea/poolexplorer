@@ -47,10 +47,11 @@ function transactionString(transString) {
 function addressString(addString) {
     return addString.substring(0,10);
 }
+const drawings = 65;
 function UsdcWinners() {
-    
+   
 let options = []
-    for (let i = 0; i <= 65; i++) {
+    for (let i = 0; i <= drawings; i++) {
         options.push({label: i,value: i})
       }
   options.reverse();
