@@ -50,7 +50,7 @@ function addressString(addString) {
 function UsdcWinners() {
     
 let options = []
-    for (let i = 0; i <= 60; i++) {
+    for (let i = 0; i <= 65; i++) {
         options.push({label: i,value: i})
       }
   options.reverse();
