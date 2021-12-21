@@ -93,10 +93,10 @@ function UsdcWinners() {
         },
       };
       // "https://thingproxy.freeboard.io/fetch/https://api.pooltogether.com/"
-      let polyApi = "prizes/137/0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056/draw/" +
+      let polyApi = "/api/prizes/137/0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056/draw/" +
         draw.value +
         "/prizes.json";
-      let mainApi ="prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" +
+      let mainApi ="/api/prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" +
         draw.value +
         "/prizes.json";
       console.log(polyApi);
