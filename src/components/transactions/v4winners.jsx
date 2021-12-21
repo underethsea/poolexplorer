@@ -1,13 +1,12 @@
 
 
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
 import { ethers } from "ethers"
 import Select from "react-select";
 
 // import { TimeConvert } from './timeConvert.js'
 
-const chains = [1,137]
+const chains = [1,137];
 function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -69,9 +68,9 @@ useEffect(() => {
     const goooo = async () => {
         console.log("loading drawing ",draw);
 
-        let polyApi = "https://api.pooltogether.com/prizes/137/0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056/draw/" + 
+        let polyApi = "prizes/137/0x8141bcfbcee654c5de17c4e2b2af26b67f9b9056/draw/" + 
         draw.value + "/prizes.json"
-        let mainApi= "https://api.pooltogether.com/prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" 
+        let mainApi= "prizes/1/0xb9a179dca5a7bf5f8b9e088437b3a85ebb495efe/draw/" 
         + draw.value + "/prizes.json"
 
         let [api, apiMain]= await Promise.all([
