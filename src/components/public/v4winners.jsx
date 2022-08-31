@@ -400,7 +400,7 @@ function UsdcWinners() {
             margin: "auto",
             top: "10%",
             borderRadius: 15,
-            width: 475,
+            width: 540,
             height: 340,
             backgroundColor: "purple",
             color: "black",

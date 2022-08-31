@@ -256,7 +256,12 @@ console.log("address value", addressValue)
   };
 
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
-
+  const waitForTransaction = useWaitForTransaction({
+    hash: claimData?.hash,
+    onSuccess(data) {
+      console.log('Success waiting over', data)
+    },
+  })
   // const claimPrepared =  (a, b, c, d) => {
   //   // console.log(parameters)
   //   console.log(a,b,c,d)
@@ -512,7 +517,7 @@ console.log("address value", addressValue)
                               openModal();
                             }}
                           >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
-                        {item.draw <= (currentDrawId - 61) && !item.claimed ?  <span className="stamp">expired</span> : ""}
+                        {item.draw <= (currentDrawId - 61) && !item.claimed ?  <span className="stamp expired-stamp">expired</span> : ""}
                         </div>
                       </td>
                       <td>
@@ -550,10 +555,11 @@ console.log("address value", addressValue)
       </div>
       <Modal
         isOpen={isModalOpen}
+      
         style={{
           overlay: {
             position: "fixed",
-
+            
             margin: "auto",
             top: "10%",
             borderRadius: 10,
@@ -564,7 +570,7 @@ console.log("address value", addressValue)
           },
         }}><center>
           {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
-            {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "Switch networks, no" : filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length} prize to claim on  <img
+          <img src="../images/trophy.png" className="emoji" />  {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "Switch networks, no prizes" : filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length} to claim on  <img
               src={"./images/" + chain.name.toLowerCase() + ".png"}
               className="emoji"
               alt={chain.name}
