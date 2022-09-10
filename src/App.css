@@ -253,7 +253,7 @@ body {
 }
 .claimStamp {
   transform: rotate(0deg);
-	color: #9c549c;
+	color: #7c3ab0;
 	font-size: 11px;
 	font-weight: 700;
 	border: 2px solid rgb(65, 55, 65);
@@ -330,4 +330,8 @@ color: #0a0a0a;
 .small-header {
   font: size 18px;
   padding-top: 35px;
+}
+
+.token-right {
+  margin-left: -7px;
 }

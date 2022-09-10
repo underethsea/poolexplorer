@@ -236,9 +236,10 @@ function Poolers() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [prizeDistributor, setPrizeDistributor] = useState("0x722e9BFC008358aC2d445a8d892cF7b62B550F3F") // starts with OP distributor for no good reason
   const { chain, chains } = useNetwork()
+  // const {refresh, setRefresh} = useState(0)
 
   console.log("pooler addy", poolerAddress)
-console.log("address value", addressValue)
+  console.log("address value", addressValue)
   // for doing it right
   // const { config: claimConfig } = usePrepareContractWrite(
   //   {
@@ -254,9 +255,8 @@ console.log("address value", addressValue)
     signerOrProvider: signer.data,
     functionName: 'claim'
   };
-
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
-  const waitForTransaction = useWaitForTransaction({
+  const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
       console.log('Success waiting over', data)
@@ -265,7 +265,7 @@ console.log("address value", addressValue)
   // const claimPrepared =  (a, b, c, d) => {
   //   // console.log(parameters)
   //   console.log(a,b,c,d)
-    
+
   //   claimWrite({ recklesslySetUnpreparedArgs: [a, b, c]})
   // }
 
@@ -298,7 +298,7 @@ console.log("address value", addressValue)
       // prepare contract would be nice
       // let args = [claimParams.address, claimParams.drawIds, claimParams.winningPicks]
       //  console.log(args)
-      claimWrite({ recklesslySetUnpreparedArgs: [claimParams.address, claimParams.drawIds, claimParams.winningPicks]})
+      claimWrite({ recklesslySetUnpreparedArgs: [claimParams.address, claimParams.drawIds, claimParams.winningPicks] })
       // claimPrepared(claimParams.address, claimParams.drawIds, claimParams.winningPicks, claimParams.gas)
 
       // claimIt({ args: [claimParams.address, claimParams.drawIds, claimParams.winningPicks], gasLimit:500000 + })
@@ -328,27 +328,27 @@ console.log("address value", addressValue)
             {/* <div className="div-relative"> */} {object.polygonTwab + object.ethereumTwab + object.optimismTwab + object.avalancheTwab > 0 && (
 
               <span>TICKETS &nbsp;&nbsp;&nbsp;&nbsp;</span>)}
-              
-              
+
+
             {object.polygon > 0 && (<span>&nbsp;&nbsp;&nbsp;
               <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />
-              <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;{separator(object.polygon)} &nbsp;&nbsp;&nbsp;</span>)}
+              <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.polygon)} &nbsp;&nbsp;&nbsp;</span>)}
             {object.ethereum > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />
-              <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;{separator(object.ethereum)}&nbsp;&nbsp;&nbsp;</span>)}
+              <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.ethereum)}&nbsp;&nbsp;&nbsp;</span>)}
             {object.optimism > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />
-              <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;{separator(object.optimism)}&nbsp;&nbsp;&nbsp;</span>)}
+              <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.optimism)}&nbsp;&nbsp;&nbsp;</span>)}
             {object.avalanche > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />
-              <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;{separator(object.avalanche)}&nbsp;&nbsp;&nbsp;</span>)}
+              <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.avalanche)}&nbsp;&nbsp;&nbsp;</span>)}
             <br></br>{object.polygonTwab + object.ethereumTwab + object.optimismTwab + object.avalancheTwab - object.polygon - object.ethereum - object.optimism - object.avalanche > 0 && (<span>
               BOOSTS &nbsp;&nbsp;&nbsp;&nbsp;
               {object.polygonTwab - object.polygon > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />
-                <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;+{separator(object.polygonTwab - object.polygon)} &nbsp;&nbsp;&nbsp;</span>)}
+                <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.polygonTwab - object.polygon)} &nbsp;&nbsp;&nbsp;</span>)}
               {object.ethereumTwab - object.ethereum > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />
-                <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;+{separator(object.ethereumTwab - object.ethereum)}&nbsp;&nbsp;&nbsp;</span>)}
+                <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.ethereumTwab - object.ethereum)}&nbsp;&nbsp;&nbsp;</span>)}
               {object.optimismTwab - object.optimism > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/optimism.png" className="icon child child1" alt="Optimism" />
-                <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;+{separator(object.optimismTwab - object.optimism)}&nbsp;&nbsp;&nbsp;</span>)}
+                <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.optimismTwab - object.optimism)}&nbsp;&nbsp;&nbsp;</span>)}
               {object.avalancheTwab - object.avalanche > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />
-                <img src="./images/ptausdc.png" className="icon child child2" alt="PTaUSDC" />&nbsp;+{separator(object.avalancheTwab - object.avalanche)}</span>)}
+                <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.avalancheTwab - object.avalanche)}</span>)}
             </span>)}
             {/* </div> */}
 
@@ -390,10 +390,17 @@ console.log("address value", addressValue)
   }, [chain]);
 
   useEffect(() => {
-   
+    const loadPage = async () => {
+      let recent = await fetch("https://poolexplorer.xyz/recent")
+      recent = await recent.json()
+      recent = recent.id
+      setCurrentDrawId(recent)
 
+      // get URL parameters
       GetParam()
-   
+    }
+    loadPage()
+
   }, []);
 
   useEffect(() => {
@@ -408,47 +415,48 @@ console.log("address value", addressValue)
     }
   }, [balances]);
 
+  async function getPlayer() {
+
+    setPopup(true)
+
+
+    let setPooler = await getPooler(poolerAddress)
+    let poolerClaims = await GetClaimsHistory(poolerAddress)
+    // console.log("claims:", poolerClaims)
+    const currentTimestamp = parseInt(Date.now() / 1000);
+
+    let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
+    setBalances(poolerBalances)
+    let xpFilter = setPooler.filter((value, index, self) => {
+      return self.findIndex(v => v.draw_id === value.draw_id) === index;
+    })
+    // setXp(xpFilter.length)
+
+    let winResult = []
+    winResult = processWins(setPooler, poolerClaims)
+    const winsToFilter = winResult.result
+    let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 30) && win.claimed === false })
+    claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
+    setClaimable(claimableToSet)
+    setWins(winResult.result)
+    // setGotSome(true)
+    setPrizesWon(winResult.prizes)
+    setTotalPrizeValue(winResult.total)
+    setPopup(false)
+    // console.log("claimable wins", claimable)
+
+
+  }
+
   useEffect(() => {
-    const getPlayer = async () => {
-
-      setPopup(true)
-
-      let recent = await fetch("https://poolexplorer.xyz/recent")
-      recent = await recent.json()
-      recent = recent.id
-      setCurrentDrawId(recent)
-      let setPooler = await getPooler(poolerAddress)
-      let poolerClaims = await GetClaimsHistory(poolerAddress)
-      // console.log("claims:", poolerClaims)
-      const currentTimestamp = parseInt(Date.now() / 1000);
-
-      let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
-      setBalances(poolerBalances)
-      let xpFilter = setPooler.filter((value, index, self) => {
-        return self.findIndex(v => v.draw_id === value.draw_id) === index;
-      })
-      // setXp(xpFilter.length)
-
-      let winResult = []
-      winResult = processWins(setPooler, poolerClaims)
-      const winsToFilter = winResult.result
-      let claimableToSet = winsToFilter.filter(win => 
-        { return win.draw >= (currentDrawId - 30) && win.claimed === false })
-      claimableToSet = claimableToSet.filter(win => win.draw !== recent)
-      setClaimable(claimableToSet)
-      setWins(winResult.result)
-      // setGotSome(true)
-      setPrizesWon(winResult.prizes)
-      setTotalPrizeValue(winResult.total)
-      setPopup(false)
-      // console.log("claimable wins", claimable)
-
-    };
+    const goGetPlayer = async () => {
+      await getPlayer()
+    }
     if (poolerAddress !== "") {
-      getPlayer();
+      goGetPlayer();
     }
 
-  }, [poolerAddress]);
+  }, [poolerAddress, waitSuccess]);
 
   return (
     <div className="transactions section">
@@ -517,7 +525,7 @@ console.log("address value", addressValue)
                               openModal();
                             }}
                           >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
-                        {item.draw <= (currentDrawId - 61) && !item.claimed ?  <span className="stamp expired-stamp">expired</span> : ""}
+                          {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
                         </div>
                       </td>
                       <td>
@@ -555,11 +563,11 @@ console.log("address value", addressValue)
       </div>
       <Modal
         isOpen={isModalOpen}
-      
+
         style={{
           overlay: {
             position: "fixed",
-            
+
             margin: "auto",
             top: "10%",
             borderRadius: 10,
@@ -570,7 +578,7 @@ console.log("address value", addressValue)
           },
         }}><center>
           {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
-          <img src="../images/trophy.png" className="emoji" />  {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "Switch networks, no prizes" : filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length} to claim on  <img
+            <img src="../images/trophy.png" className="emoji" />  {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "Switch networks, no prizes" : filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length} to claim on  <img
               src={"./images/" + chain.name.toLowerCase() + ".png"}
               className="emoji"
               alt={chain.name}
@@ -579,7 +587,7 @@ console.log("address value", addressValue)
           {isConnected && <div>
             <br></br>
             <button onClick={() => claimPrizes()} className="myButton purple-hover">
-              {claimLoading && "CLAIMING..."}{claimIdle && "CLAIM"}{isClaimError && "CLAIM ERROR, TRY AGAIN"}{claimSuccess && "CLAIMED"}</button></div>}
+              {claimLoading && "CLAIMING..."}{claimIdle && "CLAIM"}{isClaimError && "CLAIM ERROR, TRY AGAIN"}{waitSuccess && "CLAIMED"}</button></div>}
           <br></br>
           <div className="closeModal" onClick={() => closeModal()}>Close</div></center>
       </Modal>
