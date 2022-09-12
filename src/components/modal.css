@@ -20,7 +20,7 @@
     color: rgb(30, 1, 41);
     background-color: #e8cbf8;
     margin: auto;
-    padding: 20px;
+    padding: 5px;
     border: 1px solid #888;
     width: 80%;
   }
@@ -74,8 +74,36 @@
 }
 .closeModal {
   cursor: pointer;
+  text-align: right;
+  font-size:12px;
 }
 .luckyButton {
   border-color:rgb(77, 30, 94);
   border-radius: 5px;
+}
+
+.close {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  width: 15px;
+  height: 15px;
+  opacity: 0.3;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 15px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
 }

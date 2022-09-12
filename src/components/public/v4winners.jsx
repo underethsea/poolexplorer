@@ -406,7 +406,7 @@ function UsdcWinners() {
             color: "black",
           },
         }}
-      >
+      ><div className="closeModal close" onClick={() => closeModal()}></div><br></br>
         <center>
           <div>
             {modalNetwork === "3" ? (
@@ -559,7 +559,7 @@ function UsdcWinners() {
       </div> */}
         </center>
         <br></br>
-        <div className="closeModal" onClick={() => closeModal()}>Close</div>
+        
         { }
       </Modal>
     </div>

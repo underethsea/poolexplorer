@@ -1,6 +1,6 @@
 // react madness Optimism = optimism = oPtimism = 0ptimism = opt1m1sm
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 import Modal from "react-modal";
 import "./../modal.css";
@@ -27,7 +27,19 @@ import {
   PolygonTicketContract,
   EthereumTicketContract,
   AvaxTicketContract,
-  OptimismTicketContract
+  OptimismTicketContract,
+  PolygonUsdcContract,
+  EthereumUsdcContract,
+  OptimismUsdcContract,
+  AvaxUsdcContract,
+  polygonPrizePoolAddress,
+  ethereumPrizePoolAddress,
+  optimismPrizePoolAddress,
+  avaxPrizePoolAddress,
+  PolygonPrizePoolContract,
+  EthereumPrizePoolContract,
+  OptimismPrizePoolContract,
+  AvalanchePrizePoolContract
 } from "./contractConnect";
 
 const prizeDistributorFromChain = {
@@ -203,6 +215,16 @@ const distributorParams = {
   contractInterface: prizeDistributorAbi.abi
 }
 
+const walletBalance = (balances, chain) => {
+  let balance = 0
+  if (chain === "Polygon") { balance = balances.polygon }
+  if (chain === "Optimism") { balance = balances.optimism }
+  if (chain === "Avalanche") { balance = balances.avalanche }
+  if (chain === "Ethereum") { balance = balances.ethereum }
+  return parseFloat(balance) / 1e6
+
+}
+
 // ["function claim(address _user, uint32[] _drawIds, bytes _data)","function getDrawCalculator() external view returns (IDrawCalculator)"]}
 
 function Poolers() {
@@ -234,12 +256,24 @@ function Poolers() {
   const [claimable, setClaimable] = useState([])
   const [currentDrawId, setCurrentDrawId] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalFocus, setModalFocus] = useState("claim")
+  const [allowances, setAllowances] = useState({})
+  const [usdcBalances, setUsdcBalances] = useState({})
   const [prizeDistributor, setPrizeDistributor] = useState("0x722e9BFC008358aC2d445a8d892cF7b62B550F3F") // starts with OP distributor for no good reason
   const { chain, chains } = useNetwork()
+  const [inputAmount, setInputAmount] = useState(0)
+
+  const amountInput = useCallback((inputElement) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);
   // const {refresh, setRefresh} = useState(0)
 
-  console.log("pooler addy", poolerAddress)
-  console.log("address value", addressValue)
+
+  // console.log("pooler addy", poolerAddress)
+  // console.log("address value", addressValue) 
+
   // for doing it right
   // const { config: claimConfig } = usePrepareContractWrite(
   //   {
@@ -307,6 +341,15 @@ function Poolers() {
     } catch (error) { console.log(error) }
   }
 
+  async function openClaim() {
+    setModalFocus("claim")
+    setIsModalOpen(true);
+  }
+  async function openWallet() {
+    setModalFocus("wallet")
+    setIsModalOpen(true)
+  }
+
   async function openModal() {
     setIsModalOpen(true);
   }
@@ -371,6 +414,9 @@ function Poolers() {
     } catch (error) { console.log("bad address") }
   }
 
+  const depositTo = () => {
+
+  }
 
   const handleChange = (selectedOption) => {
 
@@ -389,6 +435,29 @@ function Poolers() {
     if (chain) { setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()]) }
   }, [chain]);
 
+  useEffect(() => {
+    const loadWallet = async () => {
+      if (modalFocus === "wallet" && address) {
+        console.log("adddresssss:", address)
+        console.log("poly prize", polygonPrizePoolAddress)
+        let [polygonApproval, ethereumApproval, optimismApproval, avalancheApproval, polygonUsdcBalance, ethereumUsdcBalance, optimismUsdcBalance, avalancheUsdcBalance] = await Promise.all([
+          PolygonUsdcContract.allowance(address, polygonPrizePoolAddress),
+          EthereumUsdcContract.allowance(address, ethereumPrizePoolAddress),
+          OptimismUsdcContract.allowance(address, optimismPrizePoolAddress),
+          AvaxUsdcContract.allowance(address, avaxPrizePoolAddress),
+          PolygonUsdcContract.balanceOf(address),
+          EthereumUsdcContract.balanceOf(address),
+          OptimismUsdcContract.balanceOf(address),
+          AvaxUsdcContract.balanceOf(address)
+        ])
+        //.catch(error => { console.log(error) })
+        setAllowances({ polygon: polygonApproval, ethereum: ethereumApproval, optimism: optimismApproval, avalanche: avalancheApproval })
+        setUsdcBalances({ polygon: polygonUsdcBalance, ethereum: ethereumUsdcBalance, optimism: optimismUsdcBalance, avalancheUsdcBalance })
+
+      }
+    }
+    loadWallet()
+  }, [modalFocus])
   useEffect(() => {
     const loadPage = async () => {
       let recent = await fetch("https://poolexplorer.xyz/recent")
@@ -414,11 +483,11 @@ function Poolers() {
       setBoostedBalance(boostBalanceTotal)
     }
   }, [balances]);
-
+  async function getBalancesAndApprovals() {
+  }
   async function getPlayer() {
 
     setPopup(true)
-
 
     let setPooler = await getPooler(poolerAddress)
     let poolerClaims = await GetClaimsHistory(poolerAddress)
@@ -491,7 +560,13 @@ function Poolers() {
           <div className="card-content">
             <div className="table-wrapper has-mobile-cards">
               <table className="padded is-stripped table is-hoverable no-bottom">
-                <thead style={{ backgroundColor: "#efefef" }}><th><Deposits /></th></thead>
+                <thead style={{ backgroundColor: "#efefef" }}><th><Deposits /> 
+{/*                 
+                <div onClick={() => {
+                  openWallet();
+                }}> wallet</div>
+                 */}
+                </th></thead>
               </table>
               <table className="padded is-stripped table is-hoverable">
                 <thead>
@@ -522,7 +597,7 @@ function Poolers() {
                           {!item.claimed && <span><div
                             className="inlineDiv"
                             onClick={() => {
-                              openModal();
+                              openClaim();
                             }}
                           >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
                           {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
@@ -577,23 +652,71 @@ function Poolers() {
             color: "black",
           },
         }}><center>
-          {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
-            <img src="../images/trophy.png" className="emoji" />  {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "Switch networks, no prizes" : filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length} to claim on  <img
-              src={"./images/" + chain.name.toLowerCase() + ".png"}
-              className="emoji"
-              alt={chain.name}
-            /><br></br></div>}
-          {!isConnected && "Please connect wallet to claim"}
-          {isConnected && <div>
+           <div className="closeModal close" onClick={() => closeModal()}></div><br></br>
+          {modalFocus === "claim" && <div>
+
+            {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
+            
+              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? <><br></br>Switch networks, no prizes</> : <>
+              <img src="../images/trophy.png" className="emoji" />
+              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length}</>} to claim on
+              
+              <img
+                src={"./images/" + chain.name.toLowerCase() + ".png"}
+                className="emoji"
+                alt={chain.name}
+              /><br></br></div>}
+            {!isConnected && "Please connect wallet to claim"}
+            {isConnected && <div>
+              <br></br>
+              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "" :
+              <button onClick={() => claimPrizes()} className="myButton purple-hover">
+                {claimLoading && "CLAIMING..."}
+                {claimIdle && "CLAIM"}
+                {isClaimError && "CLAIM ERROR, TRY AGAIN"}
+                {waitSuccess && "CLAIMED"}
+              </button>}
+
+                </div>}
+            
             <br></br>
-            <button onClick={() => claimPrizes()} className="myButton purple-hover">
-              {claimLoading && "CLAIMING..."}{claimIdle && "CLAIM"}{isClaimError && "CLAIM ERROR, TRY AGAIN"}{waitSuccess && "CLAIMED"}</button></div>}
-          <br></br>
-          <div className="closeModal" onClick={() => closeModal()}>Close</div></center>
+          </div>}
+
+          {modalFocus === "wallet" && <div>
+            <div className="closeModal close" onClick={() => closeModal()}></div>
+
+
+            {isConnected && <> DEPOSIT ON
+              <img
+                src={"./images/" + chain.name.toLowerCase() + ".png"}
+                className="emoji"
+                alt={chain.name}
+              /> {chain.name}<br></br><br></br>
+            </>}
+            {!isConnected && "Please connect wallet"}
+            {allowances.polygon !== undefined && <div className="amount-container">
+              <table><tr><td>
+                <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;
+                <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => setInputAmount(e.target.value)}  ></input>
+
+
+              </td></tr>
+                <tr><td style={{ textAlign: "right" }}>
+                  <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
+                    {walletBalance(usdcBalances, chain.name) > 0 && "MAX"}</span>
+                </td></tr>
+              </table></div>}
+            {isConnected &&
+
+
+              <button onClick={() => depositTo()} className="myButton purple-hover">DEPOSIT</button>}
+            <br></br>
+          </div>}
+
+        </center>
       </Modal>
     </div>
 
   )
-
 }
 export default Poolers;
