@@ -290,7 +290,7 @@ function UsdcWinners() {
                     <img src="./images/Pooly.png" className="pooly" />
                     &nbsp;&nbsp;{modalText()}
                     <div
-                      class="loader"
+                      class="smallLoader"
                       style={{ display: "inline-block" }}
                     ></div>
                   </p>
