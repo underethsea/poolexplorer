@@ -207,7 +207,7 @@ function Players() {
                                     <img src="./images/Pooly.png" className="pooly" alt="pooly" />
                                     &nbsp;&nbsp;{modalText()}
                                     <div
-                                        className="loader"
+                                        className="smallLoader"
                                         style={{ display: "inline-block" }}
                                     ></div>
                                 </center>

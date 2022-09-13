@@ -135,7 +135,7 @@ async function getBalances(address, timestamp) {
       avalancheTwab: usdcValue(avaxTwab),
       optimismTwab: usdcValue(opTwab)
     }
-    console.log(balances)
+    // console.log(balances)
     let balanceArray = [balances]
     return balanceArray
   } catch (error) { console.log("error fetching balances"); return [null] }
@@ -262,7 +262,7 @@ function Poolers() {
   const [prizeDistributor, setPrizeDistributor] = useState("0x722e9BFC008358aC2d445a8d892cF7b62B550F3F") // starts with OP distributor for no good reason
   const { chain, chains } = useNetwork()
   const [inputAmount, setInputAmount] = useState(0)
-  const [validAddress,setValidAddress] = useState(Boolean)
+  const [validAddress, setValidAddress] = useState(Boolean)
 
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
@@ -272,9 +272,9 @@ function Poolers() {
   // const {refresh, setRefresh} = useState(0)
 
 
-  console.log("pooler addy", poolerAddress)
-  console.log("address value", addressValue) 
-  console.log("valid state",validAddress)
+  // console.log("pooler addy", poolerAddress)
+  // console.log("address value", addressValue) 
+  // console.log("valid state",validAddress)
 
   // for doing it right
   // const { config: claimConfig } = usePrepareContractWrite(
@@ -405,12 +405,12 @@ function Poolers() {
 
   }
   function isValidAddress(addressToVerify) {
-    console.log("to verify:" ,addressToVerify)
-    try{
-    if (ethers.utils.isAddress(addressToVerify)) {
-      console.log("valid address: ",addressToVerify)
-    setValidAddress(true);return true
-    }else{setValidAddress(false);return false}}catch(error){console.log("invalid address: ",addressToVerify);setValidAddress(false);return false}
+    try {
+      if (ethers.utils.isAddress(addressToVerify)) {
+        // console.log("valid address: ",addressToVerify)
+        setValidAddress(true); return true
+      } else { setValidAddress(false); return false }
+    } catch (error) { console.log("invalid address: ", addressToVerify); setValidAddress(false); return false }
   }
   function GetParam() {
     let search = window.location.search;
@@ -438,9 +438,9 @@ function Poolers() {
 
         // console.log(`Address input: `, selectedOption);}
       }
-      else{setPrizesWon(0);setBalances([])}
-   
-    } catch (error) { setPrizesWon(0); setBalances([]);console.log("invalid address ") };
+      else { setPrizesWon(0); setBalances([]) }
+
+    } catch (error) { setPrizesWon(0); setBalances([]); console.log("invalid address ") };
   }
   useEffect(() => {
 
@@ -506,7 +506,7 @@ function Poolers() {
     setBalances(poolerBalances)
 
     let setPooler = await getPooler(poolerAddress)
-    
+
     let poolerClaims = await GetClaimsHistory(poolerAddress)
     // console.log("claims:", poolerClaims)
 
@@ -551,16 +551,16 @@ function Poolers() {
 
           <p className="card-header-title">
 
-            <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} /> 
+            <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
             {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
             &nbsp;&nbsp;{addressValue === "" ? <div>
-              
+
               <span>Input
-              <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
-                <div
-                  className="smallLoader"
-                  style={{ display: "inline-block" }}
-                ></div>&nbsp;&nbsp;</span>
+                <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
+                  <div
+                    className="smallLoader"
+                    style={{ display: "inline-block" }}
+                  ></div>&nbsp;&nbsp;</span>
             }
             {prizesWon > 0 && !popup && (<div>
               <span className="hidden-mobile">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -578,12 +578,12 @@ function Poolers() {
           </p>
         </header>
         {
-        /* wins.length > 0 && */
+          /* wins.length > 0 && */
           <div className="card-content">
             <div className="table-wrapper has-mobile-cards">
               <table className="padded is-stripped table is-hoverable no-bottom">
-                <thead style={{ backgroundColor: "#efefef" }}><th><Deposits /> 
-{/*                 
+                <thead style={{ backgroundColor: "#efefef" }}><th><Deposits />
+                  {/*                 
                 <div onClick={() => {
                   openWallet();
                 }}> wallet</div>
@@ -603,57 +603,57 @@ function Poolers() {
                 </thead>
                 <tbody>
                   {prizesWon > 0 &&
-                  wins.map((item) => (
-                    <tr>
-                      <td>
-                        <div className="addressText">
-                          <img src="./images/usdc.png" className="token no-left" />
-                          {prizeValue(item.win)}&nbsp;&nbsp;{item.claimed &&
-                            // <img
-                            //       src="./images/bank.png"
-                            //       className="emoji"
-                            //       alt="Claimed"
-                            //     />
-                            <span className="stamp">claimed</span>
-                          }
+                    wins.map((item) => (
+                      <tr>
+                        <td>
+                          <div className="addressText">
+                            <img src="./images/usdc.png" className="token no-left" />
+                            {prizeValue(item.win)}&nbsp;&nbsp;{item.claimed &&
+                              // <img
+                              //       src="./images/bank.png"
+                              //       className="emoji"
+                              //       alt="Claimed"
+                              //     />
+                              <span className="stamp">claimed</span>
+                            }
 
-                          {!item.claimed && <span><div
-                            className="inlineDiv"
-                            onClick={() => {
-                              openClaim();
-                            }}
-                          >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
-                          {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <div className="show-mobile">
+                            {!item.claimed && <span><div
+                              className="inlineDiv"
+                              onClick={() => {
+                                openClaim();
+                              }}
+                            >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
+                            {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <div className="show-mobile">
+                              <img
+                                src={"./images/" + item.network.toLowerCase() + ".png"}
+                                className="emoji"
+                                alt={item.network}
+                              />
+                              &nbsp;&nbsp;
+                            </div>
+                            {item.draw}</div></td>
+
+                        <td className="hidden-mobile" style={{ textAlign: "right" }}>
+                          {" "}
+                          <div className="addressText">
+
+
+                            {item.network} &nbsp;
                             <img
                               src={"./images/" + item.network.toLowerCase() + ".png"}
                               className="emoji"
                               alt={item.network}
                             />
-                            &nbsp;&nbsp;
                           </div>
-                          {item.draw}</div></td>
-
-                      <td className="hidden-mobile" style={{ textAlign: "right" }}>
-                        {" "}
-                        <div className="addressText">
+                        </td>
 
 
-                          {item.network} &nbsp;
-                          <img
-                            src={"./images/" + item.network.toLowerCase() + ".png"}
-                            className="emoji"
-                            alt={item.network}
-                          />
-                        </div>
-                      </td>
-
-
-                    </tr>))}
+                      </tr>))}
                 </tbody>
               </table>
             </div>
@@ -675,15 +675,15 @@ function Poolers() {
             color: "black",
           },
         }}><center>
-           <div className="closeModal close" onClick={() => closeModal()}></div><br></br>
+          <div className="closeModal close" onClick={() => closeModal()}></div><br></br>
           {modalFocus === "claim" && <div>
 
             {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
-            
+
               {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? <><br></br>Switch networks, no prizes</> : <>
-              <img src="../images/trophy.png" className="emoji" />
-              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length}</>} to claim on
-              
+                <img src="../images/trophy.png" className="emoji" />
+                {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length}</>} to claim on
+
               <img
                 src={"./images/" + chain.name.toLowerCase() + ".png"}
                 className="emoji"
@@ -693,15 +693,15 @@ function Poolers() {
             {isConnected && <div>
               <br></br>
               {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "" :
-              <button onClick={() => claimPrizes()} className="myButton purple-hover">
-                {claimLoading && "CLAIMING..."}
-                {claimIdle && "CLAIM"}
-                {isClaimError && "CLAIM ERROR, TRY AGAIN"}
-                {waitSuccess && "CLAIMED"}
-              </button>}
+                <button onClick={() => claimPrizes()} className="myButton purple-hover">
+                  {claimLoading && "CLAIMING..."}
+                  {claimIdle && "CLAIM"}
+                  {isClaimError && "CLAIM ERROR, TRY AGAIN"}
+                  {waitSuccess && "CLAIMED"}
+                </button>}
 
-                </div>}
-            
+            </div>}
+
             <br></br>
           </div>}
 
