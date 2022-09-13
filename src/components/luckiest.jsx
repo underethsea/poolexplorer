@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import "./../modal.css";
+import "./modal.css";
 import Select from "react-select";
 import {Link} from "react-router-dom"
 
-const pageDivider = 250;
-
-function separator(numb) {
-  let number = parseFloat(numb);
-  var str = number.toString().split(".");
-  str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return str.join(".");
-}
 
 function modalText() {
   var randomNumber = Math.floor(Math.random() * textArray.length);
@@ -26,36 +18,6 @@ var textArray = [
   "Wow this many depositors looks nutty.  Still tallying it up...",
 ];
 
-function amount(weiAmount) {
-  weiAmount = ethers.utils.formatUnits(weiAmount, 6);
-  return Number.parseFloat(weiAmount).toFixed(0);
-}
-
-const emoji = (amount) => {
-  let emojiIcon = "";
-  let weiAmount = ethers.utils.formatUnits(amount, 6);
-  amount = parseFloat(weiAmount);
-  //         console.log("amount ",amount)
-  if (amount > 50000) {
-    emojiIcon = "whale";
-  } else if (amount > 20000) {
-    emojiIcon = "dolphin";
-  } else if (amount > 10000) {
-    emojiIcon = "octopus";
-  } else if (amount > 5000) {
-    emojiIcon = "fish";
-  } else if (amount > 1000) {
-    emojiIcon = "lobster";
-  } else if (amount > 500) {
-    emojiIcon = "fis";
-  } else if (amount > 100) {
-    emojiIcon = "shrimp";
-  } else {
-    emojiIcon = "shell";
-  }
-
-  return emojiIcon;
-};
 
 // function transactionString(transString) {
 //     return transString.replace(transString.substring(4,56), "....");
@@ -66,12 +28,7 @@ const emoji = (amount) => {
 
 function Luckiest() {
   const [transactions, setTransactions] = useState([]);
-  const [median, setMedian] = useState([]);
-
   const [popup, setPopup] = useState(Boolean);
-
-  const [options, setOptions] = useState(0);
-  const [allTransactions, setAllTransactions] = useState([]);
 
   const changeSub = async () => {
      let newLuckies = await fetchLuckies(1)

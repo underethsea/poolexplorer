@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import "./../modal.css";
+import "./modal.css";
 import Select from "react-select";
 import {Link } from "react-router-dom"
 
@@ -94,13 +94,13 @@ function Players() {
         setChain(selectedNetwork)
     };
 
-    const blockExplorer = () => {
-        if(!chain.value) {return "https://polygonscan.com/address/"}
-        if(chain.value == 1) {return "https://etherscan.io/address/"}
-        if(chain.value == 10) {return "https://optimistic.etherscan.io/address/"}
-        if(chain.value == 43114) {return "https://snowtrace.io/address/"}
-        return "https://polygonscan.com/address/"
-    }
+    // const blockExplorer = () => {
+    //     if(!chain.value) {return "https://polygonscan.com/address/"}
+    //     if(chain.value == 1) {return "https://etherscan.io/address/"}
+    //     if(chain.value == 10) {return "https://optimistic.etherscan.io/address/"}
+    //     if(chain.value == 43114) {return "https://snowtrace.io/address/"}
+    //     return "https://polygonscan.com/address/"
+    // }
     const fetchHolders = async () => {
         let ticket = ""
         if (chain.value === 137) { ticket = "0x6a304dfdb9f808741244b6bfee65ca7b3b3a6076" }

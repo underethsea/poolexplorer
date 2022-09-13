@@ -168,6 +168,30 @@ body {
 .addressText {
   display: inline-block;
 }
+.protocol table {
+  border-radius: .25em;
+  margin: 5px;
+  overflow: hidden;
+}
+.table-header {
+  font-size: 22px;
+  color: black;
+  padding: 30px;
+}
+.table-text {
+  font-size: 16px;
+  color:black;
+}
+.protocol td {
+  background-color:white;
+  padding-left: 25px;
+  padding-right:25px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+.protocol thead {
+  border-radius:10px;
+}
 @media only screen and (max-width: 1280px) {
   .wallet-div {
     right: 400px
@@ -176,28 +200,30 @@ body {
     .wallet-div {
       right: 65px
     }}
-
+ 
 @media only screen and (max-width: 600px) {
 
   .dropdown {
     padding-left:80px;
   }
   .addressText {
-      width: 120px;
+      width: 140px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     
   }
+
   .addressTextShort {
-    width: 70px;
+    width: 100px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
   
+    
 }
   .dropdown-menu{
-    left: 80px;
+    left: 100px;
   }
   /* .topData {
     display:block;

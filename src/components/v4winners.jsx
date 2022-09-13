@@ -10,7 +10,7 @@ import { PolygonTicketContract,
   OptimismTicketContract
  } from "./contractConnect";
 
-import "./../modal.css";
+import "./modal.css";
 
 // const drawings = 99;
 const explorerURL = "https://poolexplorer.xyz"
@@ -393,6 +393,7 @@ function UsdcWinners() {
       {/* <PlayerModal /> */}
       <Modal
         isOpen={isModalOpen}
+        
         style={{
           overlay: {
             position: "fixed",
@@ -400,7 +401,7 @@ function UsdcWinners() {
             margin: "auto",
             top: "10%",
             borderRadius: 15,
-            width: 540,
+            width: 400,
             height: 340,
             backgroundColor: "purple",
             color: "black",
@@ -422,7 +423,7 @@ function UsdcWinners() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {modalAddress}
+                  {modalAddress && modalAddress.substring(0,12)}
                 </a></div>
               </span>
             ) : (
@@ -441,7 +442,7 @@ function UsdcWinners() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {modalAddress}
+                  {modalAddress && modalAddress.substring(0,12)}
                 </a></div>
               </span>
             ) : (
@@ -459,7 +460,7 @@ function UsdcWinners() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {modalAddress}
+                  {modalAddress && modalAddress.substring(0,12)}
                 </a></div>
               </span>
             ) : (
@@ -478,7 +479,7 @@ function UsdcWinners() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {modalAddress} 
+                  {modalAddress && modalAddress.substring(0,12)} 
                 </a> </div>
               </span>
             ) : (

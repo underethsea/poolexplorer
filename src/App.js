@@ -3,14 +3,15 @@
 // import UsdcClaims from './components/transactions/usdcClaims.jsx'
 // import PoolSwapsUniswap from './components/transactions/poolSwapsUniswap.jsx'
 
-import Players from "./components/public/players.jsx";
-import TotalHistory from "./components/public/history.jsx"
-import UsdcClaimsV4Poly from "./components/public/usdcClaimsV4Poly.jsx";
-import UsdcWinners from "./components/public/v4winners";
-import Luckiest from "./components/public/luckiest.jsx";
-import DelegationEvents from "./components/public/v4DelegationEvents.jsx"
-import Poolers from "./components/public/poolers.jsx"
-import {MyConnect} from "./components/public/myConnect.jsx"
+import Players from "./components/players.jsx";
+import TotalHistory from "./components/history.jsx"
+import UsdcClaimsV4Poly from "./components/usdcClaimsV4Poly.jsx";
+import UsdcWinners from "./components/v4winners";
+import Luckiest from "./components/luckiest.jsx";
+import DelegationEvents from "./components/v4DelegationEvents.jsx"
+import Poolers from "./components/poolers.jsx"
+import Protocol from "./components/protocol.jsx"
+import {MyConnect} from "./components/myConnect.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -131,6 +132,9 @@ function App() {
               <NavDropdown.Item href="/poolers">
                 Pooler
               </NavDropdown.Item>
+              <NavDropdown.Item href="/protocol">
+                Protocol
+              </NavDropdown.Item>
 
               {/* 
         <NavDropdown.Item href="/usdcclaims">USDC Claims</NavDropdown.Item>
@@ -171,6 +175,9 @@ function App() {
         </Route>
         <Route exact path="/poolers">
           <Poolers />
+        </Route>
+        <Route exact path="/protocol">
+          <Protocol />
         </Route>
 
 

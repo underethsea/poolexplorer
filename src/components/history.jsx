@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import Modal from "react-modal";
-import { ethers } from "ethers";
 
-import "./../modal.css";
+import "./modal.css";
 
 const chains = [1, 137];
 // const drawings = 99;
@@ -14,11 +13,6 @@ function separator(numb) {
   return str.join(".");
 }
 
-function amount(weiAmount) {
-  weiAmount = parseFloat(weiAmount);
-  weiAmount = weiAmount / 1000000;
-  return weiAmount.toFixed(0);
-}
 
 var textArray = [
   "Searching for prizes. Lots AND lots of prizes...",
@@ -31,61 +25,13 @@ var textArray = [
 // maintenance mode
 // textArray = [ "Pooly is migrating, sorry for the inconvenience, please check back later"]
 
-const ticketAbi = [
-  "function balanceOf(address) public view returns (uint256)",
-  "function getAverageBalanceBetween(address,uint64,uint64) external view returns (uint256)",
-];
 
 const explorerURL = "https://poolexplorer.xyz"
-const polygonTicketAddress = "0x6a304dFdb9f808741244b6bfEe65ca7B3b3A6076";
-const avaxTicketAddress = "0xB27f379C050f6eD0973A01667458af6eCeBc1d90";
-const ethereumTicketAddress = "0xdd4d117723C257CEe402285D3aCF218E9A8236E1";
-const ethereumEndpointURL =
-  "https://mainnet.infura.io/v3/" + process.env.REACT_APP_INFURA_KEY;
-
-const endpointURL =
-  "https://polygon-mainnet.g.alchemy.com/v2/" + process.env.REACT_APP_ALCHEMY_KEY;
-const avaxEndpointURL = "https://api.avax.network/ext/bc/C/rpc";
-const customHttpProvider = new ethers.providers.JsonRpcProvider(endpointURL);
-const avaxHttpProvider = new ethers.providers.JsonRpcProvider(avaxEndpointURL);
-const ethereumHttpProvider = new ethers.providers.JsonRpcProvider(
-  ethereumEndpointURL
-);
-
-const polygonTicketContract = new ethers.Contract(
-  polygonTicketAddress,
-  ticketAbi,
-  customHttpProvider
-);
-const avaxTicketContract = new ethers.Contract(
-  avaxTicketAddress,
-  ticketAbi,
-  avaxHttpProvider
-);
-const ethereumTicketContract = new ethers.Contract(
-  ethereumTicketAddress,
-  ticketAbi,
-  ethereumHttpProvider
-);
-let currentTicketContract = "";
 function modalText() {
   var randomNumber = Math.floor(Math.random() * textArray.length);
   return textArray[randomNumber];
 }
 
-// function countUnique(input) {
-//   var arr = input,
-//     obj = {};
-//   // console.log(arr, "dsfsfsf");
-//   for (var i = 0; i < arr.length; i++) {
-//     if (!obj[arr[i].address]) {
-//       obj[arr[i].address] = 1;
-//     } else if (obj[arr[i].address]) {
-//       obj[arr[i].address] += 1;
-//     }
-//   }
-//   return obj;
-// }
 
 const emoji = (amount) => {
   let emojiIcon = "";
@@ -111,33 +57,16 @@ const emoji = (amount) => {
 
 Modal.setAppElement("#root");
 function TotalHistory() {
-  const currentTimestamp = parseInt(Date.now() / 1000);
-  const ticketStartTimestamp = 1634184538;
+  // const currentTimestamp = parseInt(Date.now() / 1000);
+  // const ticketStartTimestamp = 1634184538;
   const [transactions, setTransactions] = useState([]);
   //   const [total, setTotal] = useState([]);
   //   const [depositors, setDepositors] = useState([]);
 
   const [popup, setPopup] = useState(Boolean);
-  const onChange = (selectedOption) => {
-    setDraw(selectedOption);
-    console.log(`Option selected:`, selectedOption);
-  };
-  // const startDraw = { label: drawings, value: drawings };
-  const [draw, setDraw] = useState({});
+
   const [unique, setUnique] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalAddress, setModalAddress] = useState(
-    "0x6277f0457cbd2ded7ba93a8338d1deb1d08a8795"
-  );
-  const [playerBalance, setPlayerBalance] = useState(0);
-  const [playerData, setPlayerData] = useState([]);
-  const [cumulativeClaimable, setCumulativeClaimable] = useState(0);
-  const [cumulativeAverageBalance, setCumulativeAverageBalance] = useState(0);
-  const [averageBalanceTimeAnnualized, setAverageBalanceTimeAnnualized] =
-    useState(0);
-    const [drawings,setDrawings] = useState()
-    const [options,setOptions] = useState([])
-  const [modalNetwork, setModalNetwork] = useState("");
 
 
   useEffect(() => {
@@ -150,15 +79,7 @@ function TotalHistory() {
        currentDrawResult.reverse();
         setTransactions(currentDrawResult);
         
-        // setDraw({ label: currentDrawResult.id, value: 0 })
-//         let drawOptions = [];
-// for (let i = 0; i <= currentDrawResult.id; i++) {
-//   drawOptions.push({ label: i, value: i });
-// }
-// drawOptions.reverse();
-// setOptions(drawOptions)
-// setDrawings(parseInt(currentDrawResult.id))
-// setUnique(currentDrawResult.result.length);
+    
 setPopup(false);
       } catch (e) {
         console.log("fetch error i ", e);
@@ -222,15 +143,6 @@ setPopup(false);
             <img src="./images/usdc.png" className="token" />
             <span className="numb-purp">{separator(usdctotal)}</span> TOTAL USDC
 
-           
-            {/* TWAB {twabTotal} */}
-            {/* {popup && (<div>popup</div>)} */}
-            {/* <img src='./images/usdc.png' className='token'/>
-                <span className="numb-purp">{separator(average.toFixed(0))}</span>
-                &nbsp;AVG 
-                <img src='./images/usdc.png' className='token'/>
-                <span className="numb-purp">{separator(median)}</span>
-                &nbsp;MEDIAN */}
           </p>
         </header>
         <div className="card-content">

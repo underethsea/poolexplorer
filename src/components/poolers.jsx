@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 import Modal from "react-modal";
-import "./../modal.css";
+import "./modal.css";
 // import distributorAbi from "./distributor.json"
 import { GetClaimsHistory } from "./getClaimsHistory.jsx"
 import prizeDistributorAbi from "./distributor.json"
@@ -21,7 +21,6 @@ import {
   useSigner,
 } from "wagmi";
 
-import "./../modal.css";
 
 import {
   PolygonTicketContract,
@@ -136,6 +135,7 @@ async function getBalances(address, timestamp) {
       avalancheTwab: usdcValue(avaxTwab),
       optimismTwab: usdcValue(opTwab)
     }
+    console.log(balances)
     let balanceArray = [balances]
     return balanceArray
   } catch (error) { console.log("error fetching balances"); return [null] }
@@ -262,6 +262,7 @@ function Poolers() {
   const [prizeDistributor, setPrizeDistributor] = useState("0x722e9BFC008358aC2d445a8d892cF7b62B550F3F") // starts with OP distributor for no good reason
   const { chain, chains } = useNetwork()
   const [inputAmount, setInputAmount] = useState(0)
+  const [validAddress,setValidAddress] = useState(Boolean)
 
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
@@ -271,8 +272,9 @@ function Poolers() {
   // const {refresh, setRefresh} = useState(0)
 
 
-  // console.log("pooler addy", poolerAddress)
-  // console.log("address value", addressValue) 
+  console.log("pooler addy", poolerAddress)
+  console.log("address value", addressValue) 
+  console.log("valid state",validAddress)
 
   // for doing it right
   // const { config: claimConfig } = usePrepareContractWrite(
@@ -368,7 +370,7 @@ function Poolers() {
       return (<div>
         {balances.map(
           (object) => (<span>
-            {/* <div className="div-relative"> */} {object.polygonTwab + object.ethereumTwab + object.optimismTwab + object.avalancheTwab > 0 && (
+            {/* <div className="div-relative"> */} {object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && (
 
               <span>TICKETS &nbsp;&nbsp;&nbsp;&nbsp;</span>)}
 
@@ -402,12 +404,20 @@ function Poolers() {
     } else { return null }
 
   }
+  function isValidAddress(addressToVerify) {
+    console.log("to verify:" ,addressToVerify)
+    try{
+    if (ethers.utils.isAddress(addressToVerify)) {
+      console.log("valid address: ",addressToVerify)
+    setValidAddress(true);return true
+    }else{setValidAddress(false);return false}}catch(error){console.log("invalid address: ",addressToVerify);setValidAddress(false);return false}
+  }
   function GetParam() {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let poolahhh = params.get('address');
     try {
-      if (ethers.utils.getAddress(poolahhh)) {
+      if (isValidAddress(poolahhh)) {
         setPoolerAddress(poolahhh)
         setAddressValue(poolahhh)
       }
@@ -423,12 +433,14 @@ function Poolers() {
     setAddressValue(selectedOption.target.value)
     // console.log(selectedOption.target.value)
     try {
-      if (ethers.utils.getAddress(selectedOption.target.value)) {
+      if (isValidAddress(selectedOption.target.value)) {
         setPoolerAddress(selectedOption.target.value);
 
         // console.log(`Address input: `, selectedOption);}
       }
-    } catch (error) { setPrizesWon(0); setXp(0); console.log("invalid address ") };
+      else{setPrizesWon(0);setBalances([])}
+   
+    } catch (error) { setPrizesWon(0); setBalances([]);console.log("invalid address ") };
   }
   useEffect(() => {
 
@@ -438,8 +450,6 @@ function Poolers() {
   useEffect(() => {
     const loadWallet = async () => {
       if (modalFocus === "wallet" && address) {
-        console.log("adddresssss:", address)
-        console.log("poly prize", polygonPrizePoolAddress)
         let [polygonApproval, ethereumApproval, optimismApproval, avalancheApproval, polygonUsdcBalance, ethereumUsdcBalance, optimismUsdcBalance, avalancheUsdcBalance] = await Promise.all([
           PolygonUsdcContract.allowance(address, polygonPrizePoolAddress),
           EthereumUsdcContract.allowance(address, ethereumPrizePoolAddress),
@@ -472,33 +482,40 @@ function Poolers() {
 
   }, []);
 
-  useEffect(() => {
-    if (balances[0] !== null) {
-      let balanceSum = balances[0].polygon + balances[0].ethereum + balances[0].optimism + balances[0].avalanche
-      let twabSum = balances[0].polygonTwab + balances[0].avalancheTwab + balances[0].ethereumTwab + balances[0].optimismTwab
-      let boostBalanceTotal = twabSum - balanceSum
-      // console.log("account ",address)
+  // useEffect(() => {
+  //   if (balances[0] !== null) {
+  //     let balanceSum = balances[0].polygon + balances[0].ethereum + balances[0].optimism + balances[0].avalanche
+  //     let twabSum = balances[0].polygonTwab + balances[0].avalancheTwab + balances[0].ethereumTwab + balances[0].optimismTwab
+  //     let boostBalanceTotal = twabSum - balanceSum
+  //     // console.log("account ",address)
 
-      setTotalBalance(balanceSum)
-      setBoostedBalance(boostBalanceTotal)
-    }
-  }, [balances]);
+  //     setTotalBalance(balanceSum)
+  //     setBoostedBalance(boostBalanceTotal)
+  //   }
+  // }, [balances]);
   async function getBalancesAndApprovals() {
   }
   async function getPlayer() {
 
     setPopup(true)
-
-    let setPooler = await getPooler(poolerAddress)
-    let poolerClaims = await GetClaimsHistory(poolerAddress)
-    // console.log("claims:", poolerClaims)
+    setBalances([])
+    setWins([])
     const currentTimestamp = parseInt(Date.now() / 1000);
 
     let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
     setBalances(poolerBalances)
-    let xpFilter = setPooler.filter((value, index, self) => {
-      return self.findIndex(v => v.draw_id === value.draw_id) === index;
-    })
+
+    let setPooler = await getPooler(poolerAddress)
+    
+    let poolerClaims = await GetClaimsHistory(poolerAddress)
+    // console.log("claims:", poolerClaims)
+
+    // removed XP for speed
+
+    // let xpFilter = setPooler.filter((value, index, self) => {
+    //   return self.findIndex(v => v.draw_id === value.draw_id) === index;
+    // })
+    // console.log("xp: ",xpFilter.length)
     // setXp(xpFilter.length)
 
     let winResult = []
@@ -521,7 +538,7 @@ function Poolers() {
     const goGetPlayer = async () => {
       await getPlayer()
     }
-    if (poolerAddress !== "") {
+    if (poolerAddress !== "" && isValidAddress(poolerAddress)) {
       goGetPlayer();
     }
 
@@ -534,29 +551,34 @@ function Poolers() {
 
           <p className="card-header-title">
 
-            <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
-            &nbsp;&nbsp;{addressValue === "" ? <div><span>Input
-              <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile">addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
+            <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} /> 
+            {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
+            &nbsp;&nbsp;{addressValue === "" ? <div>
+              
+              <span>Input
+              <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
                 <div
                   className="smallLoader"
                   style={{ display: "inline-block" }}
                 ></div>&nbsp;&nbsp;</span>
             }
-            {prizesWon > 0 && (<div>
+            {prizesWon > 0 && !popup && (<div>
               <span className="hidden-mobile">&nbsp;&nbsp;&nbsp;&nbsp;
                 <span className="numb-purp">{prizesWon}</span>
                 WINS&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span className="hidden-mobile">&nbsp;&nbsp;<img src='./images/usdc.png' className='token' />&nbsp;
                 <span className="numb-purp">{separator(totalPrizeValue)}</span> WON</span>&nbsp;&nbsp;&nbsp;&nbsp;
             </div>)}
-            {xp > 0 && (
-              <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>)}
+            {xp > 0 ? (
+              <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>) :
+              ""}
 
 
 
           </p>
         </header>
-        {wins.length > 0 &&
+        {
+        /* wins.length > 0 && */
           <div className="card-content">
             <div className="table-wrapper has-mobile-cards">
               <table className="padded is-stripped table is-hoverable no-bottom">
@@ -572,7 +594,7 @@ function Poolers() {
                 <thead>
 
 
-                  {prizesWon === 0 && <tr><th>No wins yet, friend.</th></tr>}
+                  {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>No wins yet, friend.</th></tr>}
                   {prizesWon > 0 && (<tr>
                     <th>Prize Wins&nbsp;&nbsp;</th>
                     <th>Draw</th>
@@ -580,7 +602,8 @@ function Poolers() {
                   </tr>)}
                 </thead>
                 <tbody>
-                  {wins.map((item) => (
+                  {prizesWon > 0 &&
+                  wins.map((item) => (
                     <tr>
                       <td>
                         <div className="addressText">
@@ -646,7 +669,7 @@ function Poolers() {
             margin: "auto",
             top: "10%",
             borderRadius: 10,
-            width: 475,
+            width: 400,
             height: 300,
             backgroundColor: "purple",
             color: "black",
