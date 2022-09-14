@@ -7,6 +7,7 @@ import { ethers } from "ethers";
   const avalancheEndpoint = "https://api.avax.network/ext/bc/C/rpc";
 
 
+   
 export const PROVIDERS = {
     POLYGON: new ethers.providers.JsonRpcProvider(polygonEndpoint),
     AVALANCHE: new ethers.providers.JsonRpcProvider(

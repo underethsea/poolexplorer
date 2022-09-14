@@ -155,7 +155,7 @@ function Protocol() {
                         Ethereum </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.ETHEREUM.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
                     <tr><td><span className="table-text"><img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />&nbsp;
                         Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.AVALANCHE.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTAL.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='left-three' /></td></tr>
+                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTAL.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
                     <tr><td><span className="table-text">
                         {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
                     Optimism */}
