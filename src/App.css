@@ -89,6 +89,10 @@ max-width:969px !important;
   width: 25px;
   padding-left:3px;
 }
+.left-three {
+  padding-left:3px;
+  margin-left:5px;
+}
 .no-bottom {
   margin-bottom:0!important;
 }
