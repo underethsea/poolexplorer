@@ -90,8 +90,8 @@ let optimismRate = optimismLendingRate[5] / 1e25;
       optimismDailyYield +
       ethereumDailyYield +
       polygonDailyYield +
-      avalancheDailyYield +
-      opRewardsDailyYield,
+      avalancheDailyYield,
+      
     TOTALTVL: TVL.OPTIMISM + TVL.ETHEREUM + TVL.POLYGON + TVL.AVALANCHE,
     AVERAGEAPR:
       (optimismRate + ethereumRate + polygonRate + avalancheRate) / 4,
