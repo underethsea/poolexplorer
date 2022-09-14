@@ -11,6 +11,7 @@ const chains = [1, 137];
 // const drawings = 99;
 
 function separator(numb) {
+    numb = numb.toFixed(0)
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return str.join(".");
@@ -146,11 +147,7 @@ function Protocol() {
                     <tr><td><span className="table-text">
                         <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
                         Optimism</span></td><td style={{ textAlign: "right" }}><span className="table-text"> {separator(prizeGen.OPTIMISM.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text">
-                        {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
-                    Optimism */}
-                    </span></td><td style={{ textAlign: "right" }}><span className="table-text"> {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span><img src='./images/optimism.png' className='token-icon' /></td></tr>
-
+                    
                     <tr><td><span className="table-text">
                         <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />&nbsp;
                         Polygon</span></td><td style={{ textAlign: "right" }}><span className="table-text">
@@ -159,7 +156,12 @@ function Protocol() {
                         Ethereum </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.ETHEREUM.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
                     <tr><td><span className="table-text"><img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />&nbsp;
                         Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.AVALANCHE.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTAL.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTAL - prizeGen.OPTIMISM.rewardsValuePerDay)}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                    <tr><td><span className="table-text">
+                        {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
+                    Optimism */}
+                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span><img src='./images/optimism.png' className='token-icon' /></td></tr>
+
                 </tbody>
 
             </table>
