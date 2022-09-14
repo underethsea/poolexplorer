@@ -159,7 +159,7 @@ function Protocol() {
                     <tr><td><span className="table-text">
                         {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
                     Optimism */}
-                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span><img src='./images/optimism.png' className='token-icon' /></td></tr>
+                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span><img src='./images/optimism.png' className='icon' /></td></tr>
 
                 </tbody>
 
