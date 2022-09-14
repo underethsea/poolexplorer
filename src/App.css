@@ -84,6 +84,11 @@ max-width:969px !important;
 {height: 25px;
   padding-left:5px;
 }
+.token-icon
+{height: 25px;
+  width: 25px;
+  padding-left:3px;
+}
 .no-bottom {
   margin-bottom:0!important;
 }
@@ -169,9 +174,11 @@ body {
   display: inline-block;
 }
 .protocol table {
+  display: inline;
   border-radius: .25em;
   margin: 5px;
   overflow: hidden;
+  margin-left: 100px;
 }
 .table-header {
   font-size: 22px;
@@ -202,6 +209,10 @@ body {
     }}
  
 @media only screen and (max-width: 600px) {
+  .protocol table {
+    
+    margin-left: 10px;
+  }
 
   .dropdown {
     padding-left:80px;

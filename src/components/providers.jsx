@@ -6,6 +6,7 @@ import { ethers } from "ethers";
   const polygonEndpoint = "https://polygon-mainnet.g.alchemy.com/v2/" + process.env.REACT_APP_ALCHEMY_KEY
   const avalancheEndpoint = "https://api.avax.network/ext/bc/C/rpc";
 
+
 export const PROVIDERS = {
     POLYGON: new ethers.providers.JsonRpcProvider(polygonEndpoint),
     AVALANCHE: new ethers.providers.JsonRpcProvider(
