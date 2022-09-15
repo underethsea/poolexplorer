@@ -121,21 +121,23 @@ function Protocol() {
                 <tbody>
                     <tr><td><span className="table-text">
                         <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
-                        Optimism</span></td><td style={{ textAlign: "right" }}><span className="table-text"> {separator(prizeGen.OPTIMISM.tvl.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                        Optimism</span></td><td style={{ textAlign: "right" }}><span className="table-text">
+                             <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.OPTIMISM.tvl.toFixed(0))}</span></td></tr>
 
                     <tr><td><span className="table-text">
                         <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />&nbsp;
                         Polygon</span></td><td style={{ textAlign: "right" }}><span className="table-text">
-                            {separator(prizeGen.POLYGON.tvl.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                        <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.POLYGON.tvl.toFixed(0))}</span></td></tr>
                     <tr><td><span className="table-text"><img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />&nbsp;
-                        Ethereum </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.ETHEREUM.tvl.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                        Ethereum </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.ETHEREUM.tvl.toFixed(0))}</span></td></tr>
                     <tr><td><span className="table-text"><img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />&nbsp;
-                        Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.AVALANCHE.tvl.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTALTVL.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                        Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.AVALANCHE.tvl.toFixed(0))}</span></td></tr>
+                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL </span></td>
+                    <td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.TOTALTVL.toFixed(0))}</span></td></tr>
                 </tbody>
 
             </table>
-      
+
             <table className="protocol"><thead>
                 <tr><td colSpan={2} style={{ textAlign: "center", backgroundColor: "#e2d5fa" }}>
                     <span className="table-header">Prize Generation</span>
@@ -143,30 +145,40 @@ function Protocol() {
                 </tr>
             </thead>
                 <tbody>
-                    <tr><td><span className="table-text">
-                        <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
-                        Optimism</span></td><td style={{ textAlign: "right" }}><span className="table-text"> {separator(prizeGen.OPTIMISM.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    
-                    <tr><td><span className="table-text">
-                        <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />&nbsp;
-                        Polygon</span></td><td style={{ textAlign: "right" }}><span className="table-text">
-                            {separator(prizeGen.POLYGON.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text"><img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />&nbsp;
-                        Ethereum </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.ETHEREUM.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                    <tr><td>
+                        <span className="table-text">
+                            <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />
+                            &nbsp;Optimism</span>
+                    </td>
+                        <td style={{ textAlign: "right" }}>
+                            <span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.OPTIMISM.dayYield.toFixed(0))}</span>
+                        </td></tr>
+
+                    <tr><td>
+                        <span className="table-text">
+                            <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />&nbsp;
+                            Polygon</span>
+                    </td><td style={{ textAlign: "right" }}>
+                            <span className="table-text"><img src='./images/usdcToken.svg' className='token-icon' />  {separator(prizeGen.POLYGON.dayYield.toFixed(0))}</span></td></tr>
+
+                    <tr><td>
+                        <span className="table-text"><img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />&nbsp;
+                            Ethereum </span>
+                    </td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.ETHEREUM.dayYield.toFixed(0))}</span></td></tr>
                     <tr><td><span className="table-text"><img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />&nbsp;
-                        Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.AVALANCHE.dayYield.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
-                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text">{separator(prizeGen.TOTAL.toFixed(0))}</span> <img src='./images/usdcToken.svg' className='token-icon' /></td></tr>
+                        Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.AVALANCHE.dayYield.toFixed(0))}</span></td></tr>
+                    <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.TOTAL.toFixed(0))}</span></td></tr>
                     <tr><td><span className="table-text">
                         {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
                     Optimism */}
-                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span>&nbsp;<img src='./images/optimism.png' className='icon' /></td></tr>
+                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ <img src='./images/optimism.png' className='icon' /> {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span>&nbsp;</td></tr>
 
                 </tbody>
 
             </table>
 
 
-    
+
         </div>
         }
 
