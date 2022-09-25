@@ -384,7 +384,9 @@ color: #0a0a0a;
 .open-wallet{
   color:#e2d5fa
 }
-
+.max-ballance {
+  color:#7333db
+}
 .wallet-message {
   font-size:10px;
   color: red;

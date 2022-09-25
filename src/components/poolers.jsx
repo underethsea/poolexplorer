@@ -311,7 +311,7 @@ function Poolers() {
     addressOrName: prizePoolAddress,
     contractInterface: prizePoolAbi,
     signerOrProvider: signer.data,
-    functionName: 'depositTo'
+    functionName: 'depositToAndDelegate'
   }
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
   const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
@@ -458,7 +458,7 @@ function Poolers() {
       else {
         // let depositParams = processDepositParameters(address, inputAmount)
 
-        depositWrite({ recklesslySetUnpreparedArgs: [address, inputAmount] })
+        depositWrite({ recklesslySetUnpreparedArgs: [address, inputAmount, address] })
 
         console.log(depositError)
       }
@@ -779,7 +779,7 @@ function Poolers() {
                     <td style={{ textAlign: "right" }}>
 
                       <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
-                        {walletBalance(usdcBalances, chain.name) > 0 && <div onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >"MAX"</div>}</span>
+                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >MAX</div>}</span>
                     </td></tr>
 
                 </table></div>}  </>}
