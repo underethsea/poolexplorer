@@ -779,7 +779,7 @@ function Poolers() {
                     <td style={{ textAlign: "right" }}>
 
                       <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
-                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >MAX</div>}</span>
+                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >MAX</span>}</span>
                     </td></tr>
 
                 </table></div>}  </>}
