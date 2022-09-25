@@ -48,6 +48,19 @@ const prizeDistributorFromChain = {
   avalanche: "0x83332F908f403ce795D90f677cE3f382FE73f3D1"
 
 }
+const prizePoolFromChain = {
+  optimism: "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373",
+  polygon: "0x19DE635fb3678D8B8154E37d8C9Cdf182Fe84E60",
+  ethereum: "0xd89a09084555a7D0ABe7B111b1f78DFEdDd638Be",
+  avalanche: "0xF830F5Cb2422d555EC34178E27094a816c8F95EC"
+
+}
+
+
+const prizePoolAbi = [
+  "function depositToAndDelegate(address to, uint256 amount, address delegate) external",
+  "function withdrawFrom(address from, uint256 amount) external returns (uint256)"
+]
 
 const prizeValue = (amount) => { let value = parseFloat(amount); value = value / 1e14; return value.toFixed(0) }
 const prizeValueFloat = (amount) => { let value = parseFloat(amount); value = value / 1e14; return value }
@@ -79,7 +92,9 @@ async function getPooler(address) {
     return player
   } catch (error) { console.log("failed to fetch api/address"); return null }
 }
-
+// function processDepositParameters(pooler, amount) {
+//   console.log("processing deposit for " + pooler + " amount " + amount)
+// }
 function processClaimParameters(pooler, claimableWins, network, drawNum) {
   let networkFilter = claimableWins.filter(win => win.network.toLowerCase() === network.toLowerCase())
   networkFilter = networkFilter.filter(win => win.draw >= (drawNum - 30))
@@ -263,7 +278,8 @@ function Poolers() {
   const { chain, chains } = useNetwork()
   const [inputAmount, setInputAmount] = useState(0)
   const [validAddress, setValidAddress] = useState(Boolean)
-
+  const [prizePoolAddress, setPrizePoolAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
+  const [walletMessage, setWalletMessage] = useState("")
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
       inputElement.focus();
@@ -291,6 +307,12 @@ function Poolers() {
     signerOrProvider: signer.data,
     functionName: 'claim'
   };
+  const prizePoolDepositConfig = {
+    addressOrName: prizePoolAddress,
+    contractInterface: prizePoolAbi,
+    signerOrProvider: signer.data,
+    functionName: 'depositTo'
+  }
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
   const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
     hash: claimData?.hash,
@@ -298,6 +320,8 @@ function Poolers() {
       console.log('Success waiting over', data)
     },
   })
+
+  const { write: depositWrite, error: depositError } = useContractWrite(prizePoolDepositConfig)
   // const claimPrepared =  (a, b, c, d) => {
   //   // console.log(parameters)
   //   console.log(a,b,c,d)
@@ -318,7 +342,6 @@ function Poolers() {
     console.log("claim result", claimResult)
     return claimResult;
   }
-
   const claimPrizes = async () => {
     console.log("claiming")
     // console.log("error before?",claimError)
@@ -395,6 +418,8 @@ function Poolers() {
               {object.avalancheTwab - object.avalanche > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />
                 <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.avalancheTwab - object.avalanche)}</span>)}
             </span>)}
+            
+
             {/* </div> */}
 
           </span>
@@ -425,8 +450,21 @@ function Poolers() {
   }
 
   const depositTo = () => {
+    try {
+      if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name)) { setWalletMessage("insufficient balance") }
+      else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
+        setWalletMessage("amount invalid")
+      }
+      else {
+        // let depositParams = processDepositParameters(address, inputAmount)
 
+        depositWrite({ recklesslySetUnpreparedArgs: [address, inputAmount] })
+
+        console.log(depositError)
+      }
+    } catch (error) { setWalletMessage("error");console.log(error) }
   }
+
 
   const handleChange = (selectedOption) => {
 
@@ -444,7 +482,10 @@ function Poolers() {
   }
   useEffect(() => {
 
-    if (chain) { setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()]) }
+    if (chain) {
+      setPrizePoolAddress(prizePoolFromChain[chain.name.toLowerCase()]);
+      setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()])
+    }
   }, [chain]);
 
   useEffect(() => {
@@ -568,6 +609,10 @@ function Poolers() {
                 WINS&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span className="hidden-mobile">&nbsp;&nbsp;<img src='./images/usdc.png' className='token' />&nbsp;
                 <span className="numb-purp">{separator(totalPrizeValue)}</span> WON</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <span className="open-wallet" onClick={() => {
+                    openWallet();
+                  }}> wallet</span>
             </div>)}
             {xp > 0 ? (
               <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>) :
@@ -583,11 +628,8 @@ function Poolers() {
             <div className="table-wrapper has-mobile-cards">
               <table className="padded is-stripped table is-hoverable no-bottom">
                 <thead style={{ backgroundColor: "#efefef" }}><th><Deposits />
-                  {/*                 
-                <div onClick={() => {
-                  openWallet();
-                }}> wallet</div>
-                 */}
+
+                 
                 </th></thead>
               </table>
               <table className="padded is-stripped table is-hoverable">
@@ -675,7 +717,7 @@ function Poolers() {
             color: "black",
           },
         }}><center>
-          <div className="closeModal close" onClick={() => closeModal()}></div><br></br>
+          <div className="closeModal close" onClick={() => closeModal()}></div>
           {modalFocus === "claim" && <div>
 
             {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
@@ -707,7 +749,7 @@ function Poolers() {
 
           {modalFocus === "wallet" && <div>
             <div className="closeModal close" onClick={() => closeModal()}></div>
-
+            {!isConnected && "Please connect wallet"}
 
             {isConnected && <> DEPOSIT ON
               <img
@@ -715,20 +757,32 @@ function Poolers() {
                 className="emoji"
                 alt={chain.name}
               /> {chain.name}<br></br><br></br>
-            </>}
-            {!isConnected && "Please connect wallet"}
-            {allowances.polygon !== undefined && <div className="amount-container">
-              <table><tr><td>
-                <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;
-                <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => setInputAmount(e.target.value)}  ></input>
+
+              {allowances.polygon !== undefined && <div className="amount-container">
+                <table><tr><td>
+                  <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;</td>
+                  <td style={{ textAlign: "right" }}>
+
+                    <span className="wallet-message">
+                      {walletMessage !== "" && walletMessage}
+                    </span></td>
+
+                </tr>
+                  <tr><td colSpan={2}>
+                    <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => { setWalletMessage(""); setInputAmount(e.target.value) }}  ></input>
 
 
-              </td></tr>
-                <tr><td style={{ textAlign: "right" }}>
-                  <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
-                    {walletBalance(usdcBalances, chain.name) > 0 && "MAX"}</span>
-                </td></tr>
-              </table></div>}
+                  </td></tr>
+
+                  <tr>
+                    <td></td>
+                    <td style={{ textAlign: "right" }}>
+
+                      <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
+                        {walletBalance(usdcBalances, chain.name) > 0 && <div onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >"MAX"</div>}</span>
+                    </td></tr>
+
+                </table></div>}  </>}
             {isConnected &&
 
 

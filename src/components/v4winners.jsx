@@ -407,7 +407,7 @@ function UsdcWinners() {
             color: "black",
           },
         }}
-      ><div className="closeModal close" onClick={() => closeModal()}></div><br></br>
+      ><div className="closeModal close" onClick={() => closeModal()}></div>
         <center>
           <div>
             {modalNetwork === "3" ? (
@@ -533,7 +533,7 @@ function UsdcWinners() {
                   <td style={{ textAlign: "right" }}>
                     {" "}
                     <img src="./images/usdc.png" className="token" />
-                    &nbsp;{cumulativeClaimable}
+                    &nbsp;{separator(cumulativeClaimable)}
                   </td>
                 </tr>
                 <tr>

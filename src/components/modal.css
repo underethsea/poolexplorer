@@ -91,6 +91,7 @@
   width: 15px;
   height: 15px;
   opacity: 0.3;
+  display: inline;
 }
 .close:hover {
   opacity: 1;
