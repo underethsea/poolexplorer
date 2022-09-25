@@ -457,7 +457,7 @@ function Poolers() {
       }
       else {
         // let depositParams = processDepositParameters(address, inputAmount)
-       const depositAmount = ethers.utils.parseUnits(inputAmount,6).toString()
+       const depositAmount = ethers.utils.parseUnits(inputAmount.toString(),6).toString()
         depositWrite({ recklesslySetUnpreparedArgs: [address, depositAmount, address] })
 
         console.log(depositError)
