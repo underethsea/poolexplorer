@@ -457,8 +457,8 @@ function Poolers() {
       }
       else {
         // let depositParams = processDepositParameters(address, inputAmount)
-
-        depositWrite({ recklesslySetUnpreparedArgs: [address, inputAmount, address] })
+       const depositAmount = ethers.utils.parseUnits(inputAmount,6).toString()
+        depositWrite({ recklesslySetUnpreparedArgs: [address, depositAmount, address] })
 
         console.log(depositError)
       }
@@ -779,7 +779,7 @@ function Poolers() {
                     <td style={{ textAlign: "right" }}>
 
                       <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
-                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >MAX</span>}</span>
+                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >&nbsp;MAX</span>}</span>
                     </td></tr>
 
                 </table></div>}  </>}
