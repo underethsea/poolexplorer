@@ -836,7 +836,7 @@ console.log(prizeDistributor)
                 </table></div>} 
        
 
-              {parseFloat(allowances[chain.name]) / 1e6  >= parseFloat(inputAmount) ?
+              {parseFloat(allowances[chain.name.toLowerCase()]) / 1e6  >= parseFloat(inputAmount) ?
               <button onClick={() => depositTo()} className="myButton purple-hover">
                  {depositLoading && "DEPOSITING..."}
                   {depositIdle && "DEPOSIT"}
