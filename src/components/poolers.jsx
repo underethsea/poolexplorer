@@ -56,6 +56,19 @@ const prizePoolFromChain = {
 
 }
 
+const usdcFromChain = {
+  optimism: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+  polygon: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+  ethereum: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  avalanche: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"
+}
+
+
+const usdcAbi = [
+  "function balanceOf(address) public view returns (uint256)",
+  "function allowance(address,address) public view returns (uint256)",
+  "function approve(address spender, uint256 amount) external returns (bool)"
+]
 
 const prizePoolAbi = [
   "function depositToAndDelegate(address to, uint256 amount, address delegate) external",
@@ -279,6 +292,8 @@ function Poolers() {
   const [inputAmount, setInputAmount] = useState(0)
   const [validAddress, setValidAddress] = useState(Boolean)
   const [prizePoolAddress, setPrizePoolAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
+  const [usdcAddress, setUsdcAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
+
   const [walletMessage, setWalletMessage] = useState("")
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
@@ -301,6 +316,25 @@ function Poolers() {
   //     functionName: 'claim'
   //   }
   // )
+
+
+  async function openClaim() {
+    setModalFocus("claim")
+    setIsModalOpen(true);
+  }
+  async function openWallet() {
+    setModalFocus("wallet")
+    setIsModalOpen(true)
+  }
+
+  async function openModal() {
+    setIsModalOpen(true);
+  }
+  async function closeModal() {
+    claimReset();
+    setIsModalOpen(false);
+  }
+console.log(prizeDistributor)
   const contractConfig = {
     addressOrName: prizeDistributor,
     contractInterface: prizeDistributorAbi.abi,
@@ -313,6 +347,13 @@ function Poolers() {
     signerOrProvider: signer.data,
     functionName: 'depositToAndDelegate'
   }
+  const usdcConfig = {
+    addressOrName: usdcAddress,
+    contractInterface: usdcAbi,
+    signerOrProvider: signer.data,
+    functionName: 'approve'
+
+  }
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
   const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
     hash: claimData?.hash,
@@ -320,6 +361,7 @@ function Poolers() {
       console.log('Success waiting over', data)
     },
   })
+  const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError} = useContractWrite(usdcConfig)
 
   const { write: depositWrite, error: depositError } = useContractWrite(prizePoolDepositConfig)
   // const claimPrepared =  (a, b, c, d) => {
@@ -364,23 +406,6 @@ function Poolers() {
       // console.log("data",claimData)
       console.log(claimError)
     } catch (error) { console.log(error) }
-  }
-
-  async function openClaim() {
-    setModalFocus("claim")
-    setIsModalOpen(true);
-  }
-  async function openWallet() {
-    setModalFocus("wallet")
-    setIsModalOpen(true)
-  }
-
-  async function openModal() {
-    setIsModalOpen(true);
-  }
-  async function closeModal() {
-    claimReset();
-    setIsModalOpen(false);
   }
 
   // if (address && address !== addressValue) { if (!poolerAddress) 
@@ -449,6 +474,11 @@ function Poolers() {
     } catch (error) { console.log("bad address") }
   }
 
+  const approve = () => {
+    try{
+        approveWrite({ recklesslySetUnpreparedArgs: [prizePoolAddress,"115792089237316195423570985008687907853269984665640564039457584007913129639935"] })
+    } catch (error) { setWalletMessage("error");console.log(error) }
+  }
   const depositTo = () => {
     try {
       if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name)) { setWalletMessage("insufficient balance") }
@@ -482,9 +512,10 @@ function Poolers() {
   }
   useEffect(() => {
 
-    if (chain) {
+    if (chain && chain.unsupported !== true) {
       setPrizePoolAddress(prizePoolFromChain[chain.name.toLowerCase()]);
       setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()])
+      setUsdcAddress(usdcFromChain[chain.name.toLowerCase()])
     }
   }, [chain]);
 
@@ -502,7 +533,11 @@ function Poolers() {
           AvaxUsdcContract.balanceOf(address)
         ])
         //.catch(error => { console.log(error) })
-        setAllowances({ polygon: polygonApproval, ethereum: ethereumApproval, optimism: optimismApproval, avalanche: avalancheApproval })
+        setAllowances({ 
+          polygon: polygonApproval, 
+          ethereum: ethereumApproval, 
+          optimism: optimismApproval, 
+          avalanche: avalancheApproval })
         setUsdcBalances({ polygon: polygonUsdcBalance, ethereum: ethereumUsdcBalance, optimism: optimismUsdcBalance, avalancheUsdcBalance })
 
       }
@@ -751,7 +786,7 @@ function Poolers() {
             <div className="closeModal close" onClick={() => closeModal()}></div>
             {!isConnected && "Please connect wallet"}
 
-            {isConnected && <> DEPOSIT ON
+            {isConnected && <> DEPOSIT on
               <img
                 src={"./images/" + chain.name.toLowerCase() + ".png"}
                 className="emoji"
@@ -782,11 +817,15 @@ function Poolers() {
                         {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >&nbsp;MAX</span>}</span>
                     </td></tr>
 
-                </table></div>}  </>}
-            {isConnected &&
+                </table></div>} 
+       
 
-
-              <button onClick={() => depositTo()} className="myButton purple-hover">DEPOSIT</button>}
+              {parseFloat(allowances[chain.name]) / 1e6  >= parseFloat(inputAmount) ?
+              <button onClick={() => depositTo()} className="myButton purple-hover">DEPOSIT</button>
+            : <button onClick={() => approve()} className="myButton purple-hover">APPROVE</button>
+            }
+            
+             </>}
             <br></br>
           </div>}
 

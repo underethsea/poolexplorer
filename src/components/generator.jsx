@@ -52,26 +52,26 @@ const Tvl = async () => {
 opPrice = await opPrice.json()
 opPrice = parseFloat(opPrice["optimism"].usd)
   // let polygonLendingRate = await CONTRACTS.AAVEDATA.POLYGON.getReserveData(ADDRESS.POLYGON.USDC)
-  console.log(polygonLendingRate, "poly");
-  console.log("op lending rate",optimismLendingRate.totalAToken.toString())
+  // console.log(polygonLendingRate, "poly");
+  // console.log("op lending rate",optimismLendingRate.totalAToken.toString())
 let opATokens = parseInt(optimismLendingRate.totalAToken.toString()) / 1e6  
-console.log( opPerDay," ",opPrice," ",opATokens)
+// console.log( opPerDay," ",opPrice," ",opATokens)
 let opYieldPerDay = ((opPerDay * opPrice) / opATokens) * 100
-console.log(opYieldPerDay,"% op per day") 
+// console.log(opYieldPerDay,"% op per day") 
 let optimismRate = optimismLendingRate[5] / 1e25;
-  console.log(optimismRate, " op rate ", TVL.OPTIMISM, " op tvl");
+  // console.log(optimismRate, " op rate ", TVL.OPTIMISM, " op tvl");
 
   let polygonRate = polygonLendingRate[3] / 1e25;
-  console.log(polygonRate, "polyrate");
+  // console.log(polygonRate, "polyrate");
   let avalancheRate = avalancheLendingRate[3] / 1e25;
-  console.log(avalancheRate, "avax rate ", TVL.AVALANCHE, "tvl");
+  // console.log(avalancheRate, "avax rate ", TVL.AVALANCHE, "tvl");
 
  //  let polygonRateApi = await getAaveAPI();
   // polygonRateApi = parseFloat(polygonRateApi.liquidityRate) * 100;
   // console.log(polygonRateApi, " poly rate api");
 
   let ethereumRate = ethereumLendingRate[3] / 1e25;
-  console.log(ethereumRate, "eth rate ", TVL.ETHEREUM, "tvl");
+  // console.log(ethereumRate, "eth rate ", TVL.ETHEREUM, "tvl");
   let optimismDailyYield =
     ((optimismRate / 100) * parseInt(TVL.OPTIMISM)) / 365;
   let ethereumDailyYield =
