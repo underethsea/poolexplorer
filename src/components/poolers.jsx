@@ -361,9 +361,25 @@ console.log(prizeDistributor)
       console.log('Success waiting over', data)
     },
   })
+ 
   const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError, isLoading: approveLoading, data: approveData, isIdle: approveIdle, isError: isApproveError} = useContractWrite(usdcConfig)
 
   const { write: depositWrite, error: depositError, isError: isDepositError, isIdle: depositIdle, data: depositData, isSuccess: depositSuccess, isLoading: depositLoading } = useContractWrite(prizePoolDepositConfig)
+  
+  const { isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } = useWaitForTransaction({
+    hash: approveData?.hash,
+    onSuccess(data) {
+      console.log('Approve success waiting over', data)
+    },
+  })
+
+  const { isLoading: depositWaitLoading, isSuccess: depositWaitSuccess } = useWaitForTransaction({
+    hash: depositData?.hash,
+    onSuccess(data) {
+      console.log('Deposit success waiting over', data)
+    },
+  })
+  
   // const claimPrepared =  (a, b, c, d) => {
   //   // console.log(parameters)
   //   console.log(a,b,c,d)
@@ -543,7 +559,7 @@ console.log(prizeDistributor)
       }
     }
     loadWallet()
-  }, [modalFocus])
+  }, [modalFocus,approveWaitSuccess,depositWaitSuccess])
   useEffect(() => {
     const loadPage = async () => {
       let recent = await fetch("https://poolexplorer.xyz/recent")
@@ -618,7 +634,7 @@ console.log(prizeDistributor)
       goGetPlayer();
     }
 
-  }, [poolerAddress, waitSuccess]);
+  }, [poolerAddress, waitSuccess, approveWaitSuccess, depositWaitSuccess]);
 
   return (
     <div className="transactions section">
