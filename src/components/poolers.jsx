@@ -361,9 +361,9 @@ console.log(prizeDistributor)
       console.log('Success waiting over', data)
     },
   })
-  const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError} = useContractWrite(usdcConfig)
+  const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError, isLoading: approveLoading, data: approveData, isIdle: approveIdle, isError: isApproveError} = useContractWrite(usdcConfig)
 
-  const { write: depositWrite, error: depositError } = useContractWrite(prizePoolDepositConfig)
+  const { write: depositWrite, error: depositError, isError: isDepositError, isIdle: depositIdle, data: depositData, isSuccess: depositSuccess, isLoading: depositLoading } = useContractWrite(prizePoolDepositConfig)
   // const claimPrepared =  (a, b, c, d) => {
   //   // console.log(parameters)
   //   console.log(a,b,c,d)
@@ -821,8 +821,18 @@ console.log(prizeDistributor)
        
 
               {parseFloat(allowances[chain.name]) / 1e6  >= parseFloat(inputAmount) ?
-              <button onClick={() => depositTo()} className="myButton purple-hover">DEPOSIT</button>
-            : <button onClick={() => approve()} className="myButton purple-hover">APPROVE</button>
+              <button onClick={() => depositTo()} className="myButton purple-hover">
+                 {depositLoading && "DEPOSITING..."}
+                  {depositIdle && "DEPOSIT"}
+                  {isDepositError && "DEPOSIT ERROR, TRY AGAIN"}
+                  {depositSuccess && "DEPOSIT SUCCESSFUL"}
+                </button>
+            : <button onClick={() => approve()} className="myButton purple-hover">
+              {approveLoading && "APPROVING..."}
+                  {approveIdle && "APPROVE"}
+                  {isApproveError && "APPROVE ERROR, TRY AGAIN"}
+                  {approveSuccess && "APPROVE SUCCESSFUL"}
+            </button>
             }
             
              </>}
