@@ -361,7 +361,15 @@ color: #0a0a0a;
 }
   }
 
+  @media only screen and (min-width:300px) {
+    .cool-pooly {
+width:300px;    }
+  }
 
+  @media only screen and (min-width:767px) {
+    .cool-pooly {
+width:500px;    }
+  }
 
 @media only screen and (min-width:767px) {
   .show-mobile {
@@ -381,11 +389,14 @@ color: #0a0a0a;
 .small-balance{
   font-size:10px;
 }
-.open-wallet{
-  color:#e2d5fa
+.yo-soy{
+  cursor: pointer;
 }
+.open-wallet{
+cursor: pointer;}
 .max-balance {
-  color:#7333db
+  color:#7333db;
+  cursor:pointer;
 }
 .wallet-message {
   font-size:10px;

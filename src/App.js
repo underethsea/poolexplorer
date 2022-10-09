@@ -92,7 +92,7 @@ function App() {
             height="36"
             alt="explore"
           ></img><span className="header-text hidden-mobile">
-          &nbsp;&nbsp;&nbsp;&nbsp;PoolExplorer &nbsp;&nbsp;&nbsp;</span>
+          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</span>
           &nbsp;&nbsp;&nbsp;<Route path="/poolers" render={() => (
        
    <MyConnect label="Sign in" showBalance={{

@@ -153,7 +153,7 @@ setPopup(false);
                   {/* <th>Transaction Hash</th>
                                 <th>Time</th> */}
                   <th>Draw</th>
-                  <th className="hidden-mobile">Winning Wallets</th>
+                  <th className="hidden-mobile">Winning Poolers</th>
                   <th>Prizes            <span className="hidden-mobile">
  Claimable</span></th>
 
@@ -190,7 +190,8 @@ setPopup(false);
                   
                       <td>{item.w}</td><td className="hidden-mobile">
                       {item.p} 
-                    </td><td  style={{ textAlign: "right" }}><div title={"Dropped:"+ item.d}>{item.c}<img src="./images/usdc.png" className="emoji" /><span  className="hidden-mobile">&nbsp;&nbsp; </span></div></td>
+                    </td><td  style={{ textAlign: "right" }}><div title={"Dropped:"+ item.d}>{separator(item.c)}<img src="./images/usdc.png" className="emoji" />
+                    <span  className="hidden-mobile">&nbsp;&nbsp; </span></div></td>
                   </tr>
                 ))}
               </tbody>

@@ -171,27 +171,6 @@ async function getBalances(address, timestamp) {
 
 let currentTicketContract = "";
 
-// const emoji = (amount) => {
-//   let emojiIcon = "";
-//   // let weiAmount = amount / 1000000;
-//   amount = parseFloat(amount);
-//   if (amount > 2499) {
-//     emojiIcon = "whale";
-//   } else if (amount > 499) {
-//     emojiIcon = "dolphin";
-//   } else if (amount > 199) {
-//     emojiIcon = "octopus";
-//   } else if (amount > 99) {
-//     emojiIcon = "lobster";
-//   } else if (amount > 9) {
-//     emojiIcon = "fis";
-//   } else {
-//     emojiIcon = "fish";
-//   }
-
-//   return emojiIcon;
-// };
-
 const sum = (a) => a.reduce((x, y) => parseInt(x) + parseInt(y));
 
 function processWins(winsYo, claimsYo) {
@@ -244,20 +223,36 @@ const distributorParams = {
 }
 
 const walletBalance = (balances, chain) => {
+  try{
   let balance = 0
   if (chain === "Polygon") { balance = balances.polygon }
   if (chain === "Optimism") { balance = balances.optimism }
   if (chain === "Avalanche") { balance = balances.avalanche }
   if (chain === "Ethereum") { balance = balances.ethereum }
-  return parseFloat(balance) / 1e6
+  return parseFloat(balance) / 1e6}
+  catch(error){console.log(error)}
+
+}
+const ticketBalance = (balances, chain) => {
+  try{
+  let balance = 0
+  if (chain === "Polygon") { balance = balances[0].polygon }
+  if (chain === "Optimism") { balance = balances[0].optimism }
+  if (chain === "Avalanche") { balance = balances[0].avalanche }
+  if (chain === "Ethereum") { balance = balances[0].ethereum }
+  return balance}
+  catch(error){console.log(error)}
 
 }
 
-// ["function claim(address _user, uint32[] _drawIds, bytes _data)","function getDrawCalculator() external view returns (IDrawCalculator)"]}
-
 function Poolers() {
 
-  const { connector: activeConnector, address, isConnecting, isDisconnected, isConnected } = useAccount()
+  const { connector: activeConnector, address, isConnecting, isDisconnected, isConnected } = useAccount({
+    // onConnect({ address, connector, isReconnected }) {
+    //   console.log('Connected', { address, connector, isReconnected });setPrizesWon(0); setBalances([]);
+    //   setAddressValue(address);setPoolerAddress(address)
+    //},
+  })
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect()
   const signer = useSigner()
@@ -288,9 +283,8 @@ function Poolers() {
   const [allowances, setAllowances] = useState({})
   const [usdcBalances, setUsdcBalances] = useState({})
   const [prizeDistributor, setPrizeDistributor] = useState("0x722e9BFC008358aC2d445a8d892cF7b62B550F3F") // starts with OP distributor for no good reason
-  const { chain, chains } = useNetwork()
   const [inputAmount, setInputAmount] = useState(0)
-  const [validAddress, setValidAddress] = useState(Boolean)
+  const [validAddress, setValidAddress] = useState(true)
   const [prizePoolAddress, setPrizePoolAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
   const [usdcAddress, setUsdcAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
 
@@ -302,21 +296,7 @@ function Poolers() {
   }, []);
   // const {refresh, setRefresh} = useState(0)
 
-
-  // console.log("pooler addy", poolerAddress)
-  // console.log("address value", addressValue) 
-  // console.log("valid state",validAddress)
-
-  // for doing it right
-  // const { config: claimConfig } = usePrepareContractWrite(
-  //   {
-  //     addressOrName: prizeDistributor,
-  //     contractInterface: prizeDistributorAbi.abi,
-  //     signerOrProvider: signer.data,
-  //     functionName: 'claim'
-  //   }
-  // )
-
+  const { chain, chains } = useNetwork()
 
   async function openClaim() {
     setModalFocus("claim")
@@ -325,7 +305,14 @@ function Poolers() {
   async function openWallet() {
     setModalFocus("wallet")
     setIsModalOpen(true)
+    setInputAmount(0)
   }
+  async function openWalletWithdraw() {
+    setModalFocus("withdrawWallet")
+    setIsModalOpen(true)
+    setInputAmount(0)
+  }
+  
 
   async function openModal() {
     setIsModalOpen(true);
@@ -334,26 +321,43 @@ function Poolers() {
     claimReset();
     setIsModalOpen(false);
   }
-console.log(prizeDistributor)
+  // console.log(prizeDistributor)
+  console.log(balances)
+  console.log(address)
   const contractConfig = {
     addressOrName: prizeDistributor,
     contractInterface: prizeDistributorAbi.abi,
     signerOrProvider: signer.data,
     functionName: 'claim'
   };
-  const prizePoolDepositConfig = {
+
+  const amountFormatForSend =  ethers.utils.parseUnits(inputAmount.toString(),6).toString()
+  const { config: withdrawConfig, error: withdrawConfigError, isError: isWithdrawConfigError } = usePrepareContractWrite({
+    args: [address,amountFormatForSend],
     addressOrName: prizePoolAddress,
     contractInterface: prizePoolAbi,
-    signerOrProvider: signer.data,
-    functionName: 'depositToAndDelegate'
-  }
-  const usdcConfig = {
+    functionName: 'withdrawFrom',
+    overrides: {
+      gasLimit: 625000,
+    },
+  })
+  const { config: depositConfig, error: depositConfigError, isError: isDepositConfigError } = usePrepareContractWrite({
+    args: [address,amountFormatForSend,address],
+    addressOrName: prizePoolAddress,
+    contractInterface: prizePoolAbi,
+    functionName: 'depositToAndDelegate',
+    overrides: {
+      gasLimit: 625000,
+    },
+  })
+  const { config: usdcConfig, error: usdcConfigError, isError: usdcConfigIsError } = usePrepareContractWrite({
+    args:  [prizePoolAddress, "115792089237316195423570985008687907853269984665640564039457584007913129639935"],
     addressOrName: usdcAddress,
     contractInterface: usdcAbi,
-    signerOrProvider: signer.data,
-    functionName: 'approve'
-
-  }
+    functionName: 'approve',
+   
+  })
+ 
   const { write: claimWrite, reset: claimReset, writeAsync: claimWriteAsync, isSuccess: claimSuccess, status: claimStatus, isLoading: claimLoading, isIdle: claimIdle, data: claimData, error: claimError, isError: isClaimError } = useContractWrite(contractConfig)
   const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
     hash: claimData?.hash,
@@ -361,11 +365,16 @@ console.log(prizeDistributor)
       console.log('Success waiting over', data)
     },
   })
- 
-  const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError, isLoading: approveLoading, data: approveData, isIdle: approveIdle, isError: isApproveError} = useContractWrite(usdcConfig)
 
-  const { write: depositWrite, error: depositError, isError: isDepositError, isIdle: depositIdle, data: depositData, isSuccess: depositSuccess, isLoading: depositLoading } = useContractWrite(prizePoolDepositConfig)
-  
+  const { write: approveWrite, isSuccess: approveSuccess, status: approveStatus, error: approveError, 
+    isLoading: approveLoading, data: approveData, isIdle: approveIdle, isError: isApproveError } = useContractWrite(usdcConfig)
+
+  const { write: depositWrite, error: depositError, isError: isDepositError,
+    isIdle: depositIdle, data: depositData, isSuccess: depositSuccess, isLoading: depositLoading } = useContractWrite(depositConfig)
+
+  const { write: withdrawWrite, error: withdrawError, isError: isWithdrawError,
+    isIdle: withdrawIdle, data: withdrawData, isSuccess: withdrawSuccess, isLoading: withdrawLoading } = useContractWrite(withdrawConfig)
+
   const { isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } = useWaitForTransaction({
     hash: approveData?.hash,
     onSuccess(data) {
@@ -373,21 +382,22 @@ console.log(prizeDistributor)
     },
   })
 
+  const { isLoading: withdrawWaitLoading, isSuccess: withdrawWaitSuccess } = useWaitForTransaction({
+    hash: withdrawData?.hash,
+    onSuccess(data) {
+      closeModal()
+      console.log('Withdraw success waiting over', data)
+    },
+  })
+
   const { isLoading: depositWaitLoading, isSuccess: depositWaitSuccess } = useWaitForTransaction({
     hash: depositData?.hash,
     onSuccess(data) {
+      closeModal()
       console.log('Deposit success waiting over', data)
     },
   })
-  
-  // const claimPrepared =  (a, b, c, d) => {
-  //   // console.log(parameters)
-  //   console.log(a,b,c,d)
 
-  //   claimWrite({ recklesslySetUnpreparedArgs: [a, b, c]})
-  // }
-
-  // console.log("distributor: ", prizeDistributor)
   const claimPrizeFor = useContract({
     addressOrName: prizeDistributor,
     contractInterface: prizeDistributorAbi.abi,
@@ -407,19 +417,9 @@ console.log(prizeDistributor)
 
     try {
       let claimParams = processClaimParameters(poolerAddress, claimable, chain.name, currentDrawId)
-
-      // old schoool
-      // let claimPrizeCall = await claimNow(claimParams.address, claimParams.drawIds, claimParams.winningPicks)
-      // console.log("claim prize call", claimPrizeCall)
-
-      // prepare contract would be nice
-      // let args = [claimParams.address, claimParams.drawIds, claimParams.winningPicks]
-      //  console.log(args)
+      
       claimWrite({ recklesslySetUnpreparedArgs: [claimParams.address, claimParams.drawIds, claimParams.winningPicks] })
-      // claimPrepared(claimParams.address, claimParams.drawIds, claimParams.winningPicks, claimParams.gas)
-
-      // claimIt({ args: [claimParams.address, claimParams.drawIds, claimParams.winningPicks], gasLimit:500000 + })
-      // console.log("data",claimData)
+     
       console.log(claimError)
     } catch (error) { console.log(error) }
   }
@@ -448,6 +448,17 @@ console.log(prizeDistributor)
               <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.optimism)}&nbsp;&nbsp;&nbsp;</span>)}
             {object.avalanche > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />
               <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.avalanche)}&nbsp;&nbsp;&nbsp;</span>)}
+            {addressValue == address && <span>
+              <span className="open-wallet" onClick={() => {openWallet();}}> 
+              <span className="claimStamp blue-hover">DEPOSIT</span> </span>
+              {object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && 
+              
+              <span className="open-wallet" onClick={() => {openWalletWithdraw();}}> 
+              <span className="claimStamp blue-hover">WITHDRAW</span></span>}
+              {/* &nbsp;<span className="wallet-message">*beta*</span> */}
+              </span>
+            
+            }
             <br></br>{object.polygonTwab + object.ethereumTwab + object.optimismTwab + object.avalancheTwab - object.polygon - object.ethereum - object.optimism - object.avalanche > 0 && (<span>
               BOOSTS &nbsp;&nbsp;&nbsp;&nbsp;
               {object.polygonTwab - object.polygon > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />
@@ -459,7 +470,7 @@ console.log(prizeDistributor)
               {object.avalancheTwab - object.avalanche > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />
                 <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.avalancheTwab - object.avalanche)}</span>)}
             </span>)}
-            
+
 
             {/* </div> */}
 
@@ -475,25 +486,28 @@ console.log(prizeDistributor)
       if (ethers.utils.isAddress(addressToVerify)) {
         // console.log("valid address: ",addressToVerify)
         setValidAddress(true); return true
-      } else { setValidAddress(false); return false }
-    } catch (error) { console.log("invalid address: ", addressToVerify); setValidAddress(false); return false }
+      } else { console.log("invalid address: ", addressToVerify);setValidAddress(false); return false }
+    } catch (error) { console.log("invalid address catch: ", addressToVerify); setValidAddress(false); return false }
   }
   function GetParam() {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let poolahhh = params.get('address');
+if(params!==null){
+ 
     try {
       if (isValidAddress(poolahhh)) {
         setPoolerAddress(poolahhh)
         setAddressValue(poolahhh)
+        
       }
     } catch (error) { console.log("bad address") }
-  }
+  }}
 
   const approve = () => {
-    try{
-        approveWrite({ recklesslySetUnpreparedArgs: [prizePoolAddress,"115792089237316195423570985008687907853269984665640564039457584007913129639935"] })
-    } catch (error) { setWalletMessage("error");console.log(error) }
+    try {
+      approveWrite()
+    } catch (error) { setWalletMessage("error"); console.log(error) }
   }
   const depositTo = () => {
     try {
@@ -503,362 +517,449 @@ console.log(prizeDistributor)
       }
       else {
         // let depositParams = processDepositParameters(address, inputAmount)
-       const depositAmount = ethers.utils.parseUnits(inputAmount.toString(),6).toString()
-        depositWrite({ recklesslySetUnpreparedArgs: [address, depositAmount, address] })
+        // const depositAmount = ethers.utils.parseUnits(inputAmount.toString(), 6).toString()
+        //{ recklesslySetUnpreparedArgs: [address, depositAmount, address] }
+        depositWrite()
 
         console.log(depositError)
       }
-    } catch (error) { setWalletMessage("error");console.log(error) }
+    } catch (error) { setWalletMessage("error"); console.log(error) }
   }
 
-
-  const handleChange = (selectedOption) => {
-
-    setAddressValue(selectedOption.target.value)
-    // console.log(selectedOption.target.value)
+  const withdrawFrom = () => {
     try {
-      if (isValidAddress(selectedOption.target.value)) {
-        setPoolerAddress(selectedOption.target.value);
-
-        // console.log(`Address input: `, selectedOption);}
+      if (parseFloat(inputAmount) > parseFloat(balances[chain.name.toLowerCase()]) / 1e6) { setWalletMessage("insufficient balance") }
+      else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
+        setWalletMessage("amount invalid")
       }
-      else { setPrizesWon(0); setBalances([]) }
+      else {
+        // let depositParams = processDepositParameters(address, inputAmount)
+        withdrawWrite()
 
-    } catch (error) { setPrizesWon(0); setBalances([]); console.log("invalid address ") };
-  }
-  useEffect(() => {
-
-    if (chain && chain.unsupported !== true) {
-      setPrizePoolAddress(prizePoolFromChain[chain.name.toLowerCase()]);
-      setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()])
-      setUsdcAddress(usdcFromChain[chain.name.toLowerCase()])
-    }
-  }, [chain]);
-
-  useEffect(() => {
-    const loadWallet = async () => {
-      if (modalFocus === "wallet" && address) {
-        let [polygonApproval, ethereumApproval, optimismApproval, avalancheApproval, polygonUsdcBalance, ethereumUsdcBalance, optimismUsdcBalance, avalancheUsdcBalance] = await Promise.all([
-          PolygonUsdcContract.allowance(address, polygonPrizePoolAddress),
-          EthereumUsdcContract.allowance(address, ethereumPrizePoolAddress),
-          OptimismUsdcContract.allowance(address, optimismPrizePoolAddress),
-          AvaxUsdcContract.allowance(address, avaxPrizePoolAddress),
-          PolygonUsdcContract.balanceOf(address),
-          EthereumUsdcContract.balanceOf(address),
-          OptimismUsdcContract.balanceOf(address),
-          AvaxUsdcContract.balanceOf(address)
-        ])
-        //.catch(error => { console.log(error) })
-        setAllowances({ 
-          polygon: polygonApproval, 
-          ethereum: ethereumApproval, 
-          optimism: optimismApproval, 
-          avalanche: avalancheApproval })
-        setUsdcBalances({ polygon: polygonUsdcBalance, ethereum: ethereumUsdcBalance, optimism: optimismUsdcBalance, avalancheUsdcBalance })
-
+        console.log(withdrawError)
       }
-    }
-    loadWallet()
-  }, [modalFocus,approveWaitSuccess,depositWaitSuccess])
-  useEffect(() => {
-    const loadPage = async () => {
-      let recent = await fetch("https://poolexplorer.xyz/recent")
-      recent = await recent.json()
-      recent = recent.id
-      setCurrentDrawId(recent)
-
-      // get URL parameters
-      GetParam()
-    }
-    loadPage()
-
-  }, []);
-
-  // useEffect(() => {
-  //   if (balances[0] !== null) {
-  //     let balanceSum = balances[0].polygon + balances[0].ethereum + balances[0].optimism + balances[0].avalanche
-  //     let twabSum = balances[0].polygonTwab + balances[0].avalancheTwab + balances[0].ethereumTwab + balances[0].optimismTwab
-  //     let boostBalanceTotal = twabSum - balanceSum
-  //     // console.log("account ",address)
-
-  //     setTotalBalance(balanceSum)
-  //     setBoostedBalance(boostBalanceTotal)
-  //   }
-  // }, [balances]);
-  async function getBalancesAndApprovals() {
-  }
-  async function getPlayer() {
-
-    setPopup(true)
-    setBalances([])
-    setWins([])
-    const currentTimestamp = parseInt(Date.now() / 1000);
-
-    let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
-    setBalances(poolerBalances)
-
-    let setPooler = await getPooler(poolerAddress)
-
-    let poolerClaims = await GetClaimsHistory(poolerAddress)
-    // console.log("claims:", poolerClaims)
-
-    // removed XP for speed
-
-    // let xpFilter = setPooler.filter((value, index, self) => {
-    //   return self.findIndex(v => v.draw_id === value.draw_id) === index;
-    // })
-    // console.log("xp: ",xpFilter.length)
-    // setXp(xpFilter.length)
-
-    let winResult = []
-    winResult = processWins(setPooler, poolerClaims)
-    const winsToFilter = winResult.result
-    let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 30) && win.claimed === false })
-    claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
-    setClaimable(claimableToSet)
-    setWins(winResult.result)
-    // setGotSome(true)
-    setPrizesWon(winResult.prizes)
-    setTotalPrizeValue(winResult.total)
-    setPopup(false)
-    // console.log("claimable wins", claimable)
-
+    } catch (error) { setWalletMessage("error"); console.log(error) }
 
   }
 
-  useEffect(() => {
-    const goGetPlayer = async () => {
-      await getPlayer()
+
+const handleChange = (selectedOption) => {
+  setAddressValue(selectedOption.target.value)
+  // console.log(selectedOption.target.value)
+  try {
+    if (isValidAddress(selectedOption.target.value)) {
+      setPoolerAddress(selectedOption.target.value);
+
+      // console.log(`Address input: `, selectedOption);}
     }
-    if (poolerAddress !== "" && isValidAddress(poolerAddress)) {
-      goGetPlayer();
+    else { setPrizesWon(0); setBalances([]) }
+
+  } catch (error) { setPrizesWon(0); setBalances([]); console.log("invalid address ") };
+}
+
+useEffect(() => {
+  if (chain && chain.unsupported !== true) {
+    setPrizePoolAddress(prizePoolFromChain[chain.name.toLowerCase()]);
+    setPrizeDistributor(prizeDistributorFromChain[chain.name.toLowerCase()])
+    setUsdcAddress(usdcFromChain[chain.name.toLowerCase()])
+  }
+}, [chain]);
+
+useEffect(() => {
+  const loadWallet = async () => {
+    if (modalFocus === "wallet" && address) {
+      let [polygonApproval, ethereumApproval, optimismApproval, avalancheApproval, polygonUsdcBalance, ethereumUsdcBalance, optimismUsdcBalance, avalancheUsdcBalance] = await Promise.all([
+        PolygonUsdcContract.allowance(address, polygonPrizePoolAddress),
+        EthereumUsdcContract.allowance(address, ethereumPrizePoolAddress),
+        OptimismUsdcContract.allowance(address, optimismPrizePoolAddress),
+        AvaxUsdcContract.allowance(address, avaxPrizePoolAddress),
+        PolygonUsdcContract.balanceOf(address),
+        EthereumUsdcContract.balanceOf(address),
+        OptimismUsdcContract.balanceOf(address),
+        AvaxUsdcContract.balanceOf(address)
+      ])
+      //.catch(error => { console.log(error) })
+      setAllowances({
+        polygon: polygonApproval,
+        ethereum: ethereumApproval,
+        optimism: optimismApproval,
+        avalanche: avalancheApproval
+      })
+      setUsdcBalances({ polygon: polygonUsdcBalance, ethereum: ethereumUsdcBalance, optimism: optimismUsdcBalance, avalancheUsdcBalance })
+
     }
+  }
+  loadWallet()
+}, [modalFocus, approveWaitSuccess, depositWaitSuccess, withdrawWaitSuccess])
 
-  }, [poolerAddress, waitSuccess, approveWaitSuccess, depositWaitSuccess]);
+useEffect(() => {
+  const loadPage = async () => {
+    
+    let recent = await fetch("https://poolexplorer.xyz/recent")
+    recent = await recent.json()
+    recent = recent.id
+    setCurrentDrawId(recent)
 
-  return (
-    <div className="transactions section">
-      <div className="card has-table has-mobile-sort-spaced">
-        <header className="card-header">
+    // get URL parameters
+    GetParam()
+    // if(isConnected && addressValue.toLowerCase() !== address.toLowerCase()) {setPrizesWon(0); setBalances([]);setPoolerAddress(address);setAddressValue(address)}
+  }
+  console.log("wallet",address)
+  loadPage()
 
-          <p className="card-header-title">
+}, []);
 
-            <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
-            {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
-            &nbsp;&nbsp;{addressValue === "" ? <div>
+// useEffect(() => {
+//   if (balances[0] !== null) {
+//     let balanceSum = balances[0].polygon + balances[0].ethereum + balances[0].optimism + balances[0].avalanche
+//     let twabSum = balances[0].polygonTwab + balances[0].avalancheTwab + balances[0].ethereumTwab + balances[0].optimismTwab
+//     let boostBalanceTotal = twabSum - balanceSum
+//     // console.log("account ",address)
 
-              <span>Input
-                <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
-                  <div
-                    className="smallLoader"
-                    style={{ display: "inline-block" }}
-                  ></div>&nbsp;&nbsp;</span>
-            }
-            {prizesWon > 0 && !popup && (<div>
-              <span className="hidden-mobile">&nbsp;&nbsp;&nbsp;&nbsp;
-                <span className="numb-purp">{prizesWon}</span>
-                WINS&nbsp;&nbsp;&nbsp;&nbsp;</span>
-              <span className="hidden-mobile">&nbsp;&nbsp;<img src='./images/usdc.png' className='token' />&nbsp;
-                <span className="numb-purp">{separator(totalPrizeValue)}</span> WON</span>&nbsp;&nbsp;&nbsp;&nbsp;
+//     setTotalBalance(balanceSum)
+//     setBoostedBalance(boostBalanceTotal)
+//   }
+// }, [balances]);
+async function getBalancesAndApprovals() {
+}
+async function getPlayer() {
 
-                <span className="open-wallet" onClick={() => {
-                    openWallet();
-                  }}> wallet</span>
-            </div>)}
-            {xp > 0 ? (
-              <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>) :
-              ""}
+  setPopup(true)
+  setBalances([])
+  setWins([])
+  const currentTimestamp = parseInt(Date.now() / 1000);
+
+  let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
+  setBalances(poolerBalances)
+
+  let setPooler = await getPooler(poolerAddress)
+
+  let poolerClaims = await GetClaimsHistory(poolerAddress)
+  // console.log("claims:", poolerClaims)
+
+  // removed XP for speed
+
+  // let xpFilter = setPooler.filter((value, index, self) => {
+  //   return self.findIndex(v => v.draw_id === value.draw_id) === index;
+  // })
+  // console.log("xp: ",xpFilter.length)
+  // setXp(xpFilter.length)
+
+  let winResult = []
+  winResult = processWins(setPooler, poolerClaims)
+  const winsToFilter = winResult.result
+  let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 30) && win.claimed === false })
+  claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
+  setClaimable(claimableToSet)
+  setWins(winResult.result)
+  // setGotSome(true)
+  setPrizesWon(winResult.prizes)
+  setTotalPrizeValue(winResult.total)
+  setPopup(false)
+  // console.log("claimable wins", claimable)
+
+}
+useEffect(() => {
+
+// if(isConnected && poolerAddress === "") {setPrizesWon(0); setBalances([]);setPoolerAddress(address);setAddressValue(address)}
+
+},[isConnected])
+const setPoolerToWallet = () => {
+  // setPrizesWon(0); setBalances([]);setAddressValue(address);setPoolerAddress(address);
+  setAddressValue(address)
+  // console.log(selectedOption.target.value)
+  try {
+    if (isValidAddress(address)) {
+      setPoolerAddress(address);
+      console.log("set to wallet")
+      // console.log(`Address input: `, selectedOption);}
+    }
+}catch(error){console.log(error)}}
+
+useEffect(() => {
+  const goGetPlayer = async () => {
+    await getPlayer()
+  }
+  if (poolerAddress !== "" && isValidAddress(poolerAddress)) {
+    goGetPlayer();
+  }
+
+}, [poolerAddress, waitSuccess, approveWaitSuccess, depositWaitSuccess, withdrawWaitSuccess]);
+
+return (
+  <div className="transactions section">
+    <div className="card has-table has-mobile-sort-spaced">
+      <header className="card-header">
+
+        <p className="card-header-title">
+
+          <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
+          {address !== undefined && addressValue == "" && 
+          <span onClick={() => {setPoolerToWallet()}}>
+            <img src="./images/yosoypooler.png" className='token yo-soy'></img>&nbsp;
+            </span>}
+            {addressValue!==address && addressValue !== "" && address !== undefined && 
+          <span onClick={() => {setPoolerToWallet()}}>
+            <img src="./images/yosoypooler.png" className='token yo-soy'></img>&nbsp;
+            </span>}
+          {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
+          &nbsp;&nbsp;{addressValue === "" ? <div>
+
+            <span>Input
+              <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> Addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
+                <div
+                  className="smallLoader"
+                  style={{ display: "inline-block" }}
+                ></div>&nbsp;&nbsp;</span>
+          }
+          {prizesWon > 0 && !popup && (<div>
+            <span className="hidden-mobile">&nbsp;&nbsp;&nbsp;&nbsp;
+              <span className="numb-purp">{prizesWon}</span>
+              WINS&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span className="hidden-mobile">&nbsp;&nbsp;<img src='./images/usdc.png' className='token' />&nbsp;
+              <span className="numb-purp">{separator(totalPrizeValue)}</span> WON</span>&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-
-          </p>
-        </header>
-        {
-          /* wins.length > 0 && */
-          <div className="card-content">
-            <div className="table-wrapper has-mobile-cards">
-              <table className="padded is-stripped table is-hoverable no-bottom">
-                <thead style={{ backgroundColor: "#efefef" }}><th><Deposits />
-
-                 
-                </th></thead>
-              </table>
-              <table className="padded is-stripped table is-hoverable">
-                <thead>
-
-
-                  {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>No wins yet, friend.</th></tr>}
-                  {prizesWon > 0 && (<tr>
-                    <th>Prize Wins&nbsp;&nbsp;</th>
-                    <th>Draw</th>
-                    <th style={{ textAlign: "right" }} className="hidden-mobile">Network</th>
-                  </tr>)}
-                </thead>
-                <tbody>
-                  {prizesWon > 0 &&
-                    wins.map((item) => (
-                      <tr>
-                        <td>
-                          <div className="addressText">
-                            <img src="./images/usdc.png" className="token no-left" />
-                            {prizeValue(item.win)}&nbsp;&nbsp;{item.claimed &&
-                              // <img
-                              //       src="./images/bank.png"
-                              //       className="emoji"
-                              //       alt="Claimed"
-                              //     />
-                              <span className="stamp">claimed</span>
-                            }
-
-                            {!item.claimed && <span><div
-                              className="inlineDiv"
-                              onClick={() => {
-                                openClaim();
-                              }}
-                            >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
-                            {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
-                          </div>
-                        </td>
-                        <td>
-                          <div>
-                            <div className="show-mobile">
-                              <img
-                                src={"./images/" + item.network.toLowerCase() + ".png"}
-                                className="emoji"
-                                alt={item.network}
-                              />
-                              &nbsp;&nbsp;
-                            </div>
-                            {item.draw}</div></td>
-
-                        <td className="hidden-mobile" style={{ textAlign: "right" }}>
-                          {" "}
-                          <div className="addressText">
+          </div>)}
+          {xp > 0 ? (
+            <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>) :
+            ""}
+        </p>
+      </header>
+      {
+        /* wins.length > 0 && */
+        <div className="card-content">
+          <div className="table-wrapper has-mobile-cards">
+            <table className="padded is-stripped table is-hoverable no-bottom">
+              <thead style={{ backgroundColor: "#efefef" }}><th>
+              {addressValue === "" ? <span><img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></span> : ""} 
+                <Deposits />
 
 
-                            {item.network} &nbsp;
+              </th></thead>
+            </table>
+            <table className="padded is-stripped table is-hoverable">
+              <thead>
+
+
+                {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>No wins yet, friend.<br/><img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></th></tr>}
+                {prizesWon > 0 && (<tr>
+                  <th>Prize Wins&nbsp;&nbsp;</th>
+                  <th>Draw</th>
+                  <th style={{ textAlign: "right" }} className="hidden-mobile">Network</th>
+                </tr>)}
+              </thead>
+              <tbody>
+                {prizesWon > 0 &&
+                  wins.map((item) => (
+                    <tr>
+                      <td>
+                        <div className="addressText">
+                          <img src="./images/usdc.png" className="token no-left" />
+                          {prizeValue(item.win)}&nbsp;&nbsp;{item.claimed &&
+                            // <img
+                            //       src="./images/bank.png"
+                            //       className="emoji"
+                            //       alt="Claimed"
+                            //     />
+                            <span className="stamp">claimed</span>
+                          }
+
+                          {!item.claimed && <span><div
+                            className="inlineDiv"
+                            onClick={() => {
+                              openClaim();
+                            }}
+                          >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
+                          {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <div className="show-mobile">
                             <img
                               src={"./images/" + item.network.toLowerCase() + ".png"}
                               className="emoji"
                               alt={item.network}
                             />
+                            &nbsp;&nbsp;
                           </div>
-                        </td>
+                          {item.draw}</div></td>
+
+                      <td className="hidden-mobile" style={{ textAlign: "right" }}>
+                        {" "}
+                        <div className="addressText">
 
 
-                      </tr>))}
-                </tbody>
-              </table>
-            </div>
-          </div>}
-      </div>
-      <Modal
-        isOpen={isModalOpen}
+                          {item.network} &nbsp;
+                          <img
+                            src={"./images/" + item.network.toLowerCase() + ".png"}
+                            className="emoji"
+                            alt={item.network}
+                          />
+                        </div>
+                      </td>
 
-        style={{
-          overlay: {
-            position: "fixed",
 
-            margin: "auto",
-            top: "10%",
-            borderRadius: 10,
-            width: 400,
-            height: 300,
-            backgroundColor: "purple",
-            color: "black",
-          },
-        }}><center>
-          <div className="closeModal close" onClick={() => closeModal()}></div>
-          {modalFocus === "claim" && <div>
+                    </tr>))}
+              </tbody>
+            </table>
+          </div>
+        </div>}
+    </div>
+    <Modal
+      isOpen={isModalOpen}
 
-            {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
+      style={{
+        overlay: {
+          position: "fixed",
+          margin: "auto",
+          top: "10%",
+          borderRadius: 10,
+          width: 400,
+          height: 300,
+          backgroundColor: "purple",
+          color: "black",
+        },
+        content: { inset: "34px" }
+      }}><center>
+        <div className="closeModal close" onClick={() => closeModal()}></div>
+        {modalFocus === "claim" && <div>
 
-              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? <><br></br>Switch networks, no prizes</> : <>
-                <img src="../images/trophy.png" className="emoji" />
-                {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length}</>} to claim on
+          {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
 
-              <img
-                src={"./images/" + chain.name.toLowerCase() + ".png"}
-                className="emoji"
-                alt={chain.name}
-              /><br></br></div>}
-            {!isConnected && "Please connect wallet to claim"}
-            {isConnected && <div>
-              <br></br>
-              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "" :
-                <button onClick={() => claimPrizes()} className="myButton purple-hover">
-                  {claimLoading && "CLAIMING..."}
-                  {claimIdle && "CLAIM"}
-                  {isClaimError && "CLAIM ERROR, TRY AGAIN"}
-                  {waitSuccess && "CLAIMED"}
-                </button>}
+            {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? <><br></br>Switch networks, no prizes</> : <>
+              <img src="../images/trophy.png" className="emoji" />
+              {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length}</>} to claim on
 
-            </div>}
-
+            <img
+              src={"./images/" + chain.name.toLowerCase() + ".png"}
+              className="emoji"
+              alt={chain.name}
+            /><br></br></div>}
+          {!isConnected && "Please connect wallet to claim"}
+          {isConnected && <div>
             <br></br>
+            {filterClaimsNetworkAndExpiry(claimable, chain.name, currentDrawId).length === 0 ? "" :
+              <button onClick={() => claimPrizes()} className="myButton purple-hover">
+                {claimLoading && "CLAIMING..."}
+                {claimIdle && "CLAIM"}
+                {isClaimError && "CLAIM ERROR, TRY AGAIN"}
+                {waitSuccess && "CLAIMED"}
+              </button>}
+
           </div>}
 
-          {modalFocus === "wallet" && <div>
-            <div className="closeModal close" onClick={() => closeModal()}></div>
-            {!isConnected && "Please connect wallet"}
+          <br></br>
+        </div>}
 
-            {isConnected && <> DEPOSIT on
-              <img
-                src={"./images/" + chain.name.toLowerCase() + ".png"}
-                className="emoji"
-                alt={chain.name}
-              /> {chain.name}<br></br><br></br>
+        {modalFocus === "wallet" && <div>
+          <div className="closeModal close" onClick={() => closeModal()}></div>
+          {!isConnected && "Please connect wallet"}
 
-              {allowances.polygon !== undefined && <div className="amount-container">
-                <table><tr><td>
-                  <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;</td>
-                  <td style={{ textAlign: "right" }}>
+          {isConnected && <> DEPOSIT on
+            <img
+              src={"./images/" + chain.name.toLowerCase() + ".png"}
+              className="emoji"
+              alt={chain.name}
+            /> {chain.name}<br></br><br></br>
 
-                    <span className="wallet-message">
-                      {walletMessage !== "" && walletMessage}
-                    </span></td>
+            {allowances.polygon !== undefined && <div className="amount-container">
+              <table><tr><td>
+                <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;</td>
+                <td style={{ textAlign: "right" }}>
 
-                </tr>
-                  <tr><td colSpan={2}>
-                    <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => { setWalletMessage(""); setInputAmount(e.target.value) }}  ></input>
+                  <span className="wallet-message">
+                    {walletMessage !== "" && walletMessage}
+                  </span></td>
+
+              </tr>
+                <tr><td colSpan={2}>
+                  <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => { setWalletMessage(""); setInputAmount(e.target.value) }}  ></input>
 
 
+                </td></tr>
+
+                <tr>
+                  <td colSpan={2} style={{ textAlign: "right" }}>
+
+                    <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
+                      {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >&nbsp;MAX</span>}</span>
                   </td></tr>
 
-                  <tr>
-                    <td></td>
-                    <td style={{ textAlign: "right" }}>
+              </table></div>}
 
-                      <span className="small-balance">Balance {walletBalance(usdcBalances, chain.name)}
-                        {walletBalance(usdcBalances, chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(walletBalance(usdcBalances, chain.name))} >&nbsp;MAX</span>}</span>
-                    </td></tr>
 
-                </table></div>} 
-       
-
-              {parseFloat(allowances[chain.name.toLowerCase()]) / 1e6  >= parseFloat(inputAmount) ?
+            {parseFloat(allowances[chain.name.toLowerCase()]) / 1e6 >= parseFloat(inputAmount) && parseFloat(allowances[chain.name.toLowerCase()]) !== 0 ?
               <button onClick={() => depositTo()} className="myButton purple-hover">
-                 {depositLoading && "DEPOSITING..."}
+                {/* {depositLoading && "DEPOSITING..."}
                   {depositIdle && "DEPOSIT"}
                   {isDepositError && "DEPOSIT ERROR, TRY AGAIN"}
-                  {depositSuccess && "DEPOSIT SUCCESSFUL"}
-                </button>
-            : <button onClick={() => approve()} className="myButton purple-hover">
-              {approveLoading && "APPROVING..."}
+                  {depositWaitSuccess && "DEPOSIT SUCCESSFUL"} */}
+                DEPOSIT
+              </button>
+              : <button onClick={() => approve()} className="myButton purple-hover">
+                {/* {approveLoading && "APPROVING..."}
                   {approveIdle && "APPROVE"}
                   {isApproveError && "APPROVE ERROR, TRY AGAIN"}
-                  {approveSuccess && "APPROVE SUCCESSFUL"}
-            </button>
+                  {approveSuccess && "APPROVE SUCCESSFUL"} */}
+                APPROVE
+              </button>
             }
-            
-             </>}
-            <br></br>
-          </div>}
 
-        </center>
-      </Modal>
-    </div>
+          </>}
+          <br></br>
+        </div>}
 
-  )
+        {modalFocus === "withdrawWallet" && <div>
+          <div className="closeModal close" onClick={() => closeModal()}></div>
+          {!isConnected && "Please connect wallet"}
+
+          {isConnected && <> WITHDRAW on
+            <img
+              src={"./images/" + chain.name.toLowerCase() + ".png"}
+              className="emoji"
+              alt={chain.name}
+            /> {chain.name}<br></br><br></br>
+
+            {/* {balances.polygon !== undefined &&  */}
+            <div className="amount-container">
+              <table><tr><td>
+                <img src="./images/ptausdc.png" className="icon" alt="USDC" /> PTaUSDC &nbsp;</td>
+                <td style={{ textAlign: "right" }}>
+
+                  <span className="wallet-message">
+                    {walletMessage !== "" && walletMessage}
+                  </span></td>
+
+              </tr>
+                <tr><td colSpan={2}>
+                  <input type="text" className="amount-input" value={inputAmount} ref={amountInput} onChange={e => { setWalletMessage(""); setInputAmount(e.target.value) }}  ></input>
+
+                </td></tr>
+                <tr>
+                  <td  colSpan={2} style={{ textAlign: "right" }}>
+
+                    <span className="small-balance">Balance {ticketBalance(balances,chain.name)}
+                      {ticketBalance(balances,chain.name) > 0 && <span className="max-balance" onClick={e => setInputAmount(ticketBalance(balances,chain.name))} >&nbsp;MAX</span>}</span>
+                  </td></tr>
+
+              </table></div>
+              {/* } */}
+
+            <button onClick={() => withdrawFrom()} className="myButton purple-hover">
+
+              WITHDRAW
+            </button>
+
+          </>}
+          <br></br>
+        </div>}
+
+      </center>
+    </Modal>
+  </div>
+
+)
 }
 export default Poolers;
