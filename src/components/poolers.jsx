@@ -363,6 +363,8 @@ function Poolers() {
   const { isLoading: waitLoading, isSuccess: waitSuccess } = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
+      toast("Claim success!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
       console.log('Success waiting over', data)
     },
   })
@@ -426,9 +428,10 @@ function Poolers() {
       let claimParams = processClaimParameters(poolerAddress, claimable, chain.name, currentDrawId)
       
       claimWrite({ recklesslySetUnpreparedArgs: [claimParams.address, claimParams.drawIds, claimParams.winningPicks] })
-     
+      toast("Claiming!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
       console.log(claimError)
-    } catch (error) { console.log(error) }
+    } catch (error) {toast("Claim error"); console.log(error) }
   }
 
   // if (address && address !== addressValue) { if (!poolerAddress) 
@@ -514,6 +517,8 @@ if(params!==null){
   const approve = () => {
     try {
       approveWrite()
+      toast("Approving!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
     } catch (error) { setWalletMessage("error"); console.log(error) }
   }
   const depositTo = () => {
@@ -527,6 +532,9 @@ if(params!==null){
         // const depositAmount = ethers.utils.parseUnits(inputAmount.toString(), 6).toString()
         //{ recklesslySetUnpreparedArgs: [address, depositAmount, address] }
         depositWrite()
+        toast("Depositing!", {
+          position: toast.POSITION.BOTTOM_RIGHT})
+
 
         console.log(depositError)
       }
