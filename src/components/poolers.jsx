@@ -21,7 +21,8 @@ import {
   useSigner,
 } from "wagmi";
 
-
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import {
   PolygonTicketContract,
   EthereumTicketContract,
@@ -272,8 +273,8 @@ function Poolers() {
   const [addressValue, setAddressValue] = useState("");
   const [balances, setBalances] = useState([null]);
   const [gotSome, setGotSome] = useState(false);
-  const [totalBalance, setTotalBalance] = useState(0);
-  const [boostBalance, setBoostedBalance] = useState(0);
+  // const [totalBalance, setTotalBalance] = useState(0);
+  // const [boostBalance, setBoostedBalance] = useState(0);
   const [popup, setPopup] = useState(Boolean);
   const [xp, setXp] = useState(0);
   const [claimable, setClaimable] = useState([])
@@ -378,6 +379,8 @@ function Poolers() {
   const { isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } = useWaitForTransaction({
     hash: approveData?.hash,
     onSuccess(data) {
+      toast("Approve success!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
       console.log('Approve success waiting over', data)
     },
   })
@@ -385,6 +388,8 @@ function Poolers() {
   const { isLoading: withdrawWaitLoading, isSuccess: withdrawWaitSuccess } = useWaitForTransaction({
     hash: withdrawData?.hash,
     onSuccess(data) {
+      toast("Withdraw success!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
       closeModal()
       console.log('Withdraw success waiting over', data)
     },
@@ -394,6 +399,8 @@ function Poolers() {
     hash: depositData?.hash,
     onSuccess(data) {
       closeModal()
+      toast("Deposit success!", {
+        position: toast.POSITION.BOTTOM_RIGHT})
       console.log('Deposit success waiting over', data)
     },
   })
@@ -511,7 +518,7 @@ if(params!==null){
   }
   const depositTo = () => {
     try {
-      if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name)) { setWalletMessage("insufficient balance") }
+      if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name) || parseFloat(inputAmount) < 2) { setWalletMessage("insufficient balance") }
       else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
         setWalletMessage("amount invalid")
       }
@@ -696,11 +703,11 @@ return (
           <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
           {address !== undefined && addressValue == "" && 
           <span onClick={() => {setPoolerToWallet()}}>
-            <img src="./images/yosoypooler.png" className='token yo-soy'></img>&nbsp;
+            <img src="./images/user.svg" className='yo-soy'></img>&nbsp;
             </span>}
             {addressValue!==address && addressValue !== "" && address !== undefined && 
           <span onClick={() => {setPoolerToWallet()}}>
-            <img src="./images/yosoypooler.png" className='token yo-soy'></img>&nbsp;
+            <img src="./images/user.svg" className='yo-soy'></img>&nbsp;
             </span>}
           {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
           &nbsp;&nbsp;{addressValue === "" ? <div>
@@ -742,7 +749,9 @@ return (
               <thead>
 
 
-                {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>No wins yet, friend.<br/><img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></th></tr>}
+                {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>
+                  {/* No wins yet, friend.<br/> */}
+                  <img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></th></tr>}
                 {prizesWon > 0 && (<tr>
                   <th>Prize Wins&nbsp;&nbsp;</th>
                   <th>Draw</th>
@@ -958,6 +967,8 @@ return (
 
       </center>
     </Modal>
+    <ToastContainer />
+
   </div>
 
 )

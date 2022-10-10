@@ -391,6 +391,7 @@ width:500px;    }
 }
 .yo-soy{
   cursor: pointer;
+  padding-left:10px;
 }
 .open-wallet{
 cursor: pointer;}
