@@ -550,7 +550,9 @@ if(params!==null){
   const withdrawFrom = () => {
     try {
       let withdrawBalance = 0
-      if(balances[chain.name.toLowerCase()]!==undefined){withdrawBalance = parseFloat(balances[chain.name.toLowerCase()]) / 1e6}
+      console.log("withdraw balance",balances[0][chain.name.toLowerCase()])
+      if(balances[0][chain.name.toLowerCase()] === undefined){}else{withdrawBalance = parseFloat(balances[0][chain.name.toLowerCase()])
+    console.log("set to ",withdrawBalance)}
       if (parseFloat(inputAmount) > withdrawBalance) { setWalletMessage("insufficient balance") }
       else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
         setWalletMessage("amount invalid")
