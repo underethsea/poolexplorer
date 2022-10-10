@@ -331,19 +331,25 @@ function Poolers() {
     signerOrProvider: signer.data,
     functionName: 'claim'
   };
+  const isInvalidInputAmt = (amt) => {
+    const inputAmt = Number(amt);
+    return Number.isNaN(inputAmt) || inputAmt <= 0;
+  };
+  const amountFormatForSend = (amt) => {
+    if( parseFloat(amt) > 0){ 
+    return ethers.utils.parseUnits(amt.toString(),6).toString()}
+    else {return "0"}}
 
-  const amountFormatForSend =  ethers.utils.parseUnits(inputAmount.toString(),6).toString()
   const { config: withdrawConfig, error: withdrawConfigError, isError: isWithdrawConfigError } = usePrepareContractWrite({
-    args: [address,amountFormatForSend],
+    args: [address,amountFormatForSend(inputAmount)],
     addressOrName: prizePoolAddress,
     contractInterface: prizePoolAbi,
     functionName: 'withdrawFrom',
     overrides: {
       gasLimit: 625000,
-    },
-  })
+    },  })
   const { config: depositConfig, error: depositConfigError, isError: isDepositConfigError } = usePrepareContractWrite({
-    args: [address,amountFormatForSend,address],
+    args: [address,amountFormatForSend(inputAmount),address],
     addressOrName: prizePoolAddress,
     contractInterface: prizePoolAbi,
     functionName: 'depositToAndDelegate',
@@ -543,7 +549,9 @@ if(params!==null){
 
   const withdrawFrom = () => {
     try {
-      if (parseFloat(inputAmount) > parseFloat(balances[chain.name.toLowerCase()]) / 1e6) { setWalletMessage("insufficient balance") }
+      let withdrawBalance = 0
+      if(balances[chain.name.toLowerCase()]!==undefined){withdrawBalance = parseFloat(balances[chain.name.toLowerCase()]) / 1e6}
+      if (parseFloat(inputAmount) > withdrawBalance) { setWalletMessage("insufficient balance") }
       else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
         setWalletMessage("amount invalid")
       }
