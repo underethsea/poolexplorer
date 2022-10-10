@@ -703,11 +703,11 @@ return (
           <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
           {address !== undefined && addressValue == "" && 
           <span onClick={() => {setPoolerToWallet()}}>
-            <img src="./images/user.svg" className='yo-soy'></img>&nbsp;
+            <img src="./images/wallet.svg" className='yo-soy'></img>&nbsp;
             </span>}
             {addressValue!==address && addressValue !== "" && address !== undefined && 
           <span onClick={() => {setPoolerToWallet()}}>
-            <img src="./images/user.svg" className='yo-soy'></img>&nbsp;
+            <img src="./images/wallet.svg" className='yo-soy'></img>&nbsp;
             </span>}
           {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
           &nbsp;&nbsp;{addressValue === "" ? <div>
