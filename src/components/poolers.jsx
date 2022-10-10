@@ -529,7 +529,8 @@ if(params!==null){
   }
   const depositTo = () => {
     try {
-      if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name) || parseFloat(inputAmount) < 2) { setWalletMessage("insufficient balance") }
+      if (parseFloat(inputAmount) > walletBalance(usdcBalances, chain.name)) { setWalletMessage("insufficient balance") }
+      else if(parseFloat(inputAmount) < 2) {setWalletMessage("2 usdc minimum")}
       else if (parseFloat(inputAmount) <= 0 || Number(inputAmount) != inputAmount) {
         setWalletMessage("amount invalid")
       }
