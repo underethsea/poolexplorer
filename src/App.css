@@ -209,9 +209,14 @@ body {
   }}
   @media only screen and (max-width: 900px) {
     .wallet-div {
-      right: 65px
+      right: 65px;
     }}
  
+    @media only screen and (max-width: 500px) {
+      .top-bar-span {
+        font-size: 11px;
+      }}
+    
 @media only screen and (max-width: 600px) {
   .protocol table {
     
@@ -308,6 +313,26 @@ body {
   mix-blend-mode: multiply;
 }
 
+
+.actionButton {
+  transform: rotate(0deg);
+	color: #800080;
+	font-size: 14px;
+	font-weight: 700;
+	border: 2px solid #800080;
+	display: inline-block;
+	padding: 2px 4px;
+	text-transform: uppercase;
+	border-radius: 1rem;
+	font-family: 'Courier';
+	 /* -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
+  -webkit-mask-size: 944px 604px; */
+  mix-blend-mode: multiply;
+}
+.actionButton:hover {
+  background-color: #b8f8f266
+}
+
 .expired-stamp {
   color: rgb(147, 131, 131)!important;
   border-color:rgb(107, 103, 103)
@@ -393,6 +418,10 @@ width:500px;    }
   cursor: pointer;
   padding-left:10px;
   width:36px;
+
+}
+.yo-soy:hover {
+  fill: #1fb0cd;
 }
 .open-wallet{
 cursor: pointer;}
@@ -404,6 +433,8 @@ cursor: pointer;}
   font-size:10px;
   color: red;
 }
+
+.yosoy {width:75px;}
 .amount-input {text-align:right; width: 236px;}
 .amount-container {border:none;border-color:#806d99;border-radius:3px;
   padding:8px;margin-left:15px;margin-right:15px;

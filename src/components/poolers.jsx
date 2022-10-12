@@ -164,7 +164,7 @@ async function getBalances(address, timestamp) {
       avalancheTwab: usdcValue(avaxTwab),
       optimismTwab: usdcValue(opTwab)
     }
-    // console.log(balances)
+    console.log("balances ",balances)
     let balanceArray = [balances]
     return balanceArray
   } catch (error) { console.log("error fetching balances"); return [null] }
@@ -267,10 +267,11 @@ function Poolers() {
   })
 
   const [poolerAddress, setPoolerAddress] = useState("")
+  const [addressValue, setAddressValue] = useState("");
+
   const [wins, setWins] = useState([]);
   const [prizesWon, setPrizesWon] = useState(0);
   const [totalPrizeValue, setTotalPrizeValue] = useState(0);
-  const [addressValue, setAddressValue] = useState("");
   const [balances, setBalances] = useState([null]);
   const [gotSome, setGotSome] = useState(false);
   // const [totalBalance, setTotalBalance] = useState(0);
@@ -288,8 +289,8 @@ function Poolers() {
   const [validAddress, setValidAddress] = useState(true)
   const [prizePoolAddress, setPrizePoolAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
   const [usdcAddress, setUsdcAddress] = useState("0x79Bc8bD53244bC8a9C8c27509a2d573650A83373")
-
-  const [walletMessage, setWalletMessage] = useState("")
+const [updateWallet, setUpdateWallet] = useState(0)
+  const [walletMessage, setWalletMessage] = useState("") // lousy bug-fix for setPoolerToWallet not getting poolerAddress useEffect to trigger
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
       inputElement.focus();
@@ -323,7 +324,7 @@ function Poolers() {
     setIsModalOpen(false);
   }
   // console.log(prizeDistributor)
-  // console.log(balances)
+  console.log(balances)
   // console.log(address)
   console.log(allowances)
   const contractConfig = {
@@ -451,7 +452,9 @@ function Poolers() {
       return (<div>
         {balances.map(
           (object) => (<span>
-            {/* <div className="div-relative"> */} {object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && (
+            {/* <div className="div-relative"> */}                
+             {object.polygon + object.ethereum + object.optimism + object.avalanche == 0 && addressValue == address && <span>Save to win&nbsp;&nbsp;&nbsp;</span>}
+{object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && (
 
               <span>TICKETS &nbsp;&nbsp;&nbsp;&nbsp;</span>)}
 
@@ -467,11 +470,13 @@ function Poolers() {
               <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;{separator(object.avalanche)}&nbsp;&nbsp;&nbsp;</span>)}
             {addressValue == address && <span>
               <span className="open-wallet" onClick={() => {openWallet();}}> 
-              <span className="claimStamp blue-hover">DEPOSIT</span> </span>
+              <span className="actionButton">DEPOSIT</span> </span>
               {object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && 
               
               <span className="open-wallet" onClick={() => {openWalletWithdraw();}}> 
-              <span className="claimStamp blue-hover">WITHDRAW</span></span>}
+              <span className="actionButton">WITHDRAW</span></span>}
+
+
               {/* &nbsp;<span className="wallet-message">*beta*</span> */}
               </span>
             
@@ -655,7 +660,7 @@ async function getPlayer() {
   setBalances([])
   setWins([])
   const currentTimestamp = parseInt(Date.now() / 1000);
-
+console.log("getting player ",poolerAddress)
   let poolerBalances = await getBalances(poolerAddress, currentTimestamp)
   setBalances(poolerBalances)
 
@@ -691,14 +696,17 @@ useEffect(() => {
 // if(isConnected && poolerAddress === "") {setPrizesWon(0); setBalances([]);setPoolerAddress(address);setAddressValue(address)}
 
 },[isConnected])
+
 const setPoolerToWallet = () => {
-  // setPrizesWon(0); setBalances([]);setAddressValue(address);setPoolerAddress(address);
-  setAddressValue(address)
-  // console.log(selectedOption.target.value)
+  console.log("setting poooler to wallet")
   try {
+    setAddressValue(address)
+
     if (isValidAddress(address)) {
       setPoolerAddress(address);
-      console.log("set to wallet")
+      setUpdateWallet(updateWallet + 1)
+
+      console.log("set to wallet ",address)
       // console.log(`Address input: `, selectedOption);}
     }
 }catch(error){console.log(error)}}
@@ -707,11 +715,13 @@ useEffect(() => {
   const goGetPlayer = async () => {
     await getPlayer()
   }
+  console.log("triggered poolerAddress change")
   if (poolerAddress !== "" && isValidAddress(poolerAddress)) {
+    console.log("getting pooler")
     goGetPlayer();
   }
 
-}, [poolerAddress, waitSuccess, approveWaitSuccess, depositWaitSuccess, withdrawWaitSuccess]);
+}, [updateWallet,poolerAddress, waitSuccess, approveWaitSuccess, depositWaitSuccess, withdrawWaitSuccess]);
 
 return (
   <div className="transactions section">
@@ -722,18 +732,18 @@ return (
 
           <input name="addressInput" className="address-input" value={addressValue} onChange={handleChange} />
           {address !== undefined && addressValue == "" && 
-          <span onClick={() => {setPoolerToWallet()}}>
+          <span className="yosoy" onClick={() => {setPoolerToWallet()}}>
             <img src="./images/wallet.svg" className='yo-soy'></img>&nbsp;
             </span>}
             {addressValue!==address && addressValue !== "" && address !== undefined && 
-          <span onClick={() => {setPoolerToWallet()}}>
+          <span className="yosoy" onClick={() => {setPoolerToWallet()}}>
             <img src="./images/wallet.svg" className='yo-soy'></img>&nbsp;
             </span>}
-          {!validAddress && addressValue !== "" && <span>&nbsp;Invalid address</span>}
+          {!validAddress && addressValue !== "" && <span className="top-bar-span">&nbsp;Invalid address</span>}
           &nbsp;&nbsp;{addressValue === "" ? <div>
 
-            <span>Input
-              <span className="hidden-mobile"> Pooler's address</span><span className="show-mobile"> Addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
+            <span className="top-bar-span">Input
+              <span className="hidden-mobile top-bar-span"> Pooler's address</span><span className="show-mobile top-bar-span"> Addy</span></span></div> : ""}{popup && <span>&nbsp;&nbsp;
                 <div
                   className="smallLoader"
                   style={{ display: "inline-block" }}
@@ -748,6 +758,8 @@ return (
 
 
           </div>)}
+          {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <span className="top-bar-span">&nbsp;
+    No wins yet, friend.</span>}
           {xp > 0 ? (
             <span><span className="numb-purp"> {separator(xp)}</span> <span className="hidden-mobile">DRAWS</span> XP</span>) :
             ""}
@@ -759,7 +771,7 @@ return (
           <div className="table-wrapper has-mobile-cards">
             <table className="padded is-stripped table is-hoverable no-bottom">
               <thead style={{ backgroundColor: "#efefef" }}><th>
-              {addressValue === "" ? <span><img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></span> : ""} 
+              
                 <Deposits />
 
 
@@ -767,11 +779,15 @@ return (
             </table>
             <table className="padded is-stripped table is-hoverable">
               <thead>
+                {/* https://i.ibb.co/0Jgj6DL/pooly44.png */}
+              {addressValue === "" ? <tr><td><img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""} 
+
+{prizesWon === 0 && !popup && addressValue !== "" && <tr><td>
+    {/* No wins yet, friend.<br/> */}
+    <img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr>}
 
 
-                {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <tr><th>
-                  {/* No wins yet, friend.<br/> */}
-                  <img src="https://i.ibb.co/0Jgj6DL/pooly44.png" className="cool-pooly" /></th></tr>}
+               
                 {prizesWon > 0 && (<tr>
                   <th>Prize Wins&nbsp;&nbsp;</th>
                   <th>Draw</th>
