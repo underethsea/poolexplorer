@@ -206,7 +206,7 @@ body {
 
 .wallet-div{z-index:1;}
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1195px) {
   .wallet-div {
     right: 400px
   }}
