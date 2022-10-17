@@ -546,7 +546,7 @@ function UsdcWinners() {
                       parseFloat(
                         (cumulativeClaimable / cumulativeAverageBalance) *
                         averageBalanceTimeAnnualized
-                      ).toFixed()
+                      ).toFixed(2)
                     )}
                     %
                   </td>
