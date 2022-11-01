@@ -168,12 +168,13 @@ function Protocol() {
                     <tr><td><span className="table-text"><img src="./images/avalanche.png" className="icon child child1" alt="Avalanche" />&nbsp;
                         Avalanche </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.AVALANCHE.dayYield.toFixed(0))}</span></td></tr>
                     <tr><td><span className="table-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL PER DAY </span></td><td style={{ textAlign: "right" }}><span className="table-text"> <img src='./images/usdcToken.svg' className='token-icon' /> {separator(prizeGen.TOTAL.toFixed(0))}</span></td></tr>
-                    <tr><td><span className="table-text">
+{/* <tr><td><span className="table-text"> /*}
                         {/* <img src="./images/optimism.png" className="icon child child1" alt="Optimism" />&nbsp;
                     Optimism */}
-                    </span></td><td style={{ textAlign: "right" }}><span className="table-text">+ <img src='./images/optimism.png' className='icon' /> {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span>&nbsp;</td></tr>
+{/*</span></td><td style={{ textAlign: "right" }}><span className="table-text">+ <img src='./images/optimism.png' className='icon' /> {separator(prizeGen.OPTIMISM.rewardsPerDay.toFixed(0))}</span>&nbsp;</td></tr>
+*/}
 
-                </tbody>
+</tbody>
 
             </table>
 
