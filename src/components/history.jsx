@@ -13,7 +13,6 @@ function separator(numb) {
   return str.join(".");
 }
 
-
 var textArray = [
   "Searching for prizes. Lots AND lots of prizes...",
   "How many prizes can there be?!? Give me a minute, still looking... ",
@@ -25,13 +24,11 @@ var textArray = [
 // maintenance mode
 // textArray = [ "Pooly is migrating, sorry for the inconvenience, please check back later"]
 
-
-const explorerURL = "https://poolexplorer.xyz"
+const explorerURL = "https://poolexplorer.xyz";
 function modalText() {
   var randomNumber = Math.floor(Math.random() * textArray.length);
   return textArray[randomNumber];
 }
-
 
 const emoji = (amount) => {
   let emojiIcon = "";
@@ -54,7 +51,6 @@ const emoji = (amount) => {
   return emojiIcon;
 };
 
-
 Modal.setAppElement("#root");
 function TotalHistory() {
   // const currentTimestamp = parseInt(Date.now() / 1000);
@@ -68,32 +64,31 @@ function TotalHistory() {
   const [unique, setUnique] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   useEffect(() => {
     const load = async () => {
       setPopup(true);
 
-      try{
-      let currentDrawFetch = await fetch(explorerURL + "/history")
-      let currentDrawResult = await currentDrawFetch.json()
-       currentDrawResult.reverse();
+      try {
+        let currentDrawFetch = await fetch(explorerURL + "/history");
+        let currentDrawResult = await currentDrawFetch.json();
+        currentDrawResult.reverse();
         setTransactions(currentDrawResult);
-        
-    
-setPopup(false);
+
+        setPopup(false);
       } catch (e) {
         console.log("fetch error i ", e);
         setUnique("api error");
       }
-    }
-  load()},[])
+    };
+    load();
+  }, []);
 
   let depositors = transactions.length;
   let totals = 0;
   let balance = 0;
   let twabTotal = 0;
-  let winnas = 0
-  let usdctotalcount = 0
+  let winnas = 0;
+  let usdctotalcount = 0;
   transactions.forEach((item) => {
     balance = item.p;
     winnas += item.w;
@@ -103,7 +98,7 @@ setPopup(false);
   });
   let winners = winnas;
   let total = totals;
-  let usdctotal = usdctotalcount
+  let usdctotal = usdctotalcount;
   return (
     <div className="transactions section">
       {/* <button onClick={() => setDraw(58)}>Draw 58</button><button onClick={() => setDraw(59)}>Draw 59</button><button onClick={() => setDraw(60)}>Draw 60</button> */}
@@ -133,16 +128,15 @@ setPopup(false);
             &nbsp;
             {/* <span className="numb-purp"> {separator(depositors)}</span> PRIZES */}
             <span className="hidden-mobile">
-            <img src="./images/poolor.png" className="token" />
-
-            <span className="numb-purp">{separator(winners)}</span> TOTAL WINS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="./images/prize.png" className="token" />
-
-            <span className="numb-purp">{separator(total)}</span> TOTAL PRIZES WON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="./images/poolor.png" className="token" />
+              <span className="numb-purp">{separator(winners)}</span> TOTAL
+              WINS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="./images/prize.png" className="token" />
+              <span className="numb-purp">{separator(total)}</span> TOTAL PRIZES
+              WON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <img src="./images/usdc.png" className="token" />
             <span className="numb-purp">{separator(usdctotal)}</span> TOTAL USDC
-
           </p>
         </header>
         <div className="card-content">
@@ -154,11 +148,13 @@ setPopup(false);
                                 <th>Time</th> */}
                   <th>Draw</th>
                   <th className="hidden-mobile">Winning Poolers</th>
-                  <th>Prizes            <span className="hidden-mobile">
- Claimable</span></th>
+                  <th>
+                    Prizes <span className="hidden-mobile">Claimable</span>
+                  </th>
 
-                  <th  style={{ textAlign: "right" }}>USDC <span className="hidden-mobile">
- Claimable</span></th>
+                  <th style={{ textAlign: "right" }}>
+                    USDC <span className="hidden-mobile">Claimable</span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -168,30 +164,35 @@ setPopup(false);
                     <td>
                       {" "}
                       {/* <div className="addressText"> */}
-                        {/* {item.n === "1" && ( */}
-                          <span>
-                            <div
-                              className="inlineDiv"
-                            //   onClick={() => {
-                            //     openModal(item.a, item.n);
-                            //   }}
-                            >
-                              {/* <img
+                      {/* {item.n === "1" && ( */}
+                      <span>
+                        <div
+                          className="inlineDiv"
+                          //   onClick={() => {
+                          //     openModal(item.a, item.n);
+                          //   }}
+                        >
+                          {/* <img
                                 src="./images/ethereum.png"
                                 className="emoji"
                                 alt="Ethereum"
                               /> */}
-                              &nbsp;&nbsp;
-                              {item.i} 
-                            </div>
-                          </span>
-                          {/* </div> */}
-                          </td>
-                  
-                      <td>{item.w}</td><td className="hidden-mobile">
-                      {item.p} 
-                    </td><td  style={{ textAlign: "right" }}><div title={"Dropped:"+ item.d}>{separator(item.c)}<img src="./images/usdc.png" className="emoji" />
-                    <span  className="hidden-mobile">&nbsp;&nbsp; </span></div></td>
+                          &nbsp;&nbsp;
+                          {item.i}
+                        </div>
+                      </span>
+                      {/* </div> */}
+                    </td>
+
+                    <td>{item.w}</td>
+                    <td className="hidden-mobile">{item.p}</td>
+                    <td style={{ textAlign: "right" }}>
+                      <div title={"Dropped:" + item.d}>
+                        {separator(item.c)}
+                        <img src="./images/usdc.png" className="emoji" />
+                        <span className="hidden-mobile">&nbsp;&nbsp; </span>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -199,10 +200,7 @@ setPopup(false);
           </div>
         </div>
       </div>
-      </div>
-      );
-    }
-    export default TotalHistory;
-   
-
-
+    </div>
+  );
+}
+export default TotalHistory;
