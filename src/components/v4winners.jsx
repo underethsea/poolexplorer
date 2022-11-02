@@ -373,7 +373,7 @@ function UsdcWinners() {
                         
                       </div> {item.w / (item.b / 1e14) > 300 ? "" : ""}
                     </td>
-                    <td style={{ textAlign: "right" }}>
+                    <td style={{ textAlign: "right"}}>
                       
                   
                       {separator(parseInt(item.w))}&nbsp;
