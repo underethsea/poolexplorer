@@ -16,7 +16,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
 import '@rainbow-me/rainbowkit/dist/index.css';
 
@@ -76,114 +76,101 @@ function App() {
     connectors,
     provider
   })
-
   return (
-
     <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider chains={chains}  modalSize="compact" >
+      <RainbowKitProvider chains={chains} modalSize="compact">
+        <Router>
+          <Navbar collapseOnSelect expand="lg">
+            <Container fluid>
+              <Navbar.Brand href="#home" className="navBarBrand">
+                <img
+                  src="./images/poolerson.png"
+                  width="36"
+                  height="36"
+                  alt="explore"
+                />
+                <span className="header-text hidden-mobile" />
+              </Navbar.Brand>
 
-    <Router>
-      <Navbar bg="light" expand="lg">
-        {/* <Container> */}
-        <Navbar.Brand href="#home" className="navbarbrand">
-          <img
-            src="./images/poolerson.png"
-            width="36"
-            height="36"
-            alt="explore"
-          ></img><span className="header-text hidden-mobile">
-          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</span>
-          &nbsp;&nbsp;&nbsp;<Route path="/poolers" render={() => (
-       
-   <MyConnect label="Sign in" showBalance={{
-    smallScreen: false,
-    largeScreen: true,
-  }} accountStatus={{
-    smallScreen: 'avatar',
-    largeScreen: 'full',
-  }}/>)}/>&nbsp;&nbsp;
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <Nav className="navBarBrandCollapse">
+                <Nav className="connectButtons">
+                  <Route path="/poolers" render={() => <MyConnect />} />
+                </Nav>
+                <Navbar.Toggle />
+                
+              </Nav>
+              <Navbar.Collapse className="navBarCollapse justify-content-end" style={{marginRight:"5%"}}>
+                  <NavDropdown title="EXPLORE">
+                    <NavDropdown.Item href="/usdcwinners">
+                      Winners
+                    </NavDropdown.Item>
+                    
+                    {/* {/* <NavDropdown.Item href="/usdcdeposits">USDC Deposits</NavDropdown.Item> */}
 
-            <NavDropdown title="EXPLORE" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/usdcwinners">Winners</NavDropdown.Item>
+                    <NavDropdown.Item href="/players">Players</NavDropdown.Item>
+                    <NavDropdown.Item href="/luckiest">
+                      Luckiest Winners
+                    </NavDropdown.Item>
 
-              {/* {/* <NavDropdown.Item href="/usdcdeposits">USDC Deposits</NavDropdown.Item> */}
+                    {/* <NavDropdown.Item href="/usdcclaimsv4poly">
+                    Claims Polygon
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/delegationEvents">
+                    Delegations
+                  </NavDropdown.Item> */}
+                    <NavDropdown.Item href="/totalHistory">
+                      History
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/poolers">Pooler</NavDropdown.Item>
+                    <NavDropdown.Item href="/protocol">
+                      Protocol
+                    </NavDropdown.Item>
 
-              <NavDropdown.Item href="/players">
-                Players
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/luckiest">
-                Luckiest Winners
-              </NavDropdown.Item>
+                    {/* 
+                <NavDropdown.Item href="/usdcclaims">USDC Claims</NavDropdown.Item>
+                <NavDropdown.Item href="/poolswapsquickswap">POOL Swaps Quickswap</NavDropdown.Item>
+                <NavDropdown.Item href="/poolswapsuniswap">POOL Swaps Uniswap</NavDropdown.Item> */}
 
-              {/* <NavDropdown.Item href="/usdcclaimsv4poly">
-                Claims Polygon
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/delegationEvents">
-                Delegations
-              </NavDropdown.Item> */}
-              <NavDropdown.Item href="/totalHistory">
-                History
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/poolers">
-                Pooler
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/protocol">
-                Protocol
-              </NavDropdown.Item>
+                    {/* <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
+                  </NavDropdown>
+                </Navbar.Collapse>
+            </Container>
+          </Navbar>
 
-              {/* 
-        <NavDropdown.Item href="/usdcclaims">USDC Claims</NavDropdown.Item>
-    <NavDropdown.Item href="/poolswapsquickswap">POOL Swaps Quickswap</NavDropdown.Item>
-    <NavDropdown.Item href="/poolswapsuniswap">POOL Swaps Uniswap</NavDropdown.Item> */}
+          <Switch>
+            <Route exact path="/">
+              <UsdcWinners />
+            </Route>
 
-              {/* <NavDropdown.Divider />
-          <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-        {/* </Container> */}
-      </Navbar>
-
-      <Switch>
-        <Route exact path="/">
-          <UsdcWinners />
-        </Route>
-
-        <Route exact path="/players">
-          <Players />
-        </Route>
-        {/* <Route exact path="/usdcclaimsV4poly">
+            <Route exact path="/players">
+              <Players />
+            </Route>
+            {/* <Route exact path="/usdcclaimsV4poly">
           <UsdcClaimsV4Poly />
         </Route>
         <Route exact path="/delegationEvents">
           <DelegationEvents />
         </Route> */}
-        <Route exact path="/luckiest">
-          <Luckiest />
-        </Route>
-        <Route exact path="/usdcwinners">
-          <UsdcWinners />
-        </Route>
-        
-        <Route exact path="/totalHistory">
-          <TotalHistory />
-        </Route>
-        <Route exact path="/poolers">
-          <Poolers />
-        </Route>
-        <Route exact path="/protocol">
-          <Protocol />
-        </Route>
+            <Route exact path="/luckiest">
+              <Luckiest />
+            </Route>
+            <Route exact path="/usdcwinners">
+              <UsdcWinners />
+            </Route>
 
-
-      </Switch>
-    </Router>
-    </RainbowKitProvider>
+            <Route exact path="/totalHistory">
+              <TotalHistory />
+            </Route>
+            <Route exact path="/poolers">
+              <Poolers />
+            </Route>
+            <Route exact path="/protocol">
+              <Protocol />
+            </Route>
+          </Switch>
+        </Router>
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 }

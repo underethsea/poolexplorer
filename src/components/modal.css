@@ -67,6 +67,7 @@
 
 .inlineDiv {
   display: inline-block;
+  margin-right: 300px;
   white-space: nowrap;
   color: #7939ae;
   cursor: pointer;
