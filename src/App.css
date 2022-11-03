@@ -33,9 +33,7 @@ a {
 }
 
 .wallet-div {
-  position:absolute;
-  right: 80px;
-  display: inline
+  margin-top: 2px;
 }
 
 .buy {
@@ -147,6 +145,12 @@ body {
 
 }
 
+.navBarBrandCollapse {
+  display: flex;
+  flex-direction: row;
+  padding-right: 5%;
+}
+
 .navbar-brand {
   padding-left: 50px;
   /* color: white!important; */
@@ -161,12 +165,9 @@ body {
   
 }
 .dropdown{
-  padding-left:400px;
+  padding-left: 15px;
+}
 
-}
-.dropdown-menu{
-  left:400px;
-}
 .navbar {
   background-color: #2d0b5a!important;
 }
@@ -363,8 +364,9 @@ color: #0a0a0a;
 .card-header-title{
 	padding-top:1.2rem!important;}
   .section {
-    padding:2.5rem!important;
-  }
+    display: flex;
+    justify-content: center;
+    }
   .header-text {
         font-size:30px;   
   }
@@ -385,8 +387,8 @@ color: #0a0a0a;
     }
 
 .section {
-  padding:1.5rem!important;
-}
+  display: flex;
+  justify-content: center;}
   }
 
   @media only screen and (min-width:300px) {
