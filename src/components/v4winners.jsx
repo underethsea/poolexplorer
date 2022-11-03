@@ -376,7 +376,7 @@ function UsdcWinners() {
                     <td style={{ textAlign: "right" }}>
                       
                   
-                      {separator(parseInt(item.w))}&nbsp;
+                      {item.w < 1 ? item.w.toFixed(2) : separator(parseInt(item.w))}&nbsp;
                       <img
                         src={"./images/" + emoji(item.w) + ".png"}
                         className="emoji"
