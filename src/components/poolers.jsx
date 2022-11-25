@@ -76,7 +76,7 @@ const prizePoolAbi = [
   "function withdrawFrom(address from, uint256 amount) external returns (uint256)"
 ]
 
-const prizeValue = (amount) => { let value = parseFloat(amount); value = value / 1e14; return value.toFixed(0) }
+const prizeValue = (amount) => { let value = parseFloat(amount); value = value / 1e14; if(value < 1){return value.toFixed(2)}else{return value.toFixed(0)} }
 const prizeValueFloat = (amount) => { let value = parseFloat(amount); value = value / 1e14; return value }
 const usdcValue = (amount) => { let value = parseFloat(amount); value = value / 1e6; return value }
 function separator(numb) {
