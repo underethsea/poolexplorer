@@ -111,7 +111,7 @@ async function getPooler(address) {
 // }
 function processClaimParameters(pooler, claimableWins, network, drawNum) {
   let networkFilter = claimableWins.filter(win => win.network.toLowerCase() === network.toLowerCase())
-  networkFilter = networkFilter.filter(win => win.draw >= (drawNum - 30))
+  networkFilter = networkFilter.filter(win => win.draw >= (drawNum - 58))
 
   let claimData = {
     // distributor: prizeDistributorFromChain[network.toLowerCase()],
@@ -213,7 +213,7 @@ function processWins(winsYo, claimsYo) {
 
 const filterClaimsNetworkAndExpiry = (claims, network, currentDraw) => {
   let filtered = claims.filter(win => win.network.toLowerCase() === network.toLowerCase())
-  filtered = filtered.filter(win => win.draw >= (currentDraw - 30))
+  filtered = filtered.filter(win => win.draw >= (currentDraw - 58))
   // console.log(filtered)
   return filtered
 }
@@ -680,7 +680,7 @@ console.log("getting player ",poolerAddress)
   let winResult = []
   winResult = processWins(setPooler, poolerClaims)
   const winsToFilter = winResult.result
-  let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 30) && win.claimed === false })
+  let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 58) && win.claimed === false })
   claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
   setClaimable(claimableToSet)
   setWins(winResult.result)
@@ -815,7 +815,7 @@ return (
                             onClick={() => {
                               openClaim();
                             }}
-                          >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 30) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
+                          >{item.draw !== currentDrawId && item.draw >= (currentDrawId - 58) ? <span className="claimStamp blue-hover">Claim</span> : ""}</div></span>}&nbsp;&nbsp;
                           {item.draw <= (currentDrawId - 61) && !item.claimed ? <span className="stamp expired-stamp">expired</span> : ""}
                         </div>
                       </td>
