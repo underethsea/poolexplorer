@@ -32,7 +32,10 @@ color:#f3f9fb;
 .ethbanner {
   height:20px;
 }
-
+a.bannerlink {
+  text-decoration:none;
+  color:white;
+}
 .myButton {
   left: 300px;
   /* width:30px!important; */

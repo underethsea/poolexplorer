@@ -15,7 +15,7 @@ import {MyConnect} from "./components/myConnect.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, NavLink } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
 import '@rainbow-me/rainbowkit/dist/index.css';
@@ -138,8 +138,8 @@ function App() {
             </Container>
           </Navbar><center>
             <div className="banner"><img src="/images/ethbrand.png" className="ethbanner" />
-          &nbsp;&nbsp;A new ETH prize pool is live, stETH.win&nbsp;
-          <img src="images/arrow-up-right.svg" />
+          &nbsp;&nbsp;<a href="https://steth.win" className="bannerlink">A new ETH prize pool is live, stETH.win&nbsp;
+          <img src="images/arrow-up-right.svg" /></a>
           </div></center>
 
           <Switch>
