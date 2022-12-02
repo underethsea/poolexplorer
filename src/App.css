@@ -19,6 +19,19 @@ a {
   padding-left: .2em;
   padding-right: .2em;
 }
+.banner {
+  background-color: #4c249f;
+display:inline-block;
+padding: 8px;
+border: 2px solid #4c249f;
+color:#f3f9fb;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+}
+.ethbanner {
+  height:20px;
+}
 
 .myButton {
   left: 300px;
@@ -26,6 +39,7 @@ a {
   font-size:14px!important;
   border-radius:4px;
   background-color:white;
+
   margin-top:9px;
   vertical-align: top;
   cursor: pointer;

@@ -91,8 +91,8 @@ function App() {
                 />
                 <span className="header-text hidden-mobile" />
               </Navbar.Brand>
-
               <Nav className="navBarBrandCollapse">
+
                 <Nav className="connectButtons">
                   <Route path="/poolers" render={() => <MyConnect />} />
                 </Nav>
@@ -136,7 +136,11 @@ function App() {
                   </NavDropdown>
                 </Navbar.Collapse>
             </Container>
-          </Navbar>
+          </Navbar><center>
+            <div className="banner"><img src="/images/ethbrand.png" className="ethbanner" />
+          &nbsp;&nbsp;A new ETH prize pool is live, stETH.win&nbsp;
+          <img src="images/arrow-up-right.svg" />
+          </div></center>
 
           <Switch>
             <Route exact path="/">
