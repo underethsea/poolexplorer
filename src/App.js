@@ -136,17 +136,18 @@ function App() {
                   </NavDropdown>
                 </Navbar.Collapse>
             </Container>
-          </Navbar><center>
+          </Navbar>
+          <Route exact path="/usdcwinners">
+          <center>
             <div className="banner"><img src="/images/ethbrand.png" className="ethbanner" />
           &nbsp;&nbsp;<a href="https://steth.win" className="bannerlink">A new ETH prize pool is live, stETH.win&nbsp;
           <img src="images/arrow-up-right.svg" /></a>
           </div></center>
-
+              </Route>
           <Switch>
             <Route exact path="/">
               <UsdcWinners />
             </Route>
-
             <Route exact path="/players">
               <Players />
             </Route>
