@@ -11,6 +11,7 @@ import Luckiest from "./components/luckiest.jsx";
 import DelegationEvents from "./components/v4DelegationEvents.jsx"
 import Poolers from "./components/poolers.jsx"
 import Protocol from "./components/protocol.jsx"
+import Unlucky from "./components/unlucky.jsx"
 import {MyConnect} from "./components/myConnect.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -34,6 +35,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { unstable_UserBlockingPriority } from "scheduler";
 
 /* adding gnosis network */
 const avalancheChain = {
@@ -169,6 +171,9 @@ function App() {
             </Route>
             <Route exact path="/usdcwinners">
               <UsdcWinners />
+            </Route>
+            <Route exact path="/unlucky">
+              <Unlucky />
             </Route>
 
             <Route exact path="/totalHistory">
