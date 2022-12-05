@@ -106,8 +106,7 @@ useEffect(() => {
         let holders = await fetchUnlucky(100);
         // await getMedian();
         setTransactions(holders);
-        setFilteredTransactions(holders)
-        filterByThreshold(100)
+        setFilteredTransactions(holders.splice(0, 100))
 
         setPopup(false);
     };
