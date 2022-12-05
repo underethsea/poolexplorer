@@ -210,7 +210,7 @@ return (
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredTransactions.map((item) => (
+                            {filteredTransactions.length > 0 ? filteredTransactions.map((item) => (
                                 <tr>
                                     {/* <td></td>  <td></td> */}
                                     <td>
@@ -268,7 +268,7 @@ return (
                                     <td>{item.draws_without_prize_streak}
                                     </td>
                                 </tr>
-                            ))}
+                            )): !popup && <span><br></br><center>Toggle chains or lower threshold to find results</center></span>}
                         </tbody>
                     </table>
                 </div>
