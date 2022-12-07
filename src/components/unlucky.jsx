@@ -43,13 +43,13 @@ function Unlucky() {
         let newLuckies = await fetchUnlucky(100)
 
         setTransactions(newLuckies);
-        setFilteredTransactions(newLuckies.splice(0, 100))
+        setFilteredTransactions(newLuckies.slice(0, 100))
     };
     const change500 = async () => {
         let newLuckies = await fetchUnlucky(500)
 
         setTransactions(newLuckies);
-        setFilteredTransactions(newLuckies.splice(0, 100))
+        setFilteredTransactions(newLuckies.slice(0, 100))
 
     };
 
@@ -79,7 +79,7 @@ function Unlucky() {
             let filteredData = currentData.filter(obj => {
         return parseInt(obj.average_balance_in_streak) >= parseInt(currentValue);
     });
-    setFilteredTransactions(filteredData.splice(0, 100))
+    setFilteredTransactions(filteredData.slice(0, 100))
 
 }
 
@@ -96,7 +96,7 @@ const filterByThreshold = (threshold) => {
         return parseInt(obj.average_balance_in_streak) >= parseInt(threshold);
     });
     // limit list to 100
-    setFilteredTransactions(filteredData.splice(0, 100))
+    setFilteredTransactions(filteredData.slice(0, 100))
 }
 
 useEffect(() => {
@@ -106,7 +106,7 @@ useEffect(() => {
         let holders = await fetchUnlucky(100);
         // await getMedian();
         setTransactions(holders);
-        setFilteredTransactions(holders.splice(0, 100))
+        setFilteredTransactions(holders.slice(0, 100))
 
         setPopup(false);
     };
