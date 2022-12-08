@@ -113,6 +113,9 @@ function App() {
                     <NavDropdown.Item href="/luckiest">
                       Luckiest Winners
                     </NavDropdown.Item>
+ <NavDropdown.Item href="/unlucky">
+                     Bad Luck Birbs
+                    </NavDropdown.Item>
 
                     {/* <NavDropdown.Item href="/usdcclaimsv4poly">
                     Claims Polygon
