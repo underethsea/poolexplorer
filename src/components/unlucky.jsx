@@ -182,7 +182,7 @@ return (
                                     step={500}
                                     onChange={(value => { setCurrentValue(value); })}
                                     onAfterChange={(value) => { setCurrentValue(value); filterByThreshold(value); console.log(value) }}
-                                /> &nbsp;&nbsp;{currentValue}+
+                                /> &nbsp;&nbsp;&lt;&nbsp;{currentValue}
 
                             </span></div>
                         ) : (
@@ -268,7 +268,7 @@ return (
                                     <td>{item.draws_without_prize_streak}
                                     </td>
                                 </tr>
-                            )): !popup && <span><br></br><center>Toggle chains or lower threshold to find results</center></span>}
+                            )): !popup && <span><br></br><center>Toggle chains or increase threshold to find results</center></span>}
                         </tbody>
                     </table>
                 </div>
