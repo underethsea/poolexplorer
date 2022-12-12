@@ -77,7 +77,7 @@ function Unlucky() {
             }
         }
             let filteredData = currentData.filter(obj => {
-        return parseInt(obj.average_balance_in_streak) >= parseInt(currentValue);
+        return parseInt(obj.average_balance_in_streak) <= parseInt(currentValue);
     });
     setFilteredTransactions(filteredData.slice(0, 100))
 
@@ -180,6 +180,7 @@ return (
                                     min={500}
                                     max={50000}
                                     step={500}
+                                    defaultValue={50000}
                                     onChange={(value => { setCurrentValue(value); })}
                                     onAfterChange={(value) => { setCurrentValue(value); filterByThreshold(value); console.log(value) }}
                                 /> &nbsp;&nbsp;&lt;&nbsp;{currentValue}
