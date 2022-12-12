@@ -270,8 +270,8 @@ return (
                         alt="emoji"
                       ></img> */}
                                         &nbsp;
-                                        {separator(parseInt(item.average_balance_in_streak))}</td>
-                                    <td style={{ textAlign: "right" }}>{item.draws_without_prize_streak}
+                                        {separator(parseInt(item.average_balance_in_streak))}&nbsp;</td>
+                                    <td style={{ textAlign: "right" }}>{item.draws_without_prize_streak}&nbsp;
                                     </td>
                                 </tr>
                             )): !popup && <span><br></br><center>Toggle chains or increase threshold to find results</center></span>}
