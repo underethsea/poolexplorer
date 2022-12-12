@@ -32,7 +32,7 @@ function Unlucky() {
     const [transactions, setTransactions] = useState([]);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [popup, setPopup] = useState(Boolean);
-    const [currentValue, setCurrentValue] = useState(100);
+    const [currentValue, setCurrentValue] = useState(50000);
     const [chainFilter, setChainFilter] = useState({ ethereum: true, optimism: true, polygon: true, avalanche: true })
     const [ethereum, setEthereum] = useState(true)
     const [polygon, setPolygon] = useState(true)
@@ -138,7 +138,7 @@ return (
                         {" "}
                         {!popup ? (<div>
                             {/* <span> */}
-                            {/* <button className="luckyButton" onClick={change100}>100+</button>&nbsp;&nbsp;&nbsp;
+                            {/* <button className="luckyButton" onClick={change100}>500+</button>&nbsp;&nbsp;&nbsp;
                   <button className="luckyButton" onClick={change500}>500+</button></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
                             <span>
                                 <span className="chain-toggles">
