@@ -188,7 +188,7 @@ return (
                                     defaultValue={50000}
                                     onChange={(value => { setCurrentValue(value); })}
                                     onAfterChange={(value) => { setCurrentValue(value); filterByThreshold(value); console.log(value) }}
-                                /> &nbsp;&nbsp;{currentValue === 5000000 ? "Threshold" : <span>&lt;&nbsp;{currentValue}</span>}
+                                /> &nbsp;&nbsp;{currentValue === 5000000 ? "Balance" : <span>&lt;&nbsp;{currentValue}</span>}
 
                             </span></div>
                         ) : (
