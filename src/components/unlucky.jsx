@@ -93,7 +93,7 @@ const filterByThreshold = (threshold) => {
         }
     }
     let filteredData = currentData.filter(obj => {
-        return parseInt(obj.average_balance_in_streak) >= parseInt(threshold);
+        return parseInt(obj.average_balance_in_streak) <= parseInt(threshold);
     });
     // limit list to 100
     setFilteredTransactions(filteredData.slice(0, 100))
@@ -177,9 +177,9 @@ return (
                                     className="customSlider slider-div"
                                     trackClassName="customSlider-track"
                                     thumbClassName="customSlider-thumb"
-                                    min={100}
-                                    max={2000}
-                                    step={100}
+                                    min={500}
+                                    max={50000}
+                                    step={500}
                                     onChange={(value => { setCurrentValue(value); })}
                                     onAfterChange={(value) => { setCurrentValue(value); filterByThreshold(value); console.log(value) }}
                                 /> &nbsp;&nbsp;{currentValue}+
