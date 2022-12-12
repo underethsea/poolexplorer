@@ -6,6 +6,11 @@ import { Link } from "react-router-dom"
 import ReactSlider from "react-slider";
 
 
+function separator(numb) {
+  var str = numb.toString().split(".");
+  str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return str.join(".");
+}
 
 function modalText() {
     var randomNumber = Math.floor(Math.random() * textArray.length);
@@ -32,7 +37,7 @@ function Unlucky() {
     const [transactions, setTransactions] = useState([]);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [popup, setPopup] = useState(Boolean);
-    const [currentValue, setCurrentValue] = useState(50000);
+    const [currentValue, setCurrentValue] = useState(5000000);
     const [chainFilter, setChainFilter] = useState({ ethereum: true, optimism: true, polygon: true, avalanche: true })
     const [ethereum, setEthereum] = useState(true)
     const [polygon, setPolygon] = useState(true)
@@ -183,7 +188,7 @@ return (
                                     defaultValue={50000}
                                     onChange={(value => { setCurrentValue(value); })}
                                     onAfterChange={(value) => { setCurrentValue(value); filterByThreshold(value); console.log(value) }}
-                                /> &nbsp;&nbsp;&lt;&nbsp;{currentValue}
+                                /> &nbsp;&nbsp;{currentValue === 5000000 ? "Threshold" : <span>&lt;&nbsp;{currentValue}</span>}
 
                             </span></div>
                         ) : (
@@ -258,15 +263,15 @@ return (
                                         </div>
                                         {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
-                                    <td>
+                                    <td style={{ textAlign: "right" }}>
                                         {/* <img
                         src={"./images/" + emoji(item.g) + ".png"}
                         className="emoji"
                         alt="emoji"
                       ></img> */}
                                         &nbsp;
-                                        {parseInt(item.average_balance_in_streak)}</td>
-                                    <td>{item.draws_without_prize_streak}
+                                        {separator(parseInt(item.average_balance_in_streak))}</td>
+                                    <td style={{ textAlign: "right" }}>{item.draws_without_prize_streak}
                                     </td>
                                 </tr>
                             )): !popup && <span><br></br><center>Toggle chains or increase threshold to find results</center></span>}
