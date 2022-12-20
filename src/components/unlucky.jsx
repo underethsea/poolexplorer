@@ -221,7 +221,7 @@ return (
                                     {/* <td></td>  <td></td> */}
                                     <td>
 
-                                        {item.weighted_rank}</td><td>                      <div className="addressTextShort">
+                                        {item.weighted_unlucky_rank}</td><td>                      <div className="addressTextShort">
                                             {item.network === "ethereum" && (
                                                 <img
                                                     src="./images/ethereum.png"
