@@ -267,9 +267,26 @@ body {
   color: black;
   padding: 30px;
 }
+.tokens-table{
+  display: inline-block;
+}
+.pol-div {
+  padding:30px;
+  margin-left:100px;
+  background-color:#311658;
+}
+@media only screen and (max-width: 450px) {
+  .pol-div {
+    padding:20px;
+    margin-left:50px;
+  }}
+
 .table-text {
   font-size: 16px;
   color:black;
+}
+.protocol {
+  margin-top:10px;
 }
 .protocol td {
   background-color:white;
@@ -278,8 +295,14 @@ body {
   padding-bottom:10px;
   padding-top:10px;
 }
+.token-table td {
+  background-color:#fafaff
+}
 .protocol thead {
   border-radius:10px;
+}
+.info:hover {
+  cursor: pointer;
 }
 
 .wallet-div{z-index:1;}
