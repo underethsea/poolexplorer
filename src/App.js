@@ -12,6 +12,8 @@ import DelegationEvents from "./components/v4DelegationEvents.jsx"
 import Poolers from "./components/poolers.jsx"
 import Protocol from "./components/protocol.jsx"
 import Unlucky from "./components/unlucky.jsx"
+import Savers from "./components/savers.jsx"
+
 import {MyConnect} from "./components/myConnect.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -178,6 +180,9 @@ function App() {
             <Route exact path="/unlucky">
               <Unlucky />
             </Route>
+<Route exact path="/savers">
+              <Unlucky />
+            </Savers>
 
             <Route exact path="/totalHistory">
               <TotalHistory />
