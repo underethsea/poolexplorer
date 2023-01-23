@@ -182,7 +182,7 @@ function App() {
             </Route>
 <Route exact path="/savers">
               <Savers />
-            </Savers>
+         
 </Route>
 
             <Route exact path="/totalHistory">
