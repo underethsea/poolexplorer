@@ -181,7 +181,7 @@ function App() {
               <Unlucky />
             </Route>
 <Route exact path="/savers">
-              <Unlucky />
+              <Savers />
             </Savers>
 
             <Route exact path="/totalHistory">
