@@ -171,6 +171,7 @@ width:200px;}
 th, td {
   font-family: 'verdana'!important;
   font-weight: 800!important;
+  padding: 12px!important;
 }
 html {
   height:100%
