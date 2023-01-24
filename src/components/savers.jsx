@@ -257,7 +257,7 @@ return (
                       ></img> */}
                                         &nbsp;
                                         {separator(parseInt(item.average_balance_in_streak))}&nbsp;</td>
-                                    <td style={{ textAlign: "right" }}>{item.average_balance_last_draw}&nbsp;
+                                    <td style={{ textAlign: "right" }}>{separator(parseInt(item.average_balance_last_draw))}&nbsp;
                                     </td>
                                 </tr>
                             )): !popup && <span><br></br><center>Toggle chains or increase threshold to find results</center></span>}
