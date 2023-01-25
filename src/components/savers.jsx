@@ -197,8 +197,10 @@ return (
                                 <th>Time</th> */}
                                 <th>Rank</th>
                                 <th>Address</th>
-                                <th>Avg Balance</th>
                                 <th>Streak</th>
+                                <th>Avg Bal</th>
+                                <th>Recent Bal</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -249,6 +251,7 @@ return (
                                         </div>
                                         {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
                                     </td>
+                                    <td style={{ textAlign: "right" }}>{item.draws_streak}</td>
                                     <td style={{ textAlign: "right" }}>
                                         {/* <img
                         src={"./images/" + emoji(item.g) + ".png"}
@@ -258,7 +261,7 @@ return (
                                         &nbsp;
                                         {separator(parseInt(item.average_balance_in_streak))}&nbsp;</td>
                                     <td style={{ textAlign: "right" }}>{separator(parseInt(item.average_balance_last_draw))}&nbsp;
-                                    </td>
+                                    </td> 
                                 </tr>
                             )): !popup && <span><br></br><center>Toggle chains or increase threshold to find results</center></span>}
                         </tbody>
