@@ -173,6 +173,9 @@ th, td {
   font-weight: 800!important;
   padding: 12px!important;
 }
+.not-pad td {
+  padding:2px!important
+}
 html {
   height:100%
 }

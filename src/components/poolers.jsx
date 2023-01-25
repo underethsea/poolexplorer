@@ -910,7 +910,7 @@ return (
             /> {chain.name}<br></br><br></br>
 
             {allowances.polygon !== undefined && <div className="amount-container">
-              <table><tr><td>
+              <table className="not-pad"><tr><td>
                 <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;</td>
                 <td style={{ textAlign: "right" }}>
 
@@ -969,7 +969,7 @@ return (
 
             {/* {balances.polygon !== undefined &&  */}
             <div className="amount-container">
-              <table><tr><td>
+              <table className="not-pad"><tr><td>
                 <img src="./images/ptausdc.png" className="icon" alt="USDC" /> PTaUSDC &nbsp;</td>
                 <td style={{ textAlign: "right" }}>
 

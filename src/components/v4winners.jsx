@@ -3,6 +3,8 @@ import Select from "react-select";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 
+
+
 import { ethers } from "ethers";
 import { PolygonTicketContract,
   EthereumTicketContract,
@@ -491,7 +493,7 @@ function UsdcWinners() {
           {cumulativeClaimable > 0 ? (
             <div>
               {" "}
-              <table>
+              <table className="not-pad">
                 <tr>
                   <td>
                     <span className="modalDesc">Current Balance</span>
