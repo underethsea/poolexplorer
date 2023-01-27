@@ -371,7 +371,7 @@ function UsdcWinners() {
                                 className="emoji"
                                 alt="Ukraine"
                               /> : ""}         
-{item.g > item.w && <span>&nbsp;<img src="./images/trophy.png"
+{item.g < item.w && <span>&nbsp;<img src="./images/trophy.png"
                                 className="emoji"
                                 alt="Trophy"/></span>}
 </div>
