@@ -21,8 +21,10 @@ return (<span>{!isConnected &&
     <div className="banner">
       {/* <img src="/images/ethbrand.png" className="ethbanner" /> */}
 
-  &nbsp;&nbsp;<a href="https://steth.win" className="bannerlink">Connect your wallet to PoolTogether and WIN&nbsp;
-  <img src="images/arrow-up-right.svg" /></a>
+  &nbsp;&nbsp;
+  
+    Connect your wallet to PoolTogether and WIN&nbsp;
+
   </div>}</span>)
 }
 export default Banner;
