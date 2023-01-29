@@ -696,7 +696,7 @@ console.log("getting player ",address)
   setClaimable(claimableToSet)
   if(fullList) {
     setWinsShown(winResult.result);setShowMore(false)
-  } else {  setShowMore(true);setWinsShown(winResult.result.slice(0,8))
+  } else {  setShowMore(true);setWinsShown(winResult.result.slice(0,5))
   }
   // setGotSome(true)
   setPrizesWon(winResult.prizes)
@@ -808,7 +808,7 @@ return (
 
                
                 {prizesWon > 0 & isConnected ? (<tr>
-                  <th>Prize Wins&nbsp;&nbsp;</th>
+                  <th>Prize Wins&nbsp;&nbsp;{prizesWon > 0 && <span>({prizesWon})</span>}</th>
                   <th>Draw</th>
                   <th style={{ textAlign: "right" }} className="hidden-mobile">Network</th>
                 </tr>):""}
@@ -867,7 +867,7 @@ return (
 
                     </tr>)):"" }
                     
-                    {showMore & isConnected ? <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
+                    {showMore & isConnected & prizesWon > 5 ? <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
 See more ---&gt;</span></td></tr> : ""}
               </tbody>
             </table></center>
