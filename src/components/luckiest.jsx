@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import "./modal.css";
 import Select from "react-select";
 import {Link} from "react-router-dom"
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
 function modalText() {
@@ -26,7 +27,7 @@ var textArray = [
 //     return addString.substring(0,10);
 // }
 
-function Luckiest() {
+function Luckiest(props) {
   const [transactions, setTransactions] = useState([]);
   const [popup, setPopup] = useState(Boolean);
 
@@ -58,8 +59,8 @@ function Luckiest() {
     const goooo = async () => {
       let holders = await fetchLuckies(1);
       // await getMedian();
-      
 
+      if(props.short){holders = holders.slice(0,5)}
       setTransactions(holders);
       
       setPopup(false);
@@ -67,8 +68,8 @@ function Luckiest() {
     goooo();
   }, []);
 
-  return (
-    <div className="transactions section">
+  return (<div>
+     {/* <div className="transactions section"> */}
       <div className="card has-table has-mobile-sort-spaced">
         <header className="card-header card-header-tall-mobile">
           {popup && (
@@ -90,7 +91,7 @@ function Luckiest() {
             
             <span className="numb-purp">
               {" "}
-              {!popup ? (
+              {!popup ? (!props.short &&
                   <span><button className="luckyButton" onClick={changeSub}>win - balance</button>&nbsp;&nbsp;&nbsp;<button className="luckyButton" onClick={changeRatio}>win / balance</button></span>
               ): (
                 <div
@@ -110,8 +111,8 @@ function Luckiest() {
                 <tr>
                   {/* <th>Transaction Hash</th>
                                 <th>Time</th> */}
-                                <th>Draw</th>
-                  <th>Address</th>
+                                
+                  <th>Address</th><th>Draw</th>
                   <th>Balance</th>
                   <th>Won</th>
                 </tr>
@@ -120,9 +121,7 @@ function Luckiest() {
                 {transactions.map((item) => (
                   <tr>
                     {/* <td></td>  <td></td> */}
-                    <td>
-                    
-                      {item.d}</td><td>                      <div className="addressTextShort">
+                    <td>                      <div className="addressTextShort">
                       {item.n === "1" && (
                               <img
                                 src="./images/ethereum.png"
@@ -162,7 +161,9 @@ function Luckiest() {
                       </Link>
                       </div>
                       {/* &nbsp;{checkIfYearnOrPod(item.address)} */}
-                    </td>
+                    </td><td>
+                    
+                    {item.d}</td>
                     <td>
                       {/* <img
                         src={"./images/" + emoji(item.g) + ".png"}
@@ -175,6 +176,7 @@ function Luckiest() {
                     </td>
                   </tr>
                 ))}
+                {props.short > 0 && <tr><td><a href="./luckiest">See more ---&gt;</a></td></tr>}
               </tbody>
             </table>
           </div>

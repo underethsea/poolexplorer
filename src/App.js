@@ -13,6 +13,7 @@ import Poolers from "./components/poolers.jsx"
 import Protocol from "./components/protocol.jsx"
 import Unlucky from "./components/unlucky.jsx"
 import Savers from "./components/savers.jsx"
+import Home from "./components/home.jsx"
 
 import {MyConnect} from "./components/myConnect.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -99,6 +100,8 @@ function App() {
 
                 <Nav className="connectButtons">
                   <Route path="/poolers" render={() => <MyConnect />} />
+                  <Route path="/home" render={() => <MyConnect />} />
+
                 </Nav>
                 <Navbar.Toggle />
                 
@@ -159,6 +162,11 @@ function App() {
           </div></center>
               </Route>
           <Switch>
+            <center>
+          <div className="transactions section">
+          <Route exact path="/home">
+              <Home />
+            </Route>
             <Route exact path="/">
               <UsdcWinners />
             </Route>
@@ -193,7 +201,7 @@ function App() {
             </Route>
             <Route exact path="/protocol">
               <Protocol />
-            </Route>
+            </Route></div></center>
           </Switch>
         </Router>
       </RainbowKitProvider>

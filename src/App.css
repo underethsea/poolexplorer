@@ -468,7 +468,7 @@ color: #0a0a0a;
 .card-header-title{
 	padding-top:1.2rem!important;}
   .section {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     }
   .header-text {
@@ -510,10 +510,13 @@ width:500px;    }
     display:none;
   }
 }
-
+.section {padding:1rem!important;}
 .small-header {
   font: size 18px;
   padding-top: 35px;
+}
+.tablemax {
+  max-width:700px;
 }
 
 .token-right {

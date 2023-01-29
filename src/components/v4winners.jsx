@@ -13,6 +13,7 @@ import { PolygonTicketContract,
  } from "./contractConnect";
 
 import "./modal.css";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 // const drawings = 99;
 const explorerURL = "https://poolexplorer.xyz"
@@ -69,9 +70,8 @@ const emoji = (amount) => {
   return emojiIcon;
 };
 
-
 Modal.setAppElement("#root");
-function UsdcWinners() {
+function UsdcWinners(props) {
   const currentTimestamp = parseInt(Date.now() / 1000);
   const ticketStartTimestamp = 1634184538;
   const [transactions, setTransactions] = useState([]);
@@ -109,8 +109,8 @@ function UsdcWinners() {
       try {
         let currentDrawFetch = await fetch(explorerURL + "/recent")
         let currentDrawResult = await currentDrawFetch.json()
-
-        setTransactions(currentDrawResult.result);
+        if(props.short) {setTransactions(currentDrawResult.result.slice(0,5))}else{
+        setTransactions(currentDrawResult.result);}
 
         setDraw({ label: currentDrawResult.id, value: 0 })
         let drawOptions = [];
@@ -240,6 +240,7 @@ function UsdcWinners() {
 
             setUnique(events.length);
             // events = events.slice(0,1000)
+            if(props.short){events=events.slice(0,5)}
             setTransactions(events);
 
             setPopup(false);
@@ -301,14 +302,15 @@ function UsdcWinners() {
             </div>
           )}
           <p className="card-header-title">
-            DRAW<span className="hidden-mobile"> #&nbsp;</span>
+            <span className="hidden-mobile">RECENT DAILY&nbsp;</span>DRAW<span className="hidden-mobile"> #&nbsp;</span>
             <Select options={options} onChange={onChange} value={draw} />
             <span className="hidden-mobile"> &nbsp; &nbsp; &nbsp;</span>
             <span className="numb-purp hidden-mobile twenty-two"> {separator(unique)}</span>{" "}
             <span className="hidden-mobile twenty-two">WINNERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {/* <span className="numb-purp"> {separator(depositors)}</span> PRIZES */}
+            {!props.short && <span>
             <img src="./images/usdc.png" className="token" />
-            <span className="numb-purp twenty-two">{separator(total)}</span> <span className="twenty-two">TOTAL</span>
+            <span className="numb-purp twenty-two">{separator(total)}</span> <span className="twenty-two">TOTAL</span></span>}
             {/* TWAB {twabTotal} */}
             {/* {popup && (<div>popup</div>)} */}
             {/* <img src='./images/usdc.png' className='token'/>
@@ -386,7 +388,7 @@ function UsdcWinners() {
                       ></img>&nbsp;&nbsp;&nbsp;
                     </td>
                   </tr>
-                ))}
+                ))}{props.short > 0 && <tr><td><a href="./usdcwinners">See more ---&gt;</a></td></tr>}
               </tbody>
             </table>
           </div>
