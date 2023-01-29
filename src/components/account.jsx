@@ -773,18 +773,24 @@ return (
       
       {
         /* wins.length > 0 && */
-        <div className="card-content"><center>
-          <div className="table-wrapper has-mobile-cards tablemax">
+        
+        <div className="card-content">
             <center>
-            <table className="padded is-stripped table is-hoverable no-bottom">
-              <thead style={{ backgroundColor: "#efefef" }}><th>
+                {isConnected &&
+          <div className="table-wrapper has-mobile-cards tablemax connecttable">
+            <center>
+            <table className="padded is-stripped table is-hoverable no-bottom connectbg">
+              <thead className="connectbg"><th>
               {popup && <span>&nbsp;&nbsp;
           <div
             className="smallLoader"
             style={{ display: "inline-block" }}
-          ></div>&nbsp;&nbsp;</span>
+          ></div>
+          
+          
+          &nbsp;&nbsp;</span>
     }
-              {!isConnected && <span className="right-float">Want to pool and win? <MyConnect /></span>}
+              {/* {!isConnected && <span className="right-float">Want to pool and win? <MyConnect /></span>} */}
                 <Deposits />
 
               </th></thead>
@@ -794,9 +800,11 @@ return (
                 {/* https://i.ibb.co/0Jgj6DL/pooly44.png */}
               {/* {addressValue === "" ? <tr><td className="tdcenter"><img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""}  */}
 
-{prizesWon === 0 && !popup && addressValue !== "" && <tr><td className="tdcenter">
-    {/* No wins yet, friend.<br/> */}
-    <img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr>}
+{/* {prizesWon === 0 && !popup && addressValue !== "" && <tr><td className="tdcenter">
+    No wins yet, friend.<br/> 
+    <img src="./images/yolo_nolo.png" className="cool-pooly" />
+    </td></tr>} */}
+    
 
                
                 {prizesWon > 0 & isConnected ? (<tr>
@@ -863,7 +871,7 @@ return (
 See more ---&gt;</span></td></tr> : ""}
               </tbody>
             </table></center>
-          </div>   </center>
+          </div>  } </center>
         </div>}
     </div>
     <Modal

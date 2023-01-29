@@ -14,8 +14,12 @@ import Protocol from "./components/protocol.jsx"
 import Unlucky from "./components/unlucky.jsx"
 import Savers from "./components/savers.jsx"
 import Home from "./components/home.jsx"
+import Banner from "./components/banner.jsx"
 
 import {MyConnect} from "./components/myConnect.jsx"
+import { ethers } from "ethers";
+
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -62,7 +66,6 @@ const avalancheChain = {
 
 function App() {
 
-
   const { chains, provider } = configureChains(
     [chain.mainnet, chain.polygon, chain.optimism, avalancheChain],
     [
@@ -81,6 +84,8 @@ function App() {
     connectors,
     provider
   })
+
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} modalSize="compact">
@@ -154,12 +159,10 @@ function App() {
           <img src="images/arrow-up-right.svg" /></a>
           </div></center>
               </Route>
-              <Route exact path="/">
+              
+              <Route exact path="/home">
           <center>
-            <div className="banner"><img src="/images/ethbrand.png" className="ethbanner" />
-          &nbsp;&nbsp;<a href="https://steth.win" className="bannerlink">A new ETH prize pool is live, stETH.win&nbsp;
-          <img src="images/arrow-up-right.svg" /></a>
-          </div></center>
+            <Banner /></center>
               </Route>
           <Switch>
             <center>
