@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 import Modal from "react-modal";
 import "./modal.css";
+import {MyConnect} from "./myConnect.jsx"
+
 // import distributorAbi from "./distributor.json"
 import { GetClaimsHistory } from "./getClaimsHistory.jsx"
 import prizeDistributorAbi from "./distributor.json"
@@ -270,6 +272,8 @@ function Account() {
   const [addressValue, setAddressValue] = useState("");
 
   const [wins, setWins] = useState([]);
+  const [winsShown, setWinsShown] = useState([])
+  const [showMore, setShowMore] = useState(false)
   const [prizesWon, setPrizesWon] = useState(0);
   const [totalPrizeValue, setTotalPrizeValue] = useState(0);
   const [balances, setBalances] = useState([null]);
@@ -660,11 +664,12 @@ useEffect(() => {
 // }, [balances]);
 async function getBalancesAndApprovals() {
 }
-async function getPlayer() {
+async function getPlayer(fullList) {
 
   setPopup(true)
   setBalances([])
   setWins([])
+  setWinsShown([])
   const currentTimestamp = parseInt(Date.now() / 1000);
 console.log("getting player ",address)
   let poolerBalances = await getBalances(address, currentTimestamp)
@@ -689,7 +694,10 @@ console.log("getting player ",address)
   let claimableToSet = winsToFilter.filter(win => { return win.draw >= (currentDrawId - 30) && win.claimed === false })
   claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
   setClaimable(claimableToSet)
-  setWins(winResult.result)
+  if(fullList) {
+    setWinsShown(winResult.result)
+  } else {  console.log("DONT SHOW MORE");setShowMore(false);setWinsShown(winResult.result.slice(0,8))
+  }
   // setGotSome(true)
   setPrizesWon(winResult.prizes)
   setTotalPrizeValue(winResult.total)
@@ -776,10 +784,8 @@ return (
             style={{ display: "inline-block" }}
           ></div>&nbsp;&nbsp;</span>
     }
-              {!isConnected && <span className="right-float">Connect your wallet amigo</span>}
-                <span>lkjlksdfklsljd</span>
+              {!isConnected && <span className="right-float">Want to pool and win? <MyConnect /></span>}
                 <Deposits />
-
 
               </th></thead>
             </table>
@@ -792,17 +798,16 @@ return (
     {/* No wins yet, friend.<br/> */}
     <img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr>}
 
-
                
-                {prizesWon > 0 && (<tr>
+                {prizesWon > 0 & isConnected ? (<tr>
                   <th>Prize Wins&nbsp;&nbsp;</th>
                   <th>Draw</th>
                   <th style={{ textAlign: "right" }} className="hidden-mobile">Network</th>
-                </tr>)}
+                </tr>):""}
               </thead>
               <tbody>
-                {prizesWon > 0 &&
-                  wins.map((item) => (
+                {prizesWon > 0 & isConnected ?
+                  winsShown.map((item) => (
                     <tr>
                       <td>
                         <div className="addressText">
@@ -852,7 +857,10 @@ return (
                       </td>
 
 
-                    </tr>))}
+                    </tr>)):"" }
+                    
+                    {!showMore && <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
+Show more ---&gt;</span></td></tr>}
               </tbody>
             </table></center>
           </div>   </center>
@@ -916,7 +924,7 @@ return (
             /> {chain.name}<br></br><br></br>
 
             {allowances.polygon !== undefined && <div className="amount-container">
-              <table><tr><td>
+              <table  className="not-pad"><tr><td>
                 <img src="./images/usdc.png" className="icon" alt="USDC" /> USDC &nbsp;</td>
                 <td style={{ textAlign: "right" }}>
 
@@ -975,7 +983,7 @@ return (
 
             {/* {balances.polygon !== undefined &&  */}
             <div className="amount-container">
-              <table><tr><td>
+              <table  className="not-pad"><tr><td>
                 <img src="./images/ptausdc.png" className="icon" alt="USDC" /> PTaUSDC &nbsp;</td>
                 <td style={{ textAlign: "right" }}>
 
