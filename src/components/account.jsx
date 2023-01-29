@@ -696,7 +696,7 @@ console.log("getting player ",address)
   setClaimable(claimableToSet)
   if(fullList) {
     setWinsShown(winResult.result)
-  } else {  console.log("DONT SHOW MORE");setShowMore(true);setWinsShown(winResult.result.slice(0,8))
+  } else {  setShowMore(true);setWinsShown(winResult.result.slice(0,8))
   }
   // setGotSome(true)
   setPrizesWon(winResult.prizes)
@@ -792,7 +792,7 @@ return (
             <table className="padded is-stripped table is-hoverable">
               <thead>
                 {/* https://i.ibb.co/0Jgj6DL/pooly44.png */}
-              {addressValue === "" ? <tr><td className="tdcenter"><img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""} 
+              {/* {addressValue === "" ? <tr><td className="tdcenter"><img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""}  */}
 
 {prizesWon === 0 && !popup && addressValue !== "" && <tr><td className="tdcenter">
     {/* No wins yet, friend.<br/> */}
@@ -859,8 +859,8 @@ return (
 
                     </tr>)):"" }
                     
-                    {!showMore && <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
-See more ---&gt;</span></td></tr>}
+                    {showMore & isConnected ? <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
+See more ---&gt;</span></td></tr> : ""}
               </tbody>
             </table></center>
           </div>   </center>
