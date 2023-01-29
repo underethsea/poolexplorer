@@ -696,7 +696,7 @@ console.log("getting player ",address)
   setClaimable(claimableToSet)
   if(fullList) {
     setWinsShown(winResult.result)
-  } else {  console.log("DONT SHOW MORE");setShowMore(false);setWinsShown(winResult.result.slice(0,8))
+  } else {  console.log("DONT SHOW MORE");setShowMore(true);setWinsShown(winResult.result.slice(0,8))
   }
   // setGotSome(true)
   setPrizesWon(winResult.prizes)
@@ -860,7 +860,7 @@ return (
                     </tr>)):"" }
                     
                     {!showMore && <tr><td>              <span className="open-wallet" onClick={() => {getPlayer(true)}}> 
-Show more ---&gt;</span></td></tr>}
+See more ---&gt;</span></td></tr>}
               </tbody>
             </table></center>
           </div>   </center>
