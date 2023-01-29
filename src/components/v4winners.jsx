@@ -372,7 +372,11 @@ function UsdcWinners(props) {
                                 src="./images/ukraine.png"
                                 className="emoji"
                                 alt="Ukraine"
-                              /> : ""}                            </div>
+                              /> : ""}         
+{item.g < item.w && <span>&nbsp;<img src="./images/trophy.png"
+                                className="emoji"
+                                alt="Trophy"/></span>}
+</div>
                           </span>
                         
                       </div> {item.w / (item.b / 1e14) > 300 ? "" : ""}
