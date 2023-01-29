@@ -695,7 +695,7 @@ console.log("getting player ",address)
   claimableToSet = claimableToSet.filter(win => win.draw !== currentDrawId)
   setClaimable(claimableToSet)
   if(fullList) {
-    setWinsShown(winResult.result)
+    setWinsShown(winResult.result);setShowMore(false)
   } else {  setShowMore(true);setWinsShown(winResult.result.slice(0,8))
   }
   // setGotSome(true)
