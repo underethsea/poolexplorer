@@ -103,7 +103,7 @@ function App() {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="m-auto navPadding">
-                    <Nav.Link class="nav-link boldHomeTitle" href="/">Home</Nav.Link>
+             
                     <Nav.Link class="nav-link" href="/usdcwinners">Winners</Nav.Link>  
                     <Nav.Link class="nav-link" href="/players">Players</Nav.Link>
                     <Nav.Link class="nav-link" href="/luckiest">Luckiest Winners</Nav.Link>  
