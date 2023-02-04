@@ -38,50 +38,31 @@ export const MyConnect = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button onClick={openConnectModal} type="myButton" className="myButton">
-Connect Wallet                  </button>
+                <div>
+                  <button onClick={openConnectModal} type="myButton" className="notConnectedButton">Connect Wallet</button>
+                </div>
                 );
               }
 
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="myButton" className="myButton">
-                    Wat chain??
-                  </button>
+                  <div>
+                    <button onClick={openChainModal} type="myButton" className="myButton">
+                      Wat chain??
+                    </button>
+                  </div>
                 );
               }
 
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
+                <div className="connectedWallet">
                   <button
                     onClick={openChainModal}
-                    style={{ display: 'flex', alignItems: 'center' }}
-                    type="myButton" className="myButton"
-                  >
-                    {chain.hasIcon && (
-                      <div
-                        style={{
-                          background: chain.iconBackground,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 999,
-                          overflow: 'hidden',
-                          marginRight: 4,
-                        }}
-                      >
-                        {chain.iconUrl && (
-                          <img
-                            alt={chain.name ?? 'Chain icon'}
-                            src={chain.iconUrl}
-                            style={{ width: 12, height: 12 }}
-                          />
-                        )}
-                      </div>
-                    )}
+                    type="myButton" className="networkBox">
                     {chain.name}
                   </button>
 
-                  <button onClick={openAccountModal} type="myButton" className="myButton">
+                  <button onClick={openAccountModal} type="myButton" className="addressBox">
                     {account.displayName}
                     {/* {account.displayBalance
                       ? ` (${account.displayBalance})`

@@ -52,21 +52,103 @@ a.bannerlink {
   text-decoration:none;
   color:white;
 }
-.myButton {
-  left: 300px;
-  /* width:30px!important; */
+
+
+/* Wallet Connection */
+
+
+.notConnectedButton {
+  background-image: linear-gradient(to right, #4c249f 0%, #780476  51%, #4c249f  100%);
+  margin: 10px;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  font-weight: bold;
+  width:140px!important;
   font-size:14px!important;
-  border-radius:4px;
-  background-color:white;
-
-  margin-top:9px;
-  vertical-align: top;
-  cursor: pointer;
-
+  border: solid;
+  border:#290b5a;
+  border-radius:20px;
+  color: white;
 }
 
-.wallet-div {
-  margin-top: 2px;
+@media (max-width: 800px) {
+  .notConnectedButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .connectedWallet {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navPadding {
+    margin-top: 15px!;
+    padding-left: 0px!important;
+  }
+  
+}
+
+.notConnectedButton:hover {
+  background-position: right center; /* change the direction of the change here */
+  transform: scale(1.05);
+  color: #fff;
+  text-decoration: none;
+}
+
+.networkBox {
+  background-image: linear-gradient(to right, #4c249f 0%, #780476  51%, #4c249f  100%);
+  background-size: 200% auto;
+  width:90px!important;
+  font-size:14px!important;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  align-items: center;
+  font-weight: bold;
+  border: 1px solid;
+  color: white;
+  border-radius:40px;
+}
+
+.addressBox {
+  margin-left: 5px;
+  width:130px!important;
+  font-size:14px!important;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  align-items: center;
+  font-weight: bold;
+  border: solid;
+  border:white;
+  border-radius:40px;
+}
+
+/* End Wallet Connection */
+
+.paramsButton {
+  background-color: transparent;
+  margin-left: 5px;
+  width:40px!important;
+  font-size:14px!important;
+  transition: 0.5s;
+
+  padding-top: 3%;
+  padding-bottom: 3%;
+  align-items: center;
+  font-weight: bold;
+  border:1px solid;
+  border-color:white;
+  border-radius:15px;
+}
+
+.paramsButton:hover {
+  background-position: right center; /* change the direction of the change here */
+  transform: scale(1.05);
+  text-decoration: none;
 }
 
 .buy {
@@ -238,11 +320,7 @@ body {
 
 }
 
-.navBarBrandCollapse {
-  display: flex;
-  flex-direction: row;
-  padding-right: 5%;
-}
+
 
 .navbar-brand {
   padding-left: 50px;
@@ -265,8 +343,23 @@ body {
 }
 
 .navbar {
-  background-color: #2d0b5a!important;
+  background-color: #010E2C!important;
 }
+
+.nav-link {
+  color: white!important;
+  transition: 0.5s;
+}
+
+.nav-link:hover {
+  transform: scale(1.05);
+  color:#7333db!important;
+}
+
+.boldHomeTitle {
+  font-weight: bold;
+}
+
 .topData {
   display:inline-block;
   
@@ -379,9 +472,7 @@ body {
   .addressTextOldPhones {
     width:80px;
   }}
-.navbar {
-  background-color: #2d0b5a!important;
-}
+
 .card-header {
   padding:0px!important;
   font-size:18px;
