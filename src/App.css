@@ -353,11 +353,12 @@ body {
 .nav-link {
   color: white!important;
   transition: 0.5s;
+  font-size:.9rem;
 }
 
 .nav-link:hover {
   transform: scale(1.05);
-  color:#c571f6!important;
+  color:#dfb3f9!important;
 }
 
 .boldHomeTitle {
