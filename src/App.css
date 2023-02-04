@@ -106,21 +106,24 @@ a.bannerlink {
   background-size: 200% auto;
   width:90px!important;
   font-size:14px!important;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
   align-items: center;
   font-weight: bold;
-  border: 1px solid;
+  border: 1px solid black;
   color: white;
   border-radius:40px;
 }
 
 .addressBox {
+  border: 1px solid black;
+  background-image: linear-gradient(to right, #4c249f 0%, #780476  51%, #4c249f  100%);
   margin-left: 5px;
   width:130px!important;
   font-size:14px!important;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding-top: 2%;
+  color:white;
+  padding-bottom: 2%;
   align-items: center;
   font-weight: bold;
   border: solid;
@@ -354,7 +357,7 @@ body {
 
 .nav-link:hover {
   transform: scale(1.05);
-  color:#7333db!important;
+  color:#c571f6!important;
 }
 
 .boldHomeTitle {
