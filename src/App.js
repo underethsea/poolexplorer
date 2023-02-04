@@ -128,7 +128,9 @@ function App() {
           <Switch>
           <center>
           <div className="transactions section">
-          
+            <Route exact path="/home">
+              <Home />
+            </Route>
             <Route exact path="/">
               <UsdcWinners />
             </Route>
