@@ -54,7 +54,7 @@ function Luckiest(props) {
 
 
   useEffect(() => {
-    setPopup(true);
+   setPopup(true)
 
     const goooo = async () => {
       let holders = await fetchLuckies(1);
