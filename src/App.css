@@ -115,6 +115,39 @@ a.bannerlink {
   border-radius:40px;
 }
 
+
+
+.toggle-button {
+  display:inline-block;
+  justify-content: center;
+align-items: center;
+padding: 3px 14px;
+gap: 8px;
+
+height: 28px;
+border-radius: 4px;
+background-color:white;
+color:black;
+}
+.lucky-on{
+  color:white;
+background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
+
+
+}
+.recent-on {
+ color:white;
+background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
+
+}
+.recent-lucky-toggle {
+  padding:5px;
+  border-radius:4px;
+  background-color:#e3d4fa;
+  display:inline-block;
+  margin:5px;
+  cursor:pointer;
+}
 .addressBox {
   border: 1px solid black;
   background-image: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
