@@ -1,11 +1,30 @@
 import Luckiest from "./luckiest.jsx";
 import UsdcWinners from "./v4winners.jsx";
 import Account from "./account.jsx";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+  }
 function Home() {
   const [lucky, setLucky] = useState("lucky-off");
   const [recent, setRecent] = useState("recent-on");
+  const [stats, setStats] = useState({});
+
+  useEffect(() => {
+    const load = async () => {
+
+      try {
+
+        let stats = await getStats();
+    setStats(stats)
+      } catch (e) {
+        console.log("fetch error i ", e);
+      }
+    };
+    load();
+  }, []);
 
   const toggleNow = () => {
     if (lucky === "lucky-on") {
@@ -16,6 +35,12 @@ function Home() {
       setRecent("recent-off");
     }
   };
+
+  async function getStats() {
+    let one = await fetch("https://poolexplorer.xyz/stats");
+    one = await one.json();
+    return one;
+  }
   return (
     <span>
       <div>
@@ -27,12 +52,12 @@ function Home() {
             <img src="./images/poolers.svg" />
           </span>
           {/* <span className="home-poolers-title">Total Poolers</span><br></br> */}
-          <span className="home-poolers-value">324,344</span>
+          <span className="home-poolers-value">{separator(stats?.totalPlayers)}</span>
         </span>
         &nbsp;&nbsp;&nbsp;
         <span className="home-poolers-data">
           <span className="home-poolers-svg-box">
-        <img src="./images/tvl.svg" /></span><span className="home-poolers-value">35,000,000</span></span>
+        <img src="./images/tvl.svg" /></span><span className="home-poolers-value"></span></span>
       </div>
       <br></br>
       <div className="recent-lucky-toggle black-text">
@@ -46,7 +71,7 @@ function Home() {
       </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <div className="recent-lucky-toggle black-text">
 
-      <img src="./images/pool.png" className="token"/>&nbsp; POOL - $1.01
+      <img src="./images/pool.png" className="token"/>&nbsp; POOL - ${stats?.pool.toFixed(2)}
       <img src="./images/optimism.png" className="token"/>&nbsp; OP APR - 8.9%&nbsp;&nbsp;&nbsp;&nbsp;</div>
       {recent === "recent-on" && (
         <div>
