@@ -48,17 +48,21 @@ function Home() {
         <Account />
       </div>
       <div className="home-data">
-        <span className="home-poolers-data">
+        <div className="home-poolers-data">
           <span className="home-poolers-svg-box">
             <img src="./images/poolers.svg" />
           </span>
           {/* <span className="home-poolers-title">Total Poolers</span><br></br> */}
+          <span className="home-poolers-title">Poolers Playing</span><br></br>
           <span className="home-poolers-value">{separator(parseInt(stats.totalPlayers))}</span>
-        </span>
+        </div>
         &nbsp;&nbsp;&nbsp;
-        <span className="home-poolers-data">
+        <div className="home-poolers-data">
           <span className="home-poolers-svg-box">
-        <img src="./images/tvl.svg" /></span><span className="home-poolers-value">{separator(parseInt(stats.tvl.total))}</span></span>
+        <img src="./images/tvl.svg" /></span>
+        <span className="home-poolers-title">Total Value Pooling</span><br></br>
+        <span className="home-poolers-value">${separator(parseInt(stats.tvl.total))}</span>
+        </div>
       </div>
       <br></br>
       <div className="recent-lucky-toggle black-text">

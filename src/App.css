@@ -140,38 +140,23 @@ background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
 background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
 }
 .home-data{
-  display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 55px;
-
-width: 613px;
-height: 67px;
-left: 229px;
-top: 100px;
+  width: 820px;
+  display: inline-block;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .home-poolers-data{
-  display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
+cursor:pointer;
+width:400px;
+float:left;
 
-width: 228px;
-height: 67px;
-
-
-/* Inside auto layout */
-
-flex: none;
-order: 0;
-flex-grow: 0;
 }
 .home-poolers-svg-box{
+  height:80px;
   width: 73px;
 height: 63px;
 padding-top:12px;
+float:left;
 /* darker blue */
 
 background: linear-gradient(90.06deg, #0931AE 16.82%, #5E0372 97.43%);
@@ -179,40 +164,28 @@ border-radius: 16px;
 
 /* Inside auto layout */
 
-flex: none;
-order: 0;
-flex-grow: 0;
 }
 .home-poolers-title{
-  width: 89px;
-height: 18px;
+padding-left:10px;
 color:white!important;
 /* font-family: 'Clash Grotesk Variable'; */
 font-style: normal;
 font-weight: 400;
 font-size: 16px;
 line-height: 18px;
+float:left;
 /* identical to box height, or 112% */
-
-text-align: center;
 
 color: #000000;
 
-
-/* Inside auto layout */
-
-flex: none;
-order: 0;
-flex-grow: 0;
 }
 .home-poolers-value{
-  width: 143px;
-height: 38px;
+float:left;
+padding-left:10px;
 color:white!important;
 /* font-family: 'Clash Grotesk Variable'; */
-font-style: normal;
 font-weight: 500;
-font-size: 48px;
+font-size: 42px;
 line-height: 38px;
 /* identical to box height, or 79% */
 
@@ -223,9 +196,7 @@ color: #000000;
 
 /* Inside auto layout */
 
-flex: none;
-order: 1;
-flex-grow: 0;
+
 }
 .recent-lucky-toggle {
 
