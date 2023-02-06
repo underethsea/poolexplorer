@@ -47,7 +47,7 @@ function Home() {
       <div>
         <Account />
       </div>
-      <div className="home-data">
+      <div className="home-data hidden-mobile">
         <div className="home-poolers-data">
           <span className="home-poolers-svg-box">
             <img src="./images/poolers.svg" />
@@ -65,7 +65,7 @@ function Home() {
         </div>
       </div>
       <br></br>
-      <div className="recent-lucky-toggle black-text">
+      <div className="recent-lucky-toggle black-text hidden-mobile">
         <div className={`${recent} toggle-button`} onClick={toggleNow}>
           Recent Winners
         </div>
@@ -75,9 +75,12 @@ function Home() {
         </div>
       </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <div className="recent-lucky-toggle black-text">
-
+<span className="toggle-button black-text">
       <img src="./images/pool.png" className="token"/>&nbsp; POOL - ${stats?.pool.toFixed(2)}
-      <img src="./images/optimism.png" className="token"/>&nbsp; OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <span class="show-mobile"><br></br></span>
+      <img src="./images/optimism.png" className="token"/>&nbsp; OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+      </div>
       {recent === "recent-on" && (
         <div>
           <UsdcWinners short={true} />

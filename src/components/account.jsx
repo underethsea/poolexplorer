@@ -774,7 +774,7 @@ return (
       {
         /* wins.length > 0 && */
         
-        <div className="card-content">
+        <div className="card-content account-mobile">
             <center>
                 {isConnected &&
           <div className="table-wrapper has-mobile-cards tablemax connecttable">

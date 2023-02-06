@@ -199,7 +199,7 @@ color: #000000;
 
 }
 .recent-lucky-toggle {
-
+/* max-height:37px; */
   padding:5px;
   border-radius:4px;
   background-color:#e3d4fa;
@@ -425,9 +425,14 @@ body {
   font-size: 30px;
   font-weight: 600;
 }
+@media only screen and (max-width: 500px) {
+  .account-mobile{
+    width:360px;
+  }}
  @media only screen and (max-width: 500px) {
 	 .navbar-brand{
 	 padding-left:5px;}}
+  
 .dropdown-toggle {
   color:white!important;
   font-size:20px;
@@ -757,4 +762,5 @@ cursor: pointer;}
 }
 .black-text{
   color:black!important;;
+  background-color:#e3d4fa;
 }
