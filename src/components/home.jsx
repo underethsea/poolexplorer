@@ -10,7 +10,7 @@ function separator(numb) {
 function Home() {
   const [lucky, setLucky] = useState("lucky-off");
   const [recent, setRecent] = useState("recent-on");
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState({"totalPlayers":0,"op":0,"pool":0,"tvl":{"total":0,"polygon":0,"avalanche":0,"ethereum":0,"optimism":0}});
 
   useEffect(() => {
     const load = async () => {
