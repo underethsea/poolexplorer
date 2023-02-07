@@ -140,21 +140,29 @@ background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
 background: linear-gradient(90.06deg, #3654B5 16.82%, #692D76 97.43%);
 }
 .home-data{
-  width: 820px;
+  /* width: 820px; */
   display: inline-block;
   margin-top: 30px;
   margin-bottom: 30px;
 }
 .home-poolers-data{
 cursor:pointer;
-width:400px;
+width:320px;
 float:left;
 
 }
+.winners-stat-svg {
+  height:40px;
+  width:40px;
+}
+.home-first-stat{
+margin-left:70px}
+.home-third-stat {
+  padding-left:40px;
+}
 .home-poolers-svg-box{
-  height:80px;
-  width: 73px;
-height: 63px;
+  width: 64px;
+height: 64px;
 padding-top:12px;
 float:left;
 /* darker blue */
@@ -185,7 +193,7 @@ padding-left:10px;
 color:white!important;
 /* font-family: 'Clash Grotesk Variable'; */
 font-weight: 500;
-font-size: 42px;
+font-size: 32px;
 line-height: 38px;
 /* identical to box height, or 79% */
 

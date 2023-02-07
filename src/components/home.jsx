@@ -48,7 +48,7 @@ function Home() {
         <Account />
       </div>
       <div className="home-data hidden-mobile">
-        <div className="home-poolers-data">
+        <div className="home-poolers-data home-first-stat">
           <span className="home-poolers-svg-box">
             <img src="./images/poolers.svg" />
           </span>
@@ -56,12 +56,19 @@ function Home() {
           <span className="home-poolers-title">Poolers Playing</span><br></br>
           <span className="home-poolers-value">{separator(parseInt(stats.totalPlayers))}</span>
         </div>
-        &nbsp;&nbsp;&nbsp;
+     
         <div className="home-poolers-data">
           <span className="home-poolers-svg-box">
         <img src="./images/tvl.svg" /></span>
         <span className="home-poolers-title">Total Value Pooling</span><br></br>
         <span className="home-poolers-value">${separator(parseInt(stats.tvl.total))}</span>
+        </div>
+     
+      <div className="home-poolers-data home-third-stat">
+          <span className="home-poolers-svg-box">
+        <img src="./images/winners.svg" className="winners-stat-svg" /></span>
+        <span className="home-poolers-title">Winners</span><br></br>
+        <span className="home-poolers-value">{separator(parseInt(stats.historicalWinners))}</span>
         </div>
       </div>
       <br></br>
