@@ -103,7 +103,8 @@ function App() {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="m-auto navPadding justify-content-center" style={{ flex: 2}}>
-             
+                  <Nav.Link class="nav-link" href="/home">Home</Nav.Link>  
+
                     <Nav.Link class="nav-link" href="/usdcwinners">Winners</Nav.Link>  
                     <Nav.Link class="nav-link" href="/players">Players</Nav.Link>
                     <Nav.Link class="nav-link" href="/luckiest">Luck</Nav.Link>  
@@ -132,7 +133,7 @@ function App() {
               <Home />
             </Route>
             <Route exact path="/">
-              <UsdcWinners />
+              <Home />
             </Route>
             <Route exact path="/players">
               <Players />

@@ -2,12 +2,30 @@ import Luckiest from "./luckiest.jsx";
 import UsdcWinners from "./v4winners.jsx";
 import Account from "./account.jsx";
 import { useState, useEffect } from "react";
+import {
+    chain,
+    useAccount,
+    useConnect,
+    useContract,
+    useContractRead,
+    usePrepareContractWrite,
+    useContractWrite,
+    useNetwork,
+    useWaitForTransaction,
+    useSigner,
+  } from "wagmi";
+
 function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return str.join(".");
   }
 function Home() {
+    const { connector: activeConnector, address, isConnecting, isDisconnected, isConnected } = useAccount({
+        onConnect({ address, connector, isReconnected }) {
+          console.log('Connected', { address, connector, isReconnected })
+        },
+      })
   const [lucky, setLucky] = useState("lucky-off");
   const [recent, setRecent] = useState("recent-on");
   const [stats, setStats] = useState({"totalPlayers":0,"op":0,"pool":0,"tvl":{"total":0,"polygon":0,"avalanche":0,"ethereum":0,"optimism":0}});
@@ -47,6 +65,7 @@ function Home() {
       <div>
         <Account />
       </div>
+      {!isConnected && <div>
       <div className="home-data hidden-mobile">
         <div className="home-poolers-data home-first-stat">
           <span className="home-poolers-svg-box">
@@ -97,7 +116,7 @@ function Home() {
         <div>
           <Luckiest short={true} />
         </div>
-      )}
+      )}</div>}
     </span>
   );
 }
