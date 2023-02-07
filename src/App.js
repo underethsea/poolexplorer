@@ -116,6 +116,8 @@ function App() {
                   <Nav className="connectButtons">
                     <Route path="/poolers" render={() => <MyConnect />} />
                     <Route path="/home" render={() => <MyConnect />} />
+                    <Route path="/" render={() => <MyConnect />} />
+
                   </Nav>
               </Navbar.Collapse>
             </Container>
