@@ -128,16 +128,21 @@ a.bannerlink {
 
   height: 28px;
   border-radius: 4px;
-  background-color: white;
+  /* background-color: white; */
   color: black;
 }
 .lucky-on {
   color: white;
-  background: linear-gradient(90.06deg, #3654b5 16.82%, #692d76 97.43%);
+  /* background: linear-gradient(90.06deg, #3654b5 16.82%, #692d76 97.43%); */
+  background: white;
+  color:black;
 }
 .recent-on {
   color: white;
-  background: linear-gradient(90.06deg, #3654b5 16.82%, #692d76 97.43%);
+  
+  /* background: linear-gradient(90.06deg, #3654b5 16.82%, #692d76 97.43%); */
+  background: white;
+  color:black;
 }
 .home-data {
   /* width: 820px; */
@@ -155,7 +160,10 @@ a.bannerlink {
   width: 40px;
 }
 .home-first-stat {
-  margin-left: 70px;
+  margin-left: 100px;
+}
+.home-second-stat{
+  margin-right:45px;
 }
 .home-third-stat {
   padding-left: 40px;
@@ -166,10 +174,8 @@ a.bannerlink {
   padding-top: 12px;
   float: left;
   /* darker blue */
-
   background: linear-gradient(90.06deg, #0931ae 16.82%, #5e0372 97.43%);
   border-radius: 16px;
-
   /* Inside auto layout */
 }
 .home-poolers-title {
@@ -191,7 +197,7 @@ a.bannerlink {
   color: white !important;
   /* font-family: 'Clash Grotesk Variable'; */
   font-weight: 500;
-  font-size: 32px;
+  font-size: 38px;
   line-height: 38px;
   /* identical to box height, or 79% */
 
@@ -200,6 +206,12 @@ a.bannerlink {
   color: #000000;
 
   /* Inside auto layout */
+}
+.home-container {
+  margin-top:15px;
+}
+.home-token {
+  height:24px;
 }
 .recent-lucky-toggle {
   /* max-height:37px; */
@@ -596,9 +608,9 @@ body {
   display: inline !important;
   max-height: 70px !important;
 }
-.card-header-tall-mobile {
+/* .card-header-tall-mobile {
   max-height: 100px !important;
-}
+} */
 
 .address-input {
   background-color: #9846b852;
@@ -790,6 +802,7 @@ a.dropdown-item:hover {
   margin-right: 15px;
 }
 .black-text {
+
   color: black !important;
   background-color: #e3d4fa;
 }

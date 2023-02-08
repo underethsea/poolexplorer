@@ -76,7 +76,7 @@ function Home() {
           <span className="home-poolers-value">{separator(parseInt(stats.totalPlayers))}</span>
         </div>
      
-        <div className="home-poolers-data">
+        <div className="home-poolers-data home-second-stat">
           <span className="home-poolers-svg-box">
         <img src="./images/tvl.svg" /></span>
         <span className="home-poolers-title">Total Value Pooling</span><br></br>
@@ -100,13 +100,11 @@ function Home() {
           Lucky Winners
         </div>
       </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <div className="recent-lucky-toggle black-text">
-<span className="toggle-button black-text">
-      <img src="./images/pool.png" className="token"/>&nbsp; POOL - ${stats?.pool.toFixed(2)}
-      <span class="show-mobile"><br></br></span>
-      <img src="./images/optimism.png" className="token"/>&nbsp; OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;&nbsp;&nbsp;&nbsp;
-      </span>
-      </div>
+      <div className="recent-lucky-toggle black-text">&nbsp;&nbsp;
+      <img src="./images/pool.png" className="home-token"/>&nbsp; POOL - ${stats?.pool.toFixed(2)}
+      <span class="show-mobile"><br></br></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="./images/optimism.png" className="home-token"/>&nbsp; OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;&nbsp;&nbsp;&nbsp;
+      </div><div className="home-container">
       {recent === "recent-on" && (
         <div>
           <UsdcWinners short={true} />
@@ -116,7 +114,7 @@ function Home() {
         <div>
           <Luckiest short={true} />
         </div>
-      )}</div>}
+      )}</div></div>}
     </span>
   );
 }

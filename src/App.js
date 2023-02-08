@@ -114,7 +114,7 @@ function App() {
                     <Nav.Link class="nav-link" href="/protocol">Protocol</Nav.Link>  
                   </Nav>
                   <Nav className="connectButtons">
-                    <Route path="/poolers" render={() => <MyConnect />} />
+                    {/* <Route path="/poolers" render={() => <MyConnect />} /> */}
                     <Route path="/" render={() => <MyConnect />} />
                   </Nav>
               </Navbar.Collapse>
