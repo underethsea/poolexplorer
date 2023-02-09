@@ -195,7 +195,7 @@ return (
                             <tr>
                                 {/* <th>Transaction Hash</th>
                                 <th>Time</th> */}
-                                <th>Rank</th>
+                                <th>Score</th>
                                 <th>Address</th>
                                 <th>Streak</th>
                                 <th>Avg Bal</th>
@@ -209,7 +209,7 @@ return (
                                     {/* <td></td>  <td></td> */}
                                     <td>
 
-                                        {item.rank}</td><td>                      <div className="addressTextShort">
+                                        {item.score}</td><td>                      <div className="addressTextShort">
                                             {item.network === "ethereum" && (
                                                 <img
                                                     src="./images/ethereum.png"
