@@ -209,7 +209,7 @@ return (
                                     {/* <td></td>  <td></td> */}
                                     <td>
 
-                                        {item.score}</td><td>                      <div className="addressTextShort">
+                                        {Math.round(item.score)}</td><td>                      <div className="addressTextShort">
                                             {item.network === "ethereum" && (
                                                 <img
                                                     src="./images/ethereum.png"
