@@ -107,8 +107,11 @@ function UsdcWinners(props) {
       setPopup(true);
 
       try {
+         console.log("debug",explorerURL + "/recent")
         let currentDrawFetch = await fetch(explorerURL + "/recent")
+     
         let currentDrawResult = await currentDrawFetch.json()
+        console.log("debug",currentDrawResult)
         if(props.short) {setTransactions(currentDrawResult.result.slice(0,5))}else{
         setTransactions(currentDrawResult.result);}
 
