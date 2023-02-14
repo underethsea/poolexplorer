@@ -141,7 +141,7 @@ setPopup(false);
             <span className="numb-purp">{separator(total)}</span> TOTAL PRIZES WON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <img src="./images/usdc.png" className="token" />
-            <span className="numb-purp">{separator(usdctotal)}</span> TOTAL USDC
+            <span className="numb-purp">{separator(usdctotal)}</span> <span className="hidden-mobile">TOTAL</span> USDC
 
           </p>
         </header>
@@ -171,7 +171,6 @@ setPopup(false);
                         {/* {item.n === "1" && ( */}
                           <span>
                             <div
-                              className="inlineDiv"
                             //   onClick={() => {
                             //     openModal(item.a, item.n);
                             //   }}

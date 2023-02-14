@@ -477,7 +477,7 @@ const [updateWallet, setUpdateWallet] = useState(0)
             }             
 {object.polygon + object.ethereum + object.optimism + object.avalanche > 0 && (
 
-              <span>TICKETS &nbsp;&nbsp;</span>)}
+              <span><span className="hidden-mobile">YOUR </span>TICKETS &nbsp;&nbsp;</span>)}
 
 
             {object.polygon > 0 && (<span>&nbsp;&nbsp;&nbsp;
@@ -492,7 +492,7 @@ const [updateWallet, setUpdateWallet] = useState(0)
              
 
             <br></br>{object.polygonTwab + object.ethereumTwab + object.optimismTwab + object.avalancheTwab - object.polygon - object.ethereum - object.optimism - object.avalanche > 0 && (<span>
-              BOOSTS &nbsp;&nbsp;&nbsp;&nbsp;
+              <span className="hidden-mobile">YOUR </span>BOOSTS &nbsp;&nbsp;&nbsp;&nbsp;
               {object.polygonTwab - object.polygon > 0 && (<span>&nbsp;&nbsp;&nbsp; <img src="./images/polygontoken.png" className="icon child child1" alt="Polygon" />
                 <img src="./images/ptausdc.png" className="icon child child2 token-right" alt="PTaUSDC" />&nbsp;+{separator(object.polygonTwab - object.polygon)} &nbsp;&nbsp;&nbsp;</span>)}
               {object.ethereumTwab - object.ethereum > 0 && (<span> &nbsp;&nbsp;&nbsp;<img src="./images/ethtoken.png" className="icon child child1" alt="Ethereum" />
@@ -779,7 +779,7 @@ return (
                 {isConnected &&
           <div className="table-wrapper has-mobile-cards tablemax connecttable">
             <center>
-            <table className="padded is-stripped table is-hoverable no-bottom connectbg">
+            <table className="padded is-stripped table is-hoverable no-bottom connectbg table-top">
               <thead className="connectbg"><th>
               {popup && <span>&nbsp;&nbsp;
           <div
@@ -795,7 +795,7 @@ return (
 
               </th></thead>
             </table>
-            <table className="padded is-stripped table is-hoverable">
+            <table className="padded is-stripped table is-hoverable round-bottom">
               <thead>
                 {/* https://i.ibb.co/0Jgj6DL/pooly44.png */}
               {/* {addressValue === "" ? <tr><td className="tdcenter"><img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""}  */}
@@ -885,7 +885,7 @@ See more ---&gt;</span></td></tr> : ""}
           borderRadius: 10,
           width: 400,
           height: 300,
-          backgroundColor: "#477bb1",
+          backgroundColor: "#57166bd9",
           color: "black",
         },
         content: { inset: "34px" }

@@ -302,15 +302,15 @@ function UsdcWinners(props) {
             </div>
           )}
           <p className="card-header-title">
-            <span className="hidden-mobile">RECENT DAILY&nbsp;</span>DRAW<span className="hidden-mobile"> #&nbsp;</span>
+            <span className="hidden-mobile">RECENT DAILY&nbsp;</span>DRAW &nbsp;
             <Select options={options} onChange={onChange} value={draw} />
             <span className="hidden-mobile"> &nbsp; &nbsp; &nbsp;</span>
             <span className="numb-purp hidden-mobile twenty-two"> {separator(unique)}</span>{" "}
             <span className="hidden-mobile twenty-two">WINNERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {/* <span className="numb-purp"> {separator(depositors)}</span> PRIZES */}
-            {!props.short && <span>
+            <span>
             <img src="./images/usdc.png" className="token" />
-            <span className="numb-purp twenty-two">{separator(total)}</span> <span className="twenty-two">TOTAL</span></span>}
+            <span className="numb-purp twenty-two hidden-mobile">{separator(total)}</span> <span className="twenty-two">TOTAL</span></span>
             {/* TWAB {twabTotal} */}
             {/* {popup && (<div>popup</div>)} */}
             {/* <img src='./images/usdc.png' className='token'/>
@@ -411,7 +411,7 @@ function UsdcWinners(props) {
             borderRadius: 15,
             width: 400,
             height: 340,
-            backgroundColor: "purple",
+            backgroundColor: "#560a79",
             color: "black",
           },
         }}

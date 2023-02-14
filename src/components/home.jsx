@@ -7,11 +7,7 @@ import {
     useAccount,
     useConnect,
     useContract,
-    useContractRead,
-    usePrepareContractWrite,
-    useContractWrite,
     useNetwork,
-    useWaitForTransaction,
     useSigner,
   } from "wagmi";
 
@@ -101,9 +97,11 @@ function Home() {
         </div>
       </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <div className="recent-lucky-toggle black-text">&nbsp;&nbsp;
-      <img src="./images/pool.png" className="home-token"/>&nbsp; POOL - ${stats?.pool.toFixed(2)}
+      <img src="./images/pool.png" className="home-token"/>&nbsp; 
+      POOL - ${stats?.pool.toFixed(2)}
       <span class="show-mobile"><br></br></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <img src="./images/optimism.png" className="home-token"/>&nbsp; OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="./images/optimism.png" className="home-token"/>&nbsp; 
+      OP APR - {(((20000 * stats.op * 52) / stats.tvl.optimism )*100).toFixed(2)}% &nbsp;
       </div><div className="home-container">
       {recent === "recent-on" && (
         <div>
