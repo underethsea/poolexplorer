@@ -100,6 +100,7 @@ function UsdcWinners(props) {
   const [drawings, setDrawings] = useState()
   const [options, setOptions] = useState([])
   const [modalNetwork, setModalNetwork] = useState("");
+  const [totalPrizeValueCounter, setTotalPrizeValueCounter] =  useState(0)
 
 
   useEffect(() => {
@@ -107,11 +108,21 @@ function UsdcWinners(props) {
       setPopup(true);
 
       try {
-         console.log("debug",explorerURL + "/recent")
         let currentDrawFetch = await fetch(explorerURL + "/recent")
-     
         let currentDrawResult = await currentDrawFetch.json()
-        console.log("debug",currentDrawResult)
+        let total = 0;
+        for (let x of currentDrawResult.result) {
+          
+          // console.log("x:",x.claimable_prizes)
+          if (x.c !== null) {
+
+            for (let y of x.c) {
+              let prize = y 
+              total = total + parseFloat(prize);
+            }}
+            setTotalPrizeValueCounter(total)
+
+          }
         if(props.short) {setTransactions(currentDrawResult.result.slice(0,5))}else{
         setTransactions(currentDrawResult.result);}
 
@@ -243,6 +254,17 @@ function UsdcWinners(props) {
 
             setUnique(events.length);
             // events = events.slice(0,1000)
+            let total = 0;
+
+            for (let x of events) {
+              // console.log("x:",x.claimable_prizes)
+              if (x.c !== null) {
+                for (let y of x.c) {
+                  let prize = y 
+                  total += parseFloat(prize);
+                }}
+                setTotalPrizeValueCounter(total)
+              }
             if(props.short){events=events.slice(0,5)}
             setTransactions(events);
 
@@ -311,9 +333,9 @@ function UsdcWinners(props) {
             <span className="numb-purp hidden-mobile twenty-two"> {separator(unique)}</span>{" "}
             <span className="hidden-mobile twenty-two">WINNERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {/* <span className="numb-purp"> {separator(depositors)}</span> PRIZES */}
-            <span>
+            <span className="hidden-mobile">
             <img src="./images/usdc.png" className="token" />
-            <span className="numb-purp twenty-two hidden-mobile">{separator(total)}</span> <span className="twenty-two">TOTAL</span></span>
+            <span className="numb-purp twenty-two hidden-mobile">{totalPrizeValueCounter}</span> <span className="twenty-two">TOTAL</span></span>
             {/* TWAB {twabTotal} */}
             {/* {popup && (<div>popup</div>)} */}
             {/* <img src='./images/usdc.png' className='token'/>
