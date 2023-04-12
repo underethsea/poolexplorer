@@ -111,7 +111,7 @@ function App() {
                     <Nav.Link class="nav-link" href="/unlucky">Bad Luck</Nav.Link>
                     <Nav.Link class="nav-link" href="/totalHistory">History</Nav.Link>  
                     <Nav.Link class="nav-link" href="/poolers">Poolers</Nav.Link>
-                    <Nav.Link class="nav-link" href="/poolers">Savers</Nav.Link>
+                    <Nav.Link class="nav-link" href="/savers">Savers</Nav.Link>
 
                     <Nav.Link class="nav-link" href="/protocol">Protocol</Nav.Link>  
                   </Nav>
