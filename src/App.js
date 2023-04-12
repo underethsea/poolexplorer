@@ -10,6 +10,7 @@ import UsdcWinners from "./components/v4winners";
 import Luckiest from "./components/luckiest.jsx";
 import DelegationEvents from "./components/v4DelegationEvents.jsx"
 import Poolers from "./components/poolers.jsx"
+import Savers from "./components/savers.jsx"
 import Protocol from "./components/protocol.jsx"
 import Unlucky from "./components/unlucky.jsx"
 import Savers from "./components/savers.jsx"
@@ -111,6 +112,8 @@ function App() {
                     <Nav.Link class="nav-link" href="/unlucky">Bad Luck</Nav.Link>
                     <Nav.Link class="nav-link" href="/totalHistory">History</Nav.Link>  
                     <Nav.Link class="nav-link" href="/poolers">Poolers</Nav.Link>
+                    <Nav.Link class="nav-link" href="/poolers">Savers</Nav.Link>
+
                     <Nav.Link class="nav-link" href="/protocol">Protocol</Nav.Link>  
                   </Nav>
                   <Nav className="connectButtons">
@@ -161,6 +164,9 @@ function App() {
             </Route>
             <Route exact path="/poolers">
               <Poolers />
+            </Route>
+<Route exact path="/savers">
+              <Savers />
             </Route>
             <Route exact path="/protocol">
               <Protocol />
