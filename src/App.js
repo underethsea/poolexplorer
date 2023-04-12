@@ -10,7 +10,6 @@ import UsdcWinners from "./components/v4winners";
 import Luckiest from "./components/luckiest.jsx";
 import DelegationEvents from "./components/v4DelegationEvents.jsx"
 import Poolers from "./components/poolers.jsx"
-import Savers from "./components/savers.jsx"
 import Protocol from "./components/protocol.jsx"
 import Unlucky from "./components/unlucky.jsx"
 import Savers from "./components/savers.jsx"
@@ -165,9 +164,7 @@ function App() {
             <Route exact path="/poolers">
               <Poolers />
             </Route>
-<Route exact path="/savers">
-              <Savers />
-            </Route>
+
             <Route exact path="/protocol">
               <Protocol />
             </Route>
