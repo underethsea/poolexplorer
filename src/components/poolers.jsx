@@ -8,6 +8,7 @@ import "./modal.css";
 import { GetClaimsHistory } from "./getClaimsHistory.jsx"
 import prizeDistributorAbi from "./distributor.json"
 import { ethers } from "ethers";
+import PlayerChart from "./playerChart.jsx"
 import {
   chain,
   useAccount,
@@ -299,7 +300,10 @@ const [updateWallet, setUpdateWallet] = useState(0)
   // const {refresh, setRefresh} = useState(0)
 
   const { chain, chains } = useNetwork()
-
+  async function openChart() {
+    setModalFocus("chart")
+    setIsModalOpen(true);
+  }
   async function openClaim() {
     setModalFocus("claim")
     setIsModalOpen(true);
@@ -754,7 +758,8 @@ return (
               WINS&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span className="hidden-mobile">&nbsp;&nbsp;<img src='./images/usdc.png' className='token' />&nbsp;
               <span className="numb-purp">{separator(totalPrizeValue)}</span> WON</span>&nbsp;&nbsp;&nbsp;&nbsp;
-
+            <span className="nump-purp" onClick={() => {
+                              openChart();}}><img src="./images/chart.png" className="token"/></span>
 
           </div>)}
           {prizesWon === 0 && !popup && addressValue !== "" && validAddress && <span className="top-bar-span">&nbsp;
@@ -852,22 +857,31 @@ return (
         </div>}
     </div>
     <Modal
-      isOpen={isModalOpen}
+  isOpen={isModalOpen}
+  style={{
+    overlay: {
+      position: "fixed",
+      margin: "auto",
+      top: "10%",
+      borderRadius: 10,
+      width: 400,
+      height: 300,
+      backgroundColor: "purple",
+      color: "black",
+    },
+    content: {
+      color: modalFocus === "chart" ? "white" : "black",
+      backgroundColor:  modalFocus === "chart" ? "black" : "white",
+      inset: modalFocus === "chart" ? "14px" : "34px",
+    },
+  }}
+><center>
+{modalFocus === "chart" ?<div className="closeChart closeModalChart" onClick={() => closeModal()}></div> :
+        <div className="closeModal close" onClick={() => closeModal()}></div>}
+        {modalFocus === "chart" && <div>
+          <PlayerChart address={addressValue}/>
+          </div>}
 
-      style={{
-        overlay: {
-          position: "fixed",
-          margin: "auto",
-          top: "10%",
-          borderRadius: 10,
-          width: 400,
-          height: 300,
-          backgroundColor: "purple",
-          color: "black",
-        },
-        content: { inset: "34px" }
-      }}><center>
-        <div className="closeModal close" onClick={() => closeModal()}></div>
         {modalFocus === "claim" && <div>
 
           {isConnected && <div>  <span className="numb-purp"> {address.slice(0, 5)}</span> claiming for <span className="numb-purp"> {poolerAddress.slice(0, 5)}</span><br></br>
