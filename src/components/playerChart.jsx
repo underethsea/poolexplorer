@@ -28,13 +28,18 @@ const PlayerChart = ({ address }) => {
   }, [address]);
   const formatStats = () => {
     const drawIds = Array.from(new Set(stats.map((stat) => stat.draw_id)));
-    const data = drawIds.map((drawId) => {
+    let data = drawIds.map((drawId) => {
       const balances = stats
         .filter((stat) => stat.draw_id === drawId)
         .reduce((sum, stat) => sum + Number(stat.average_balance), 0);
       return { drawId, balance: balances / 1e6 };
     }).sort((a, b) => a.drawId - b.drawId);
-    console.log(data);
+   
+
+    if(data[0].balance < data[1].balance * .9){
+        data = data.slice(1)
+    }
+
     const maxBalance = Math.max(...data.map((entry) => entry.balance));
     const domainMax = Math.ceil(maxBalance * 1.05);
     const minBalance = Math.min(...data.map((entry) => entry.balance));
@@ -58,8 +63,8 @@ const PlayerChart = ({ address }) => {
 >
   <defs>
     <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="5%" stopColor="#ff4fff" stopOpacity={0.8} />
-      <stop offset="55%" stopColor="#ff4fff" stopOpacity={0} />
+      <stop offset="5%" stopColor="#ff4fff" stopOpacity={0.9} />
+      <stop offset="85%" stopColor="#ff4fff" stopOpacity={0.1} />
     </linearGradient>
   </defs>
   <XAxis
@@ -81,14 +86,14 @@ const PlayerChart = ({ address }) => {
     tickCount={4}
   />
   <Tooltip
-    labelFormatter={(value) => `Draw ${value}`}
+  contentStyle={{ backgroundColor: "black" }}
+  labelFormatter={(value) => `Draw ${value}`}
     formatter={(value, name, props) => {
       if (props.payload.drawId === undefined || props.payload.balance === undefined) {
         return null;
       }
       return (
-        <div style={{ color: "black" }}>
-          <div>Draw {props.payload.drawId}</div>
+        <div style={{ color: "white" }}>
           <div>{formatBalance(props.payload.balance)}</div>
         </div>
       );
