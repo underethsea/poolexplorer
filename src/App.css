@@ -51,6 +51,9 @@ a {
 .ethbanner {
   height: 20px;
 }
+.smallbanner{
+  font-size:12px;
+}
 a.bannerlink {
   text-decoration: none;
   color: white;

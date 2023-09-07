@@ -108,10 +108,10 @@ function App() {
                     <Nav.Link class="nav-link" href="/usdcwinners">Winners</Nav.Link>  
                     <Nav.Link class="nav-link" href="/players">Players</Nav.Link>
                     <Nav.Link class="nav-link" href="/luckiest">Luck</Nav.Link>  
-                    <Nav.Link class="nav-link" href="/unlucky">Bad Luck</Nav.Link>
+                    {/* <Nav.Link class="nav-link" href="/unlucky">Bad Luck</Nav.Link> */}
                     <Nav.Link class="nav-link" href="/totalHistory">History</Nav.Link>  
                     <Nav.Link class="nav-link" href="/poolers">Poolers</Nav.Link>
-                    <Nav.Link class="nav-link" href="/savers">Savers</Nav.Link>
+                    {/* <Nav.Link class="nav-link" href="/savers">Savers</Nav.Link> */}
 
                     <Nav.Link class="nav-link" href="/protocol">Protocol</Nav.Link>  
                   </Nav>
@@ -123,9 +123,12 @@ function App() {
             </Container>
           </Navbar>
           <center>
-            <div className="banner"><img src="/images/ethbrand.png" className="ethbanner" />
-              &nbsp;&nbsp;<a href="https://steth.win" className="bannerlink">A new ETH prize pool is live, stETH.win&nbsp;
-              <img src="images/arrow-up-right.svg" /></a>
+            <div className="banner">
+              {/* <img src="/images/ethbrand.png" className="ethbanner" /> */}
+              &nbsp;&nbsp;<span className="smallbanner">Poolexplorer data may be outdated</span><br></br>
+              <a href="https://pooltogether.com/discord" className="bannerlink">V5 Beta is live, find out more on Discord&nbsp;
+
+              <img src="images/arrow-up-right.svg" /></a><br/>
             </div>
           </center>
           <Switch>
