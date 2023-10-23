@@ -126,7 +126,7 @@ function App() {
             <div className="banner">
               {/* <img src="/images/ethbrand.png" className="ethbanner" /> */}
               &nbsp;&nbsp;<span className="smallbanner">Poolexplorer data may be outdated</span><br></br>
-              <a href="https://pooltogether.com/discord" className="bannerlink">V5 Beta is live, find out more on Discord&nbsp;
+              <a href="https://pooltime.app" className="bannerlink">V5 is live on PoolTime.app &nbsp;
 
               <img src="images/arrow-up-right.svg" /></a><br/>
             </div>
